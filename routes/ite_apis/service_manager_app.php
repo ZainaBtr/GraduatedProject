@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ExcelFileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceManagerController;
 use App\Http\Controllers\AdvancedUserController;
@@ -12,6 +13,10 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\AnnouncementController;
 
+Route::namespace ("excelFile")->group( function () {
+    Route::post('/advancedUserImport', [ExcelFileController::class,'advancedUserImport'])->name('addAdvancedUserFile');
+    Route::post('/normalUserImport', [ExcelFileController::class,'normalUserImport'])->name('addNormalUserFile');
+});
 
 Route::namespace ("serviceManager")->group( function () {
     Route::put('/completeAccount',[ServiceManagerController::class,'completeAccount'])->name('showAdvancedUserProfile');

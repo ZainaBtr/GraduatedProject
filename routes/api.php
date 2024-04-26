@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\ExcelFileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnnouncementController;
@@ -26,12 +25,6 @@ use App\Http\Controllers\FakeReservationController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::namespace ("excelFile")->group( function () {
-Route::post('/advancedUserImport', [ExcelFileController::class,'advancedUserImport'])->name('addAdvancedUserFile');
-Route::post('/normalUserImport', [ExcelFileController::class,'normalUserImport'])->name('addNormalUserFile');
-});
-
 
 Route::prefix("announcement")->group( function () {
     Route::get('/showALl',[AnnouncementController::class,'showAll']);
