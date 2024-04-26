@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('serviceYearAndSpecializationID')->constrained('service_year_and_specializations')->cascadeOnDelete();
             $table->bigInteger('examinationNumber')->unique();
             $table->string('studySituation');
-            $table->boolean('isAccountCompleted');
+            $table->boolean('isAccountCompleted')->default(0);
             $table->string('skills')->nullable();
             $table->date('birthDate')->nullable();
             $table->date('motherBirthDate')->nullable();

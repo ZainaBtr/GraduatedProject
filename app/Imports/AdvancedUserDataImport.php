@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use App\Models\AdvancedUser;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -18,10 +19,20 @@ class AdvancedUserDataImport implements ToModel, WithHeadingRow
             throw new \Exception($errorMessage);
         }
 
-        return new User([
+        $user = new User([
             'fullName' => $row['fullname'],
             'password' => Str::random(12)
         ]);
+        $user->save();
+
+        $userRecord = User::where('fullName', $row['fullname'])->first();
+
+        $advancedUser = new AdvancedUser([
+            'userID' => $userRecord->id
+        ]);
+        $advancedUser->save();
+
+        return null;
     }
 
     public function headingRow(): int

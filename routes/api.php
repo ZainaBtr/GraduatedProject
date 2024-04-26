@@ -19,6 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/advancedUserImport', [ExcelFileController::class,'advancedUserImport']);
-Route::post('/normalUserImport', [ExcelFileController::class,'normalUserImport']);
-
+Route::namespace ("excelFile")->group( function () {
+Route::post('/advancedUserImport', [ExcelFileController::class,'advancedUserImport'])->name('addAdvancedUserFile');
+Route::post('/normalUserImport', [ExcelFileController::class,'normalUserImport'])->name('addNormalUserFile');
+});

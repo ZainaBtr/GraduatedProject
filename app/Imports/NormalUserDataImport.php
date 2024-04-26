@@ -24,8 +24,8 @@ class NormalUserDataImport implements ToModel, WithHeadingRow
             throw new \Exception($errorMessage);
         }
 
-        $serviceYearAndSpecializationRecord = ServiceYearAndSpecialization::where('serviceYear', $row['serviceyear'])
-            ->where('serviceSpecializationName', $row['servicespecializationname'])
+        $serviceYearAndSpecializationRecord = ServiceYearAndSpecialization::where('serviceYear', $row['year'])
+            ->where('serviceSpecializationName', $row['specialization'])
             ->first();
 
         $user = new User([
@@ -34,7 +34,10 @@ class NormalUserDataImport implements ToModel, WithHeadingRow
         ]);
         $user->save();
 
+        $userRecord = User::where('fullName', $row['fullname'])->first();
+
         $normalUser = new NormalUser([
+            'userID' => $userRecord->id,
             'serviceYearAndSpecializationID' => $serviceYearAndSpecializationRecord->id,
             'examinationNumber' => $row['examinationnumber'],
             'studySituation' => $row['studysituation']

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Imports\AdvancedUserDataImport;
 use App\Imports\NormalUserDataImport;
-use App\Models\Role;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
