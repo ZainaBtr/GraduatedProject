@@ -10,58 +10,59 @@ use Illuminate\Http\Request;
 class SessionController extends Controller
 {
 
-    public function SshowActiveTheoreticalSessions()
+    public function showActiveTheoretical()
     {
         //
     }
 
-    public function SshowActivePracticalSessions()
+    public function showActivePractical()
     {
         //
     }
 
-    public function SDshowAllSessions(Service $service)
+    public function showAll(Service $service)
     {
         //
     }
 
-    public function SDshowAllSessionsRelatedToAdvancedUser(AdvancedUser $advancedUser)
+    public function showAllRelatedToAdvancedUser(AdvancedUser $advancedUser)
     {
         //
     }
 
-    public function DshowMySessions(Service $service)
+    public function showMy(Service $service)
     {
         //
     }
 
-    public function createSession(Request $request,Service $service)
+    public function create(Request $request,Service $service)
     {
         //
     }
 
-    public function startSession(Session $session)
+    public function start(Session $session)
     {
         //
     }
 
-    public function closeSession(Session $session)
+    public function close(Session $session)
     {
         //
     }
 
-    public function cancelSession(Session $session)
+    public function cancel(Session $session)
     {
         //
     }
 
-    public function updateSession(Request $request, Session $session)
+    public function update(Request $request, Session $session)
     {
         //
     }
 
-    public function sessionSearch(Request $request)
+    public function search(Request $request)
     {
         //
     }
+
 }

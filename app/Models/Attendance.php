@@ -9,11 +9,10 @@ class Attendance extends Model
 {
     use HasFactory;
     protected $table = "attendances";
+    protected $primaryKey = "id";
+    public $timestamp = true ;
     public $fillable = [
         'normalUserID',
         'sessionID'
     ];
-
-    public  $timestamp = true ;
-
 }

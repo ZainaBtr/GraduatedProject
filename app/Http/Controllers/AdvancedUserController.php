@@ -8,37 +8,37 @@ use Illuminate\Http\Request;
 class AdvancedUserController extends Controller
 {
 
-    public function showAllAdvancedUsers()
+    public function showProfile()
     {
         //
     }
 
-    public function createAdvancedUserAccount(Request $request)
+    public function showAll()
     {
         //
     }
 
-    public function completeAdvancedUserAccount(Request $request)
+    public function createAccount(Request $request)
     {
         //
     }
 
-    public function updateAdvancedUserEmail(Request $request)
+    public function completeAccount(Request $request)
     {
         //
     }
 
-    public function showAdvancedUserProfile(AdvancedUser $advancedUser)
+    public function updateEmail(Request $request)
     {
         //
     }
 
-    public function deleteAdvancedUserAccount(AdvancedUser $advancedUser)
+    public function deleteAccount(AdvancedUser $advancedUser)
     {
         //
     }
 
-    public function deleteAllAdvancedUsersAccounts()
+    public function deleteAllAccounts()
     {
         //
     }

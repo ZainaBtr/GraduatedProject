@@ -9,14 +9,14 @@ class Session extends Model
 {
     use HasFactory;
     protected $table = "sessionss";
+    protected $primaryKey = "id";
+    public $timestamp = true ;
     public $fillable = [
         'serviceID',
         'sessionName',
         'sessionDescription',
         'startSessionDate',
-        'closeSessionDate',
         'sessionDuration',
+        'status'
     ];
-
-    public  $timestamp = true ;
 }

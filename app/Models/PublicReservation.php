@@ -9,10 +9,10 @@ class PublicReservation extends Model
 {
     use HasFactory;
     protected $table = "public_reservations";
+    protected $primaryKey = "id";
+    public $timestamp = true ;
     public $fillable = [
         'normalUserID',
         'publicSessionID'
     ];
-
-    public  $timestamp = true ;
 }

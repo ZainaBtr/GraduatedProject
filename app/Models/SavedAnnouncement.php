@@ -9,10 +9,10 @@ class SavedAnnouncement extends Model
 {
     use HasFactory;
     protected $table = "saved_announcements";
+    protected $primaryKey = "id";
+    public $timestamp = true ;
     public $fillable = [
         'userID',
         'announcementID'
     ];
-
-    public  $timestamp = true ;
 }

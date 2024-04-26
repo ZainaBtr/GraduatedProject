@@ -9,25 +9,26 @@ use Illuminate\Http\Request;
 class TeamMemberController extends Controller
 {
 
-    public function addTeamMember(Request $request, Group $group)
+    public function add(Request $request, Group $group)
     {
         //
     }
 
-    public function TeamMemberSearch(Request $request)
+    public function search(Request $request)
     {
         //
     }
 
-    public function updateTeamMemberSkills(Request $request, TeamMember $teamMember)
+    public function updateSkills(Request $request, TeamMember $teamMember)
     {
         //
     }
 
-    public function deleteTeamMember(TeamMember $teamMember)
+    public function delete(TeamMember $teamMember)
     {
         //
     }
+
 }
 
 

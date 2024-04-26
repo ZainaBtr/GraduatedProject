@@ -15,22 +15,22 @@ class AttendanceController extends Controller
         //
     }
 
+    public function showOfOneSession(Session $session)
+    {
+        //
+    }
+
+    public function showOfOneService(Service $service)
+    {
+        //
+    }
+
+    public function showMyAttendanceOfOneService(Service $service)
+    {
+        //
+    }
+
     public function scanQr()
-    {
-        //
-    }
-
-    public function showAttendanceOfOneSession(Session $session)
-    {
-        //
-    }
-
-    public function showAttendanceOfOneService(Service $service)
-    {
-        //
-    }
-
-    public function showMyAttendaceOfOneService()
     {
         //
     }

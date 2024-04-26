@@ -19,7 +19,7 @@ return new class extends Migration
             $table->dateTime('startSessionDate');
             $table->dateTime('closeSessionDate')->nullable();
             $table->time('sessionDuration');
-            $table->boolean('status');
+            $table->string('status');
             $table->timestamps();
         });
     }

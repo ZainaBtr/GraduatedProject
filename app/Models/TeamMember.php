@@ -9,10 +9,10 @@ class TeamMember extends Model
 {
     use HasFactory;
     protected $table = "team_members";
+    protected $primaryKey = "id";
+    public $timestamp = true ;
     public $fillable = [
         'normalUserID',
         'groupID'
     ];
-
-    public  $timestamp = true ;
 }

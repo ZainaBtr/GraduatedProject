@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('announcements', function (Blueprint $table) {
             $table->id();
             $table->foreignId('serviceID')->constrained('services')->cascadeOnDelete();
-            $table->foreignId('fileID')->nullable()->constrained('files');
             $table->string('title')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();

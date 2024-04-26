@@ -9,12 +9,11 @@ class JoiningRequest extends Model
 {
     use HasFactory;
     protected $table = "joining_requests";
+    protected $primaryKey = "id";
+    public $timestamp = true ;
     public $fillable = [
         'normalUserID',
         'groupID',
-        'requestDate',
-        'joinigRequestStatus'
+        'joiningRequestStatus'
     ];
-
-    public  $timestamp = true ;
 }

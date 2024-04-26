@@ -9,12 +9,17 @@ use Illuminate\Http\Request;
 class AnnouncementController extends Controller
 {
 
-    public function showAnnouncements()
+    public function showAll()
     {
         //
     }
 
-    public function showMyAnnouncements()
+    public function showAllFromService(Service $service)
+    {
+        //
+    }
+
+    public function showMy()
     {
         //
     }
@@ -39,40 +44,34 @@ class AnnouncementController extends Controller
         //
     }
 
-    public function announcementFilterByServiceName()
+    public function filterByServiceName()
     {
         //
     }
 
-    public function announcementFilterByServiceYear()
+    public function filterByServiceYear()
     {
         //
     }
 
-    public function announcementFilterByServiceSpecialization()
+    public function filterByServiceSpecialization()
     {
         //
     }
 
-    public function announcementFilterByServiceType()
+    public function filterByServiceType()
     {
         //
     }
 
-    public function addAnnouncement(Request $request)
+    public function add(Service $service, Request $request)
     {
         //
     }
 
-    public function showAnnouncementsFromService(Service $service)
+    public function update(Announcement $announcement, Request $request)
     {
         //
     }
-
-    public function updateAnnouncement(Request $request, Announcement $announcement)
-    {
-        //
-    }
-
 
 }

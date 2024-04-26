@@ -10,32 +10,32 @@ use Illuminate\Http\Request;
 class PrivateSessionController extends Controller
 {
 
-    public function SDshowProjectsInterviewsPrivateSessions()
+    public function showProjectsInterviews()
     {
         //
     }
 
-    public function SDshowAdvancedUsersInterviewsPrivateSessions()
+    public function showAdvancedUsersInterviews()
     {
         //
     }
 
-    public function DshowMyProjectsInterviewsPrivateSessions()
+    public function showMyProjectsInterviews()
     {
         //
     }
 
-    public function DshowMyAdvancedUsersInterviewsPrivateSessions()
+    public function showMyAdvancedUsersInterviews()
     {
         //
     }
 
-    public function createPrivateSession(Request $request, Session $session)
+    public function create(Request $request, Session $session)
     {
         //
     }
 
-    public function updatePrivateSession(Request $request, PrivateSession $privateSession)
+    public function update(Request $request, PrivateSession $privateSession)
     {
         //
     }

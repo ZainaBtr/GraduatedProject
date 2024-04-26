@@ -9,23 +9,24 @@ use Illuminate\Http\Request;
 class AssignedServiceController extends Controller
 {
 
-    public function showAssignedServices(AdvancedUser $advancedUser)
+    public function showAll(AdvancedUser $advancedUser)
     {
         //
     }
 
-    public function assignedService(Request $request, AdvancedUser $advancedUser)
+    public function assign(Request $request, AdvancedUser $advancedUser)
     {
         //
     }
 
-    public function deleteAssignedService(AssignedService $assignedService)
+    public function delete(AssignedService $assignedService)
     {
         //
     }
 
-    public function deleteAllAssignedServices(AdvancedUser $advancedUser)
+    public function deleteAll(AdvancedUser $advancedUser)
     {
         //
     }
+
 }

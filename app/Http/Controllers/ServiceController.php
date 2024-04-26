@@ -3,44 +3,43 @@
 namespace App\Http\Controllers;
 
 use App\Models\Service;
-use App\Models\ServiceMananger;
+use App\Models\ServiceManager;
 use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
 
-
-    public function showAllServices()
+    public function showAll()
     {
         //
     }
 
-    public function showServicesByYearAndSpecializationInGeneral()
+    public function showByYearAndSpecializationInGeneral()
     {
         //
     }
 
-    public function showActivityServicesInGeneral()
+    public function showActivityInGeneral()
     {
         //
     }
 
-    public function showprojectIntreviewServicesInGeneral()
+    public function showProjectInterviewInGeneral()
     {
         //
     }
 
-    public function showDoctorIntreviewServicesInGeneral()
+    public function showDoctorInterviewInGeneral()
     {
         //
     }
 
-    public function showExamServicesInGeneral()
+    public function showExamInGeneral()
     {
         //
     }
 
-    public function showMyServices()
+    public function showMy()
     {
         //
     }
@@ -50,42 +49,42 @@ class ServiceController extends Controller
         //
     }
 
-    public function addService(Request $request, ServiceMananger $serviceMananger, Service $parentService )
+    public function add(Request $request, Service $parentService)
     {
         //
     }
 
-    public function updateService(Request $request, Service $service , ServiceMananger $serviceMananger , Service $parentService)
+    public function update(Request $request, Service $service)
     {
         //
     }
 
-    public function deleteService(Service $service)
+    public function delete(Service $service)
     {
         //
     }
 
-    public function deleteAllService()
+    public function deleteAll()
     {
         //
     }
 
-    public function serviceSearch(Request $request)
+    public function search(Request $request)
     {
         //
     }
 
-    public function serviceFilterByServiceYear(Request $request)
+    public function filterByServiceYear(Request $request)
     {
         //
     }
 
-    public function serviceFilterByServiceSpecialization(Request $request)
+    public function filterByServiceSpecialization(Request $request)
     {
         //
     }
 
-    public function serviceFilterByServiceType(Request $request)
+    public function filterByServiceType(Request $request)
     {
         //
     }

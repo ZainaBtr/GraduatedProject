@@ -8,23 +8,22 @@ use Illuminate\Http\Request;
 
 class AssignedRoleController extends Controller
 {
-
-    public function assignedRole(Request $request , AssignedService $assignedService)
+    public function showAll(AssignedService $assignedService)
     {
         //
     }
 
-    public function showAssignedRoles(AssignedService $assignedService)
+    public function assign(Request $request , AssignedService $assignedService)
     {
         //
     }
 
-    public function deleteAssignedRole(AssignedRole $assignedRole)
+    public function delete(AssignedRole $assignedRole)
     {
         //
     }
 
-    public function deleteAllAssignedRoles(AssignedService $assignedService)
+    public function deleteAll(AssignedService $assignedService)
     {
         //
     }

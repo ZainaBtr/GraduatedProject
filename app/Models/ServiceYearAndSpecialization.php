@@ -9,10 +9,10 @@ class ServiceYearAndSpecialization extends Model
 {
     use HasFactory;
     protected $table = "service_year_and_specializations";
+    protected $primaryKey = "id";
+    public $timestamp = true ;
     public $fillable = [
         'serviceYear',
         'serviceSpecializationName'
     ];
-
-    public  $timestamp = true ;
 }

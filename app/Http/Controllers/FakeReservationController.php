@@ -9,12 +9,12 @@ use Illuminate\Http\Request;
 class FakeReservationController extends Controller
 {
 
-    public function showFakeReservations(PrivateSession $privateSession)
+    public function showALl(PrivateSession $privateSession)
     {
         //
     }
 
-    public function storeFakeReservation(PrivateSession $privateSession)
+    public function store(PrivateSession $privateSession)
     {
         //
     }

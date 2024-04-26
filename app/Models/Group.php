@@ -9,9 +9,9 @@ class Group extends Model
 {
     use HasFactory;
     protected $table = "groups";
+    protected $primaryKey = "id";
+    public $timestamp = true ;
     public $fillable = [
         'serviceID'
     ];
-
-    public  $timestamp = true ;
 }

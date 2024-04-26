@@ -9,17 +9,17 @@ use Illuminate\Http\Request;
 class InterestedServiceController extends Controller
 {
 
-    public function showInterestedServices()
+    public function showAll()
     {
         //
     }
 
-    public function interestInService(Service $service)
+    public function interestIn(Service $service)
     {
         //
     }
 
-    public function unInterestInService(Service $service)
+    public function unInterestIn(InterestedService $interestedService)
     {
         //
     }

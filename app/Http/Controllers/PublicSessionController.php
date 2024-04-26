@@ -9,32 +9,32 @@ use Illuminate\Http\Request;
 class PublicSessionController extends Controller
 {
 
-    public function SDshowActivitiesPublicSessions()
+    public function showActivities()
     {
         //
     }
 
-    public function SDshowExamsPublicSessions()
+    public function showExams()
     {
         //
     }
 
-    public function DshowMyActivitiesPublicSessions()
+    public function showMyActivities()
     {
         //
     }
 
-    public function DshowMyExamsPublicSessions()
+    public function showMyExams()
     {
         //
     }
 
-    public function createPublicSession(Request $request, Session $session)
+    public function create(Request $request, Session $session)
     {
         //
     }
 
-    public function updatePublicSession(Request $request, PublicSession $publicSession)
+    public function update(Request $request, PublicSession $publicSession)
     {
         //
     }

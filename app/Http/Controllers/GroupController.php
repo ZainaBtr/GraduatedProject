@@ -9,20 +9,19 @@ use Illuminate\Http\Request;
 class GroupController extends Controller
 {
 
-    public function showMyGroups()
+    public function showAll(Service $service)
     {
         //
     }
 
-    public function createGroup(Service $service)
+    public function showMy()
     {
         //
     }
 
-    public function showGroups(Service $service)
+    public function create(Service $service)
     {
         //
     }
-
 
 }

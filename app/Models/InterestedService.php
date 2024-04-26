@@ -9,10 +9,10 @@ class InterestedService extends Model
 {
     use HasFactory;
     protected $table = "interested_services";
+    protected $primaryKey = "id";
+    public $timestamp = true ;
     public $fillable = [
         'userID',
         'serviceID'
     ];
-
-    public  $timestamp = true ;
 }

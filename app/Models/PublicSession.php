@@ -9,10 +9,10 @@ class PublicSession extends Model
 {
     use HasFactory;
     protected $table = "public_sessions";
+    protected $primaryKey = "id";
+    public $timestamp = true ;
     public $fillable = [
         'sessionID',
         'MaximumNumberOfReservations'
     ];
-
-    public  $timestamp = true ;
 }

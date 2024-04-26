@@ -9,27 +9,27 @@ use Illuminate\Http\Request;
 class PublicReservationController extends Controller
 {
 
-    public function DshowPublicReservations( PublicSession $publicSession )
+    public function showALl(PublicSession $publicSession )
     {
         //
     }
 
-    public function SshowMyActivitiesPublicReservations()
+    public function showMyActivities()
     {
         //
     }
 
-    public function SshowMyExamsPublicReservations()
+    public function showMyExams()
     {
         //
     }
 
-    public function bookPublicReservation(PublicSession $publicSession)
+    public function book(PublicSession $publicSession)
     {
         //
     }
 
-    public function cancelPublicReseravation(PublicSession $publicSession)
+    public function cancel(PublicReservation $publicReservation)
     {
         //
     }

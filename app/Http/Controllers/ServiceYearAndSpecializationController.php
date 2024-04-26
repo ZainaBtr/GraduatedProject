@@ -10,17 +10,17 @@ class ServiceYearAndSpecializationController extends Controller
 
 
 
-    public function addServiceYearAndSpecialization(Request $request)
+    public function add(Request $request)
     {
         //
     }
 
-    public function deleteServiceYearAndSpecialization(ServiceYearAndSpecialization $serviceYearAndSpecialization)
+    public function delete(ServiceYearAndSpecialization $serviceYearAndSpecialization)
     {
         //
     }
 
-    public function deleteAllServiceYearAndSpecialization()
+    public function deleteAll()
     {
         //
     }

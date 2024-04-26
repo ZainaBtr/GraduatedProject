@@ -8,23 +8,24 @@ use Illuminate\Http\Request;
 class RoleController extends Controller
 {
 
-    public function showRoles()
+    public function showAll()
     {
         //
     }
 
-    public function addRole(Request $request)
+    public function add(Request $request)
     {
         //
     }
 
-    public function deleteRole(Role $role)
+    public function delete(Role $role)
     {
         //
     }
 
-    public function deleteAllRoles()
+    public function deleteAll()
     {
         //
     }
+
 }

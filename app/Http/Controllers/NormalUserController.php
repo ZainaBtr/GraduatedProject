@@ -8,42 +8,42 @@ use Illuminate\Http\Request;
 class NormalUserController extends Controller
 {
 
-    public function showNormalUserProfile()
+    public function showProfile()
     {
         //
     }
 
-    public function showAllNormalUsers()
+    public function showAll()
     {
         //
     }
 
-    public function completeNormalUserAccount1(Request $request)
+    public function completeAccount1(Request $request)
     {
         //
     }
 
-   public function completeNormalUserAccount2(Request $request)
+   public function completeAccount2(Request $request)
     {
         //
     }
 
-   public function completeNormalUserAccount3(Request $request)
+   public function completeAccount3(Request $request)
     {
         //
     }
 
-   public function completeNormalUserAccount4(Request $request)
+   public function completeAccount4(Request $request)
     {
         //
     }
 
-    public function updateNormalUserEmail(Request $request)
+    public function updateEmail(Request $request)
     {
         //
     }
 
-    public function deleteAllNormalUsersAccounts( )
+    public function deleteAllAccounts( )
     {
         //
     }

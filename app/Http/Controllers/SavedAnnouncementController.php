@@ -9,17 +9,17 @@ use Illuminate\Http\Request;
 class SavedAnnouncementController extends Controller
 {
 
-    public function showSavedAnnouncements()
+    public function showAll()
     {
         //
     }
 
-    public function saveAnnouncement(Announcement $announcement)
+    public function save(Announcement $announcement)
     {
         //
     }
 
-    public function unSaveAnnouncement(Announcement $announcement)
+    public function unSave(SavedAnnouncement $savedAnnouncement)
     {
         //
     }

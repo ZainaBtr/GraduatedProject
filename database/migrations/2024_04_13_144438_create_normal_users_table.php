@@ -29,6 +29,7 @@ return new class extends Migration
             $table->integer('numberOfMothersBrother')->nullable();
             $table->integer('numberOfFathersBrother')->nullable();
             $table->string('favoriteColor')->nullable();
+            $table->string('favoriteHobby')->nullable();
             $table->string('favoriteSport')->nullable();
             $table->string('favoriteSeason')->nullable();
             $table->string('favoriteBookType')->nullable();

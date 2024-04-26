@@ -9,12 +9,12 @@ class Announcement extends Model
 {
     use HasFactory;
     protected $table = "announcements";
+    protected $primaryKey = "id";
+    public $timestamp = true ;
     public $fillable = [
         'serviceID',
         'fileID',
         'title',
         'description'
     ];
-
-    public  $timestamp = true ;
 }

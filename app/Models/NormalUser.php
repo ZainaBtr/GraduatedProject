@@ -9,12 +9,11 @@ class NormalUser extends Model
 {
     use HasFactory;
     protected $table = "normal_users";
+    protected $primaryKey = "id";
+    public $timestamp = true ;
     public $fillable = [
         'userID',
         'serviceYearAndSpecializationID',
-        'examinationNumber',
-        'studySituation',
-        'isAccountCompleted',
         'skills',
         'birthDate',
         'motherBirthDate',
@@ -26,6 +25,7 @@ class NormalUser extends Model
         'numberOfMothersBrother',
         'numberOfFathersBrother',
         'favoriteColor',
+        'favoriteHobby',
         'favoriteSport',
         'favoriteSeason',
         'favoriteBookType',
@@ -47,6 +47,7 @@ class NormalUser extends Model
         'numberOfMothersBrother',
         'numberOfFathersBrother',
         'favoriteColor',
+        'favoriteHobby',
         'favoriteSport',
         'favoriteSeason',
         'favoriteBookType',
@@ -57,6 +58,4 @@ class NormalUser extends Model
         'baccalaureateMark',
         'ninthGradeMark'
     ];
-
-    public  $timestamp = true ;
 }

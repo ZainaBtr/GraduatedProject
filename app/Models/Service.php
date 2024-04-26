@@ -9,6 +9,8 @@ class Service extends Model
 {
     use HasFactory;
     protected $table = "services";
+    protected $primaryKey = "id";
+    public $timestamp = true ;
     public $fillable = [
         'serviceManagerID',
         'parentServiceID',
@@ -20,6 +22,4 @@ class Service extends Model
         'maximumNumberOfGroupMembers',
         'status'
     ];
-
-    public  $timestamp = true ;
 }

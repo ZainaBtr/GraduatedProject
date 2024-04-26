@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\File;
-use App\Models\ServiceMananger;
+use App\Models\ServiceManager;
 use Illuminate\Http\Request;
 
 class ServiceManagerController extends Controller
@@ -14,27 +14,27 @@ class ServiceManagerController extends Controller
         //
     }
 
-    public function createServiceManagerAccount(Request $request)
+    public function createAccount(Request $request)
     {
         //
     }
 
-    public function completeServiceManagerAccount(Request $request)
+    public function completeAccount(Request $request)
     {
         //
     }
 
-    public function updateServiceManagerEmail(Request $request)
+    public function updateEmail(Request $request)
     {
         //
     }
 
-    public function showServiceManagerProfile()
+    public function showProfile()
     {
         //
     }
 
-    public function showAllServiceManagers()
+    public function showAll()
     {
         //
     }
@@ -49,7 +49,7 @@ class ServiceManagerController extends Controller
         //
     }
 
-    public function deleteServiceManagerAccount(ServiceMananger $serviceManager)
+    public function deleteAccount(ServiceManager $serviceManager)
     {
         //
     }

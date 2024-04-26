@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('normalUserID')->constrained('normal_users')->cascadeOnDelete();
             $table->foreignId('groupID')->constrained('groups')->cascadeOnDelete();
             $table->date('requestDate');
-            $table->boolean('joinigRequestStatus');
+            $table->boolean('joiningRequestStatus');
             $table->timestamps();
         });
     }

@@ -9,10 +9,10 @@ class AssignedService extends Model
 {
     use HasFactory;
     protected $table = "assigned_services";
+    protected $primaryKey = "id";
+    public $timestamp = true ;
     public $fillable = [
         'advancedUserID',
         'serviceID'
     ];
-
-    public  $timestamp = true ;
 }

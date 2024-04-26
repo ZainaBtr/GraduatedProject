@@ -3,29 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\FakeReservation;
-use App\Models\PraivateReservation;
+use App\Models\PrivateReservation;
 use App\Models\PrivateSession;
 use Illuminate\Http\Request;
 
 class PrivateReservationController extends Controller
 {
 
-    public function DSshowPrivateReservations(PrivateSession $privateSession)
+    public function showAll(PrivateSession $privateSession)
     {
         //
     }
 
-    public function SshowMyActivitiesPrivateReservations()
+    public function showMyActivities()
     {
         //
     }
 
-    public function SshowMyExamsPrivateReservations()
+    public function showMyExams()
     {
         //
     }
 
-    public function showPrivateReservationsAttendace(PrivateSession $privateSession)
+    public function showAttendance(PrivateSession $privateSession)
     {
         //
     }
@@ -40,37 +40,37 @@ class PrivateReservationController extends Controller
         //
     }
 
-    public function bookPrivateReservation(FakeReservation $fakeReservation)
+    public function book(FakeReservation $fakeReservation)
     {
         //
     }
 
-    public function delayReservation(Request $request, PraivateReservation $praivateReservation)
+    public function delay(Request $request, PrivateReservation $privateReservation)
     {
         //
     }
 
-    public function deletePrivateReseravation(PraivateReservation $praivateReservation)
+    public function delete(PrivateReservation $privateReservation)
     {
         //
     }
 
-    public function switchPrivateReservation(PraivateReservation $praivateReservation)
+    public function switch(PrivateReservation $privateReservation)
     {
         //
     }
 
-    public function acceptPrivateReservation(PraivateReservation $praivateReservation)
+    public function accept(PrivateReservation $privateReservation)
     {
         //
     }
 
-    public function declinePrivateReservation(PraivateReservation $praivateReservation)
+    public function decline(PrivateReservation $privateReservation)
     {
         //
     }
 
-    public function updatePrivateReservation(PraivateReservation $praivateReservation)
+    public function update(PrivateReservation $privateReservation)
     {
         //
     }

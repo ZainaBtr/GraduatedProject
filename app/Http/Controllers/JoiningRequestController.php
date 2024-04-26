@@ -8,42 +8,43 @@ use Illuminate\Http\Request;
 
 class JoiningRequestController extends Controller
 {
-    public function showAskedJoingingRequests()
+
+    public function showMy()
     {
         //
     }
 
-    public function showSentJoingingRequests()
+    public function showAsked()
     {
         //
     }
 
-    public function createJoiningRequest(Group $group)
+    public function showSent()
     {
         //
     }
 
-    public function cancelJoiningRequest(Group $group)
+    public function create(Group $group)
     {
         //
     }
 
-    public function askJoiningRequest(Group $group)
+    public function cancel(JoiningRequest $joiningRequest)
     {
         //
     }
 
-    public function acceptJoiningRequest(JoiningRequest $joiningRequest)
+    public function ask(Group $group)
     {
         //
     }
 
-    public function declineJoiningRequest(JoiningRequest $joiningRequest)
+    public function accept(JoiningRequest $joiningRequest)
     {
         //
     }
 
-    public function showMyJoiningRequests()
+    public function decline(JoiningRequest $joiningRequest)
     {
         //
     }
