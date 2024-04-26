@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('advanced_users', function (Blueprint $table) {
             $table->id();
             $table->foreignId('userID')->constrained('users')->cascadeOnDelete();
-            $table->boolean('isAccountCompleted');
+            $table->boolean('isAccountCompleted')->default(0);
             $table->timestamps();
         });
     }
