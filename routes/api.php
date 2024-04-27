@@ -22,6 +22,11 @@ use App\Http\Controllers\FakeReservationController;
 |
 */
 
+require  __DIR__ . '/ite_apis/advanced_user_app.php';
+require  __DIR__ . '/ite_apis/normal_user_app.php';
+require  __DIR__ . '/ite_apis/service_manager_app.php';
+require  __DIR__ . '/ite_apis/system_manager_app.php';
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

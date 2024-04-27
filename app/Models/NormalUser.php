@@ -14,6 +14,8 @@ class NormalUser extends Model
     public $fillable = [
         'userID',
         'serviceYearAndSpecializationID',
+        'examinationNumber',
+        'studySituation',
         'skills',
         'birthDate',
         'motherBirthDate',

@@ -47,8 +47,6 @@ Route::prefix("privateSession")->group( function () {
 
 Route::get('/showAll/{publicSession}',[PublicReservationController::class,'showALl']);
 
-
-
 Route::prefix("privateReservation")->group( function () {
     Route::get('/showAttendance/{privateSession}',[PrivateReservationController::class,'showAttendance']);
     Route::put('/delay/{privateReservation}',[PrivateReservationController::class,'delay']);
@@ -59,5 +57,3 @@ Route::prefix("attendance")->group( function () {
     Route::get('/showAttendanceOfOneSession/{session}',[AttendanceController::class,'showAttendanceOfOneSession']);
     Route::get('/showAttendanceOfOneService/{service}',[AttendanceController::class,'showAttendanceOfOneService']);
 });
-
-

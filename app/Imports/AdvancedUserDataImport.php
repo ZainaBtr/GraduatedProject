@@ -12,7 +12,7 @@ class AdvancedUserDataImport implements ToModel, WithHeadingRow
 {
     public function model(array $row)
     {
-        $userTableExistingRecord = User::where('fullName', $row['fullname'])->first();
+        $userTableExistingRecord = User::where('fullName', $row['full_name'])->first();
 
         if ($userTableExistingRecord) {
             $errorMessage = 'Data already exists in the database';
@@ -20,12 +20,12 @@ class AdvancedUserDataImport implements ToModel, WithHeadingRow
         }
 
         $user = new User([
-            'fullName' => $row['fullname'],
+            'fullName' => $row['full_name'],
             'password' => Str::random(12)
         ]);
         $user->save();
 
-        $userRecord = User::where('fullName', $row['fullname'])->first();
+        $userRecord = User::where('fullName', $row['full_name'])->first();
 
         $advancedUser = new AdvancedUser([
             'userID' => $userRecord->id

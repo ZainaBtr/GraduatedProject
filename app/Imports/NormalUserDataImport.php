@@ -13,10 +13,10 @@ class NormalUserDataImport implements ToModel, WithHeadingRow
 {
     public function model(array $row)
     {
-        $userTableExistingRecord = User::where('fullName', $row['fullname'])->first();
+        $userTableExistingRecord = User::where('fullName', $row['full_name'])->first();
 
-        $normalUserTableExistingRecord = NormalUser::where('examinationNumber', $row['examinationnumber'])
-            ->where('studySituation', $row['studysituation'])
+        $normalUserTableExistingRecord = NormalUser::where('examinationNumber', $row['examination_number'])
+            ->where('studySituation', $row['study_situation'])
             ->first();
 
         if ($userTableExistingRecord && $normalUserTableExistingRecord) {
@@ -29,18 +29,18 @@ class NormalUserDataImport implements ToModel, WithHeadingRow
             ->first();
 
         $user = new User([
-            'fullName' => $row['fullname'],
+            'fullName' => $row['full_name'],
             'password' => Str::random(12)
         ]);
         $user->save();
 
-        $userRecord = User::where('fullName', $row['fullname'])->first();
+        $userRecord = User::where('fullName', $row['full_name'])->first();
 
         $normalUser = new NormalUser([
             'userID' => $userRecord->id,
             'serviceYearAndSpecializationID' => $serviceYearAndSpecializationRecord->id,
-            'examinationNumber' => $row['examinationnumber'],
-            'studySituation' => $row['studysituation']
+            'examinationNumber' => $row['examination_number'],
+            'studySituation' => $row['study_situation']
         ]);
         $normalUser->save();
 
