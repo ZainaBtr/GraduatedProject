@@ -22,7 +22,10 @@ class Session2 extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'sessionName' => ['string'],
+            'sessionDescription' => ['text'],
+            'startSessionDate' => ['datetime'],
+            'sessionDuration' => ['time']
         ];
     }
 }

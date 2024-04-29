@@ -22,7 +22,7 @@ class PrivateReservation1 extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'reservationDate' => ['required','datetime']
         ];
     }
 }

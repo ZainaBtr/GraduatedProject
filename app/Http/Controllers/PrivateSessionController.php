@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PrivateSession\PrivateSession1;
+use App\Http\Requests\PrivateSession\PrivateSession2;
 use App\Models\PrivateSession;
 use App\Models\Service;
 use App\Models\Session;
@@ -30,12 +32,12 @@ class PrivateSessionController extends Controller
         //
     }
 
-    public function create(Request $request, Session $session)
+    public function create(PrivateSession1 $request, Session $session)
     {
         //
     }
 
-    public function update(Request $request, PrivateSession $privateSession)
+    public function update(PrivateSession2 $request, PrivateSession $privateSession)
     {
         //
     }

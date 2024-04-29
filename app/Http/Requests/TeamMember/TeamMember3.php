@@ -22,7 +22,7 @@ class TeamMember3 extends FormRequest
     public function rules(): array
     {
         return [
-            'skills' => ['required', 'string'],
+            'skills' => ['required', 'string']
         ];
     }
 }

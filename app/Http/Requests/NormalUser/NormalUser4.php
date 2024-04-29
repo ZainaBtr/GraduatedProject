@@ -22,7 +22,7 @@ class NormalUser4 extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'skills' => ['string']
         ];
     }
 }

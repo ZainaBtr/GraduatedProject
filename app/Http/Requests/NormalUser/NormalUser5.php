@@ -22,7 +22,8 @@ class NormalUser5 extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'password' => ['required', 'string'],
+            'email' => ['required', 'email', 'unique:normal_users']
         ];
     }
 }

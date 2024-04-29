@@ -22,6 +22,7 @@ class TeamMember1 extends FormRequest
     public function rules(): array
     {
         return [
+            'normalUserIdArray' => ['required', 'array']
         ];
     }
 }

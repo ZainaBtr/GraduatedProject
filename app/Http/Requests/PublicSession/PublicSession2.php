@@ -3,6 +3,8 @@
 namespace App\Http\Requests\PublicSession;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class PublicSession2 extends FormRequest
 {
@@ -22,7 +24,9 @@ class PublicSession2 extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'maximumNumberOfReservations' => ['numeric',
+                Rule::gt(DB::table('public_sessions')->value('maximumNumberOfReservations'))
+            ]
         ];
     }
 }

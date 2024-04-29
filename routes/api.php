@@ -62,7 +62,7 @@ Route::prefix("service")->group( function () {
     Route::get('/search',[ServiceController::class,'search']);
     Route::get('/filterByYear',[ServiceController::class,'filterByServiceYear']);
     Route::get('/filterBySpecialization',[ServiceController::class,'filterByServiceSpecialization']);
-    Route::get('/filterByType',[ServiceController::class,'filterByServiceSpecialization']);
+    Route::get('/filterByType',[ServiceController::class,'filterByServiceType']);
 });
 
 Route::prefix("interestedServices")->group( function () {

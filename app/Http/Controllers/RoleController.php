@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Role\Role1;
 use App\Models\Role;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,7 @@ class RoleController extends Controller
         //
     }
 
-    public function add(Request $request)
+    public function add(Role1 $request)
     {
         //
     }

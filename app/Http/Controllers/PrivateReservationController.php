@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PrivateReservation\PrivateReservation1;
 use App\Models\FakeReservation;
 use App\Models\PrivateReservation;
 use App\Models\PrivateSession;
@@ -45,7 +46,7 @@ class PrivateReservationController extends Controller
         //
     }
 
-    public function delay(Request $request, PrivateReservation $privateReservation)
+    public function delay(PrivateReservation1 $request, PrivateReservation $privateReservation)
     {
         //
     }

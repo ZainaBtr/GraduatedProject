@@ -13,18 +13,13 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\AnnouncementController;
 
-Route::prefix ("excelFile")->group( function () {
-    Route::post('/advancedUserImport', [ExcelFileController::class, 'advancedUserImport'])->name('addAdvancedUserFile');
-    Route::post('/normalUserImport', [ExcelFileController::class, 'normalUserImport'])->name('addNormalUserFile');
-});
-
 Route::prefix ("serviceManager")->group( function () {
     Route::put('/completeAccount',[ServiceManagerController::class,'completeAccount'])->name('showAdvancedUserProfile');
     Route::put('/updateEmail',[ServiceManagerController::class,'updateEmail'])->name('updateServiceManagerEmail');
     Route::get('/showProfile',[ServiceManagerController::class,'showProfile'])->name('showServiceManagerProfile');
     Route::get('/showAll',[ServiceManagerController::class,'showAll'])->name('showAllServiceManages');
-    Route::post('/addAdvancedUsersFile/{file}',[ServiceManagerController::class,'addAdvancedUsersFile'])->name('addAdvancedUsersFile');
-    Route::post('/addUsersFile/{file}',[ServiceManagerController::class,'addUsersFile'])->name('addUsersFile');
+    Route::post('/addAdvancedUsersFile',[ServiceManagerController::class,'addAdvancedUsersFile'])->name('addAdvancedUsersFile');
+    Route::post('/addNormalUsersFile',[ServiceManagerController::class,'addNormalUsersFile'])->name('addNormalUsersFile');
 });
 
 Route::prefix ("announcement")->group( function () {

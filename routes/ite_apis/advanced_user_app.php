@@ -54,6 +54,6 @@ Route::prefix("privateReservation")->group( function () {
 
 Route::prefix("attendance")->group( function () {
     Route::get('/showSessionQr/{session}',[AttendanceController::class,'showSessionQr']);
-    Route::get('/showAttendanceOfOneSession/{session}',[AttendanceController::class,'showAttendanceOfOneSession']);
-    Route::get('/showAttendanceOfOneService/{service}',[AttendanceController::class,'showAttendanceOfOneService']);
+    Route::get('/showAttendanceOfOneSession/{session}',[AttendanceController::class,'showOfOneSession']);
+    Route::get('/showAttendanceOfOneService/{service}',[AttendanceController::class,'showOfOneService']);
 });

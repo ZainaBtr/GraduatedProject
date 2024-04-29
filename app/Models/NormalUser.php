@@ -33,7 +33,7 @@ class NormalUser extends Model
         'favoriteBookType',
         'favoriteTravelCountry',
         'favoriteFood',
-        'favoriteDesert',
+        'favoriteDessert',
         'favoriteDrink',
         'baccalaureateMark',
         'ninthGradeMark'
@@ -55,7 +55,7 @@ class NormalUser extends Model
         'favoriteBookType',
         'favoriteTravelCountry',
         'favoriteFood',
-        'favoriteDesert',
+        'favoriteDessert',
         'favoriteDrink',
         'baccalaureateMark',
         'ninthGradeMark'
