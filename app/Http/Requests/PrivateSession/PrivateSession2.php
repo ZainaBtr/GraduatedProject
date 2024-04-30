@@ -22,7 +22,7 @@ class PrivateSession2 extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'durationForEachReservations' => ['time']
         ];
     }
 }

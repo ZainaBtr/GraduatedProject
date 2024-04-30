@@ -22,7 +22,8 @@ class ServiceManager2 extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'password' => ['required', 'string', 'min:8'],
+            'email' => ['required', 'email', 'unique:services_managers']
         ];
     }
 }

@@ -22,7 +22,7 @@ class AdvancedUser1 extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'fullName' => ['required', 'string']
         ];
     }
 }

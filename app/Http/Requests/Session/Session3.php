@@ -22,7 +22,7 @@ class Session3 extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'serviceName' => ['string']
         ];
     }
 }

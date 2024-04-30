@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Session\Session1;
+use App\Http\Requests\Session\Session2;
+use App\Http\Requests\Session\Session3;
 use App\Models\AdvancedUser;
 use App\Models\Service;
 use App\Models\Session;
@@ -35,7 +38,7 @@ class SessionController extends Controller
         //
     }
 
-    public function create(Request $request,Service $service)
+    public function create(Session1 $request,Service $service)
     {
         //
     }
@@ -55,12 +58,12 @@ class SessionController extends Controller
         //
     }
 
-    public function update(Request $request, Session $session)
+    public function update(Session2 $request, Session $session)
     {
         //
     }
 
-    public function search(Request $request)
+    public function search(Session3 $request)
     {
         //
     }

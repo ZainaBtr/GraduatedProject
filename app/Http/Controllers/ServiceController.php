@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Service\Service1;
+use App\Http\Requests\Service\Service2;
+use App\Http\Requests\Service\Service3;
 use App\Models\Service;
-use App\Models\ServiceManager;
-use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
@@ -49,12 +50,12 @@ class ServiceController extends Controller
         //
     }
 
-    public function add(Request $request, Service $parentService)
+    public function add(Service1 $request, Service $parentService)
     {
         //
     }
 
-    public function update(Request $request, Service $service)
+    public function update(Service2 $request, Service $service)
     {
         //
     }
@@ -69,22 +70,22 @@ class ServiceController extends Controller
         //
     }
 
-    public function search(Request $request)
+    public function search(Service3 $request)
     {
         //
     }
 
-    public function filterByServiceYear(Request $request)
+    public function filterByServiceYear()
     {
         //
     }
 
-    public function filterByServiceSpecialization(Request $request)
+    public function filterByServiceSpecialization()
     {
         //
     }
 
-    public function filterByServiceType(Request $request)
+    public function filterByServiceType()
     {
         //
     }

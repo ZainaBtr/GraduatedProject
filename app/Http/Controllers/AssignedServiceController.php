@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AssignedService\AssignedService1;
 use App\Models\AdvancedUser;
 use App\Models\AssignedService;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class AssignedServiceController extends Controller
         //
     }
 
-    public function assign(Request $request, AdvancedUser $advancedUser)
+    public function assign(AssignedService1 $request, AdvancedUser $advancedUser)
     {
         //
     }

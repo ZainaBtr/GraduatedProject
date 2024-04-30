@@ -22,7 +22,13 @@ class Service2 extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'serviceName' => ['string'],
+            'serviceDescription' => ['text'],
+            'serviceType' => ['string', 'in:lectures,exams,projects interviews,advanced users interviews,activities,others'],
+            'serviceYearAndSpecializationName' => ['string', 'unique:services'],
+            'minimumNumberOfGroup' => ['numeric'],
+            'maximumNumberOfGroup' => ['numeric'],
+            'status' => ['boolean', 'in:effective,not effective']
         ];
     }
 }

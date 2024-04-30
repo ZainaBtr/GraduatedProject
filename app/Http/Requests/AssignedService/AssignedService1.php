@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Requests\AssignedRole;
+namespace App\Http\Requests\AssignedService;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AssignedRole2 extends FormRequest
+class AssignedService1 extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -22,7 +22,7 @@ class AssignedRole2 extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'serviceName' => ['required', 'string', 'unique:assigned_services']
         ];
     }
 }

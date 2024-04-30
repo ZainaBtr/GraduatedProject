@@ -22,7 +22,7 @@ class Service3 extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'serviceSearch' => ['string']
         ];
     }
 }

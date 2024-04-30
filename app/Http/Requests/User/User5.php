@@ -22,7 +22,7 @@ class User5 extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'emailMessage' => ['required', 'string']
         ];
     }
 }

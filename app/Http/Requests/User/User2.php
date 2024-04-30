@@ -22,7 +22,8 @@ class User2 extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'oldPassword' => ['required', 'string'],
+            'newPassword' => ['required', 'string', 'min:8']
         ];
     }
 }

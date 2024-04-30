@@ -22,7 +22,8 @@ class ServiceYearAndSpecialization1 extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'serviceYear' => ['required', 'numeric'],
+            'serviceSpecializationName' => ['required', 'string']
         ];
     }
 }

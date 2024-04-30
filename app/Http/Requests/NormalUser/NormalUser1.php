@@ -22,7 +22,7 @@ class NormalUser1 extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'password' => ['required', 'string']
         ];
     }
 }

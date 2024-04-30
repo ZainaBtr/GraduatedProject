@@ -22,7 +22,8 @@ class ServiceManager1 extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'fullName' => ['required', 'string'],
+            'position' => ['required', 'string', 'unique:services_managers']
         ];
     }
 }

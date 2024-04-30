@@ -35,7 +35,7 @@ return new class extends Migration
             $table->string('favoriteBookType')->nullable();
             $table->string('favoriteTravelCountry')->nullable();
             $table->string('favoriteFood')->nullable();
-            $table->string('favoriteDesert')->nullable();
+            $table->string('favoriteDessert')->nullable();
             $table->string('favoriteDrink')->nullable();
             $table->integer('baccalaureateMark')->nullable();
             $table->integer('ninthGradeMark')->nullable();

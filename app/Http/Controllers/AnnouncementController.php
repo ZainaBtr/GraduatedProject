@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Announcement\Announcement1;
 use App\Models\Announcement;
 use App\Models\Service;
 use Illuminate\Http\Request;
@@ -64,12 +65,12 @@ class AnnouncementController extends Controller
         //
     }
 
-    public function add(Service $service, Request $request)
+    public function add(Announcement1 $request, Service $service)
     {
         //
     }
 
-    public function update(Announcement $announcement, Request $request)
+    public function update(Announcement1 $request, Announcement $announcement)
     {
         //
     }

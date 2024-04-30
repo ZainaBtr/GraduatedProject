@@ -22,7 +22,7 @@ class Role1 extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'roleName' => ['required', 'string', 'unique:roles']
         ];
     }
 }

@@ -22,7 +22,7 @@ class User4 extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'token' => ['required', 'string']
         ];
     }
 }
