@@ -3,6 +3,8 @@
 namespace App\Http\Requests\PrivateReservation;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Validator;
 
 class PrivateReservation1 extends FormRequest
 {
@@ -24,5 +26,18 @@ class PrivateReservation1 extends FormRequest
         return [
             'reservationDate' => ['required','datetime']
         ];
+    }
+
+    /**
+     * Handle a failed validation attempt.
+     *
+     * @param  \Illuminate\Contracts\Validation\Validator  $validator
+     * @return void
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function failedValidation(Validator|\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        throw new HttpResponseException(response()->json($validator->errors(), 422));
     }
 }

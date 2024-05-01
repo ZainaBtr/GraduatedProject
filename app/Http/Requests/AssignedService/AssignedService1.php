@@ -3,6 +3,8 @@
 namespace App\Http\Requests\AssignedService;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Validator;
 
 class AssignedService1 extends FormRequest
 {
@@ -22,7 +24,20 @@ class AssignedService1 extends FormRequest
     public function rules(): array
     {
         return [
-            'serviceName' => ['required', 'string', 'unique:assigned_services']
+            'serviceID' => ['required', 'numeric', 'unique:assigned_services']
         ];
+    }
+
+    /**
+     * Handle a failed validation attempt.
+     *
+     * @param  \Illuminate\Contracts\Validation\Validator  $validator
+     * @return void
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function failedValidation(Validator|\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        throw new HttpResponseException(response()->json($validator->errors(), 422));
     }
 }

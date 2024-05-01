@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\ExcelFileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceManagerController;
 use App\Http\Controllers\AdvancedUserController;
@@ -51,16 +50,17 @@ Route::prefix ("normalUser")->group( function () {
 });
 
 Route::prefix ("serviceYearAndSpecialization")->group( function () {
+    Route::get('/showAll',[ServiceYearAndSpecializationController::class,'showAll'])->name('showAllServicesYearsAndSpecializations');
     Route::post('/add',[ServiceYearAndSpecializationController::class,'add'])->name('addServiceYearAndSpecialization');
     Route::delete('/delete/{serviceYearAndSpecialization}',[ServiceYearAndSpecializationController::class,'delete'])->name('deleteServiceYearAndSpecialization');
-    Route::delete('/deleteAll',[ServiceYearAndSpecializationController::class,'deleteAll'])->name('deleteAllServiceYearAndSpecialization');
+    Route::delete('/deleteAll',[ServiceYearAndSpecializationController::class,'deleteAll'])->name('deleteAllServicesYearsAndSpecializations');
 });
 
 Route::prefix ("role")->group( function () {
-    Route::get('/show',[RoleController::class,'showAll'])->name('showRoles');
+    Route::get('/showAll',[RoleController::class,'showAll'])->name('showAllRoles');
     Route::post('/add',[RoleController::class,'add'])->name('addRole');
     Route::delete('/delete/{role}',[RoleController::class,'delete'])->name('deleteRole');
-    Route::delete('/deleteAll',[RoleController::class,'deleteAll'])->name('deleteALlRole');
+    Route::delete('/deleteAll',[RoleController::class,'deleteAll'])->name('deleteAllRoles');
 });
 
 Route::prefix ("assignedRole")->group( function () {
@@ -78,11 +78,14 @@ Route::prefix ("assignedService")->group( function () {
 });
 
 Route::prefix ("service")->group( function () {
+    Route::get('/showAll',[ServiceController::class,'showAll']);
     Route::get('/showMy',[ServiceController::class,'showMy'])->name('showMyServices');
     Route::post('/add/{parentService}',[ServiceController::class,'add'])->name('addService');
     Route::put('/update/{service}',[ServiceController::class,'update'])->name('updateService');
     Route::delete('/delete/{service}',[ServiceController::class,'delete'])->name('deleteService');
     Route::delete('/deleteAll',[ServiceController::class,'deleteAll'])->name('deleteAllServices');
+    Route::get('/search',[ServiceController::class,'search']);
+    Route::get('/filterByType',[ServiceController::class,'filterByType']);
 });
 
 Route::prefix ("file")->group( function () {

@@ -52,17 +52,9 @@ Route::prefix("savedAnnouncement")->group( function () {
 });
 
 Route::prefix("service")->group( function () {
-    Route::get('/showALl',[ServiceController::class,'showAll']);
-    Route::get('/showByYearAndSpecialization',[ServiceController::class,'showByYearAndSpecializationInGeneral']);
-    Route::get('/showActivityInGeneral',[ServiceController::class,'showActivityInGeneral']);
-    Route::get('/showProjectInterviewInGeneral',[ServiceController::class,'showProjectInterviewInGeneral']);
-    Route::get('/showDoctorInterviewInGeneral',[ServiceController::class,'showDoctorInterviewInGeneral']);
-    Route::get('/showExamInGeneral',[ServiceController::class,'showExamInGeneral']);
-    Route::get('/showAdvancedUsers/{service}',[ServiceController::class,'showAdvancedUsersOfService']);
-    Route::get('/search',[ServiceController::class,'search']);
-    Route::get('/filterByYear',[ServiceController::class,'filterByServiceYear']);
-    Route::get('/filterBySpecialization',[ServiceController::class,'filterByServiceSpecialization']);
-    Route::get('/filterByType',[ServiceController::class,'filterByServiceType']);
+    Route::get('/showByYearAndSpecialization/{serviceYearAndSpecialization}',[ServiceController::class,'showByYearAndSpecializationInGeneral']);
+    Route::get('/showByType/{type}',[ServiceController::class,'showByType']);
+    Route::get('/showAdvancedUsersOfService/{service}',[ServiceController::class,'showAdvancedUsersOfService']);
 });
 
 Route::prefix("interestedServices")->group( function () {

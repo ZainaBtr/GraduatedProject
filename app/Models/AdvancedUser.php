@@ -14,4 +14,9 @@ class AdvancedUser extends Model
     public $fillable = [
         'userID'
     ];
+
+    public function assignedServices()
+    {
+        return $this->hasMany(AssignedService::class, 'advancedUserID');
+    }
 }
