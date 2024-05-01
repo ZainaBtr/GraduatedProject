@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Controllers\Controller;
 use App\Http\Requests\File\File1;
 use App\Http\Requests\ServiceManager\ServiceManager1;
 use App\Http\Requests\ServiceManager\ServiceManager2;

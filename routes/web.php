@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ServiceManagerController;
+use App\Http\Controllers\AdvancedUserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,13 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('pages.NormalUsersTablePageForServiceManager');
 });
 
-Route::post('/login',[\App\Http\Controllers\AuthController::class,'login'])->name('login');
+Route::post('/login',[App\Http\Controllers\AuthController::class,'login'])->name('login');
 Route::post('/changePassword',[\App\Http\Controllers\AuthController::class,'changePassword'])->name('changePassword');
 Route::post('/forgetPassword',[\App\Http\Controllers\AuthController::class,'forgetPassword'])->name('forgetPassword');
-
 
 
 
