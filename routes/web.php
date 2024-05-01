@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ExcelFileController;
-
+use App\Http\Controllers\ServiceManagerController;
+use App\Http\Controllers\AdvancedUserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,18 +15,12 @@ use App\Http\Controllers\ExcelFileController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('pages.NormalUsersTablePageForServiceManager');
 });
 
 Route::post('/login',[App\Http\Controllers\AuthController::class,'login'])->name('login');
 Route::post('/changePassword',[\App\Http\Controllers\AuthController::class,'changePassword'])->name('changePassword');
 Route::post('/forgetPassword',[\App\Http\Controllers\AuthController::class,'forgetPassword'])->name('forgetPassword');
-
-Route::namespace ("excelFile")->group( function () {
-    Route::post('/advancedUserImport', [ExcelFileController::class, 'advancedUserImport'])->name('addAdvancedUserFile');
-    Route::post('/normalUserImport', [ExcelFileController::class, 'normalUserImport'])->name('addNormalUserFile');
-});
-
 
 
 

@@ -21,7 +21,6 @@
     width: 80%; /* زيادة عرض الجدول */
     text-align: center;
     border: 1px solid #ddd;
-    
     margin-top: 10%;
     margin-left: 10%; 
     vertical-align: middle;/* تحديد هامش لليسار لتوسيع المساحة العرضية */
@@ -47,12 +46,13 @@
     text-align: center; /* زيح الكلمات إلى اليسار في عمود "Service Year" */
     padding-left: 20px;
     vertical-align: middle;  /* تحديد هامش لليسار داخل الخلية */
+    border-right-color: transparent;
 }
 
   /* تغيير لون خطوط الجدول العمودية */
 .styled-table tr th,
 .styled-table tr td {
-  border-right-color: white;
+  border-right-color: #292D3D;
   text-align: center;
 }
 .child-column {

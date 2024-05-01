@@ -47,7 +47,7 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="Advanced users" class="collapse" data-parent="#sidebarnav">
-                            <li><a href="">list Advanced userss</a></li>
+                            <li><a href="{{route('showAllAdvancedUsers')}}">list Advanced userss</a></li>
 
                         </ul>
                     </li>

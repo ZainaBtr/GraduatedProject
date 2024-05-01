@@ -8,6 +8,7 @@ use App\Http\Requests\NormalUser\NormalUser3;
 use App\Http\Requests\NormalUser\NormalUser4;
 use App\Http\Requests\NormalUser\NormalUser5;
 use App\Models\NormalUser;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class NormalUserController extends Controller

@@ -15,8 +15,6 @@
   .styled-table {
     width: 80%; /* زيادة عرض الجدول */
     text-align: center;
-    border: 1px solid #ddd;
-    
     margin-top: 10%;
     margin-left: 10%; 
     vertical-align: middle;/* تحديد هامش لليسار لتوسيع المساحة العرضية */
@@ -126,7 +124,7 @@
     text-transform: uppercase;
     color: #FFFFFF;
     background-color: #FF7B1C;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
     border-radius: 0px 0px 30px 30px;
     border: none;
     cursor: pointer;
@@ -183,31 +181,72 @@
     text-transform: uppercase;
     color: #FFFFFF;
     background-color: #292D3D; /* Changed background color */
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     border-radius: 0px 0px 30px 30px;
     border: none;
     cursor: pointer;
     font-size:large;
   }
 </style>
-<table class="styled-table">
-    <tr>
-      <th >Full Name</th>
-      <th >Password</th>
-      <th>Processes<th>
-    </tr>
-    <tr>
-  
-      <td>enginerring barmaj</td>
-      <td><button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                                data-target="#Delete"
-                                                title=Delete><i
-                                                class="fa fa-trash"></i></button></td>
-    </tr>
-  </table> 
-    <button class="styled-account" data-toggle="modal" data-target="#exampleModal">Add advanced User</button>
+<!-- row -->
+
+
+        @if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+
+
+            <button class="styled-account" data-toggle="modal" data-target="#exampleModa">Add advanced User</button>
     
-    <button class="styled-button" data-toggle="modal" data-target="#exampleModa">Add Advanced Users File</button>
+    <button class="styled-button" data-toggle="modal" data-target="#exampleModal">Add Advanced Users File</button>
+
+
+            <div class="styled-table">
+                <table id="datatable" class="table  table-hover table-sm table-bordered p-0"
+                       data-page-length="50"
+                       style="text-align: center">
+
+<thead>
+                            <tr>
+                                <th>#</th>
+                                 <th>Full Name</th>
+                                 <th>Password</th>
+                                <th>Processes</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php $i = 0; ?>
+
+                            @foreach($allRecords as $record)
+
+                               <tr>
+                                   <?php $i++; ?>
+                                   <td>{{ $i }}</td>
+                                   <td>{{ $record->fullName }}</td>
+                                   <td>{{ $record->password }}</td>
+
+                                    <td>
+
+                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                                data-target="#Delete_Ro"
+                                                title=Delete><i
+                                                class="fa fa-trash"></i></button>
+                                    </td>
+                                </tr>
+
+
+    <button class="styled-account" data-toggle="modal" data-target="#exampleModa">Add advanced User</button>
+    
+    <button class="styled-button" data-toggle="modal" data-target="#exampleModal">Add Advanced Users File</button>
 
 
 
@@ -245,7 +284,7 @@
                                 </div>
 
 
-                 
+                             @endforeach
 
                         </table>
                     </div>
@@ -264,55 +303,28 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <!-- أضف العناصر التي تريد عرضها في هذه النافذة -->
-        <div class="row">
-          <div class="col">
-            <label for="Name" class="mr-sm-2">Full Name:</label>
-            <input id="category_name" type="text" name="category_name" class="form-control">
-          </div>
-
-        </div>
-        <div class="row">
-          <div class="col">
-            <label for="Name" class="mr-sm-2">Password:</label>
-            <input id="category_name" type="text" name="category_name" class="form-control">
-          </div>
-        </div>
-        
-      
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">consol</button>
-        <button type="button" class="btn btn-succes">save</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<div class="modal fade" id="exampleModa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add Roles</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col">
+      <div class="modal-body">        
+      <form action="{{ route('addAdvancedUsersFile') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <div class="row">
+        <div class="col">
             <label for="Name" class="mr-sm-2">file:</label>
-            <input id="category_name" type="file" name="category_name" class="form-control">
-          </div>
+            <input id="file" type="file" name="file" accept=".jpg,.jpeg,.bmp,.png,.gif,.doc,.docx,.csv,.rtf,.xlsx,.xls,.txt,.pdf,.zip" class="form-control">
         </div>
-      <div class="modal-footer">
+    </div>
+    <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">consol</button>
-        <button type="button" class="btn btn-succes">save</button>
-      </div>
+        <button type="submit" class="btn btn-succes">save</button>
+    </div>
+</form>
+
     </div>
   </div>
 </div>
+
+
+
+
     <!-- row closed -->
 @endsection
 @section('js')
