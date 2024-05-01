@@ -16,7 +16,8 @@ return new class extends Migration
             $table->integer('serviceYear');
             $table->string('serviceSpecializationName');
             $table->timestamps();
-        });
+
+            $table->unique(['serviceYear', 'serviceSpecializationName'], 'service_year_specialization_unique');        });
     }
 
     /**

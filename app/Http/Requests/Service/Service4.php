@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\TeamMember;
+namespace App\Http\Requests\Service;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Validator;
 
-class TeamMember3 extends FormRequest
+class Service4 extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,8 @@ class TeamMember3 extends FormRequest
     public function rules(): array
     {
         return [
-            'skills' => ['required', 'string']
+            'filterType' => ['required', 'string', 'mimes:serviceYear,serviceSpecialization,serviceType'],
+            'filterName' => ['required', 'string']
         ];
     }
 

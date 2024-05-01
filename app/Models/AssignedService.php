@@ -15,4 +15,9 @@ class AssignedService extends Model
         'advancedUserID',
         'serviceID'
     ];
+
+    public function advancedUser()
+    {
+        return $this->belongsTo(AdvancedUser::class, 'advancedUserID');
+    }
 }

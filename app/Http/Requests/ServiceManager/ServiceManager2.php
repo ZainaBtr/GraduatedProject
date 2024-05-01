@@ -3,6 +3,8 @@
 namespace App\Http\Requests\ServiceManager;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Validator;
 
 class ServiceManager2 extends FormRequest
 {
@@ -25,5 +27,18 @@ class ServiceManager2 extends FormRequest
             'password' => ['required', 'string', 'min:8'],
             'email' => ['required', 'email', 'unique:services_managers']
         ];
+    }
+
+    /**
+     * Handle a failed validation attempt.
+     *
+     * @param  \Illuminate\Contracts\Validation\Validator  $validator
+     * @return void
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function failedValidation(Validator|\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        throw new HttpResponseException(response()->json($validator->errors(), 422));
     }
 }
