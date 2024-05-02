@@ -13,6 +13,7 @@ class RoleController extends Controller
     {
         $allRecords = Role::all();
 
+        return view('pages.RolePageForServiceManager',compact('allRecords'));
         return response()->json($allRecords, Response::HTTP_OK);
     }
 
