@@ -1,62 +1,56 @@
 @extends('layouts.master')
-
-
 @section('page-header')
-
-    <!-- breadcrumb -->
 @section('PageTitle')
-    Meal
+    addServiceYearAndSpecialization
 @stop
-<!-- breadcrumb -->
 @endsection
 @section('content')
-    <!-- row -->
+ 
+<style>
+body {
+    overflow: hidden;
+}
 
-   <style>
-  /* Reset styles */
-  body, html {
-    margin: 0;
-    padding: 0;
-  }
-
-  /* Styled Table */
-  .styled-table {
-    width: 80%; /* زيادة عرض الجدول */
-    border-collapse: collapse;
-    border: 1px solid #ddd;
+.styled-table {
+    width: 80%; 
+    text-align: center;
     margin-top: 10%;
     margin-left: 10%; 
-    vertical-align: middle;/* تحديد هامش لليسار لتوسيع المساحة العرضية */
-}
-
-.styled-table th, .styled-table td {
-    border: 1px solid #39465E;
+    vertical-align: middle;}
+.styled-table th,
+.styled-table td {
+    border: none; 
     padding: 10px;
     text-align: center;
-    width: 33.33%; /* تقسيم العرض بالتساوي على الأعمدة */
+    width: auto; 
 }
+
+.styled-table tr th {
+    border-right-color: transparent; 
+}
+
 
 .styled-table th {
     background-color: #292D3D;
     color: #FFFFFF;
-    text-align: center; /* زيح الكلمات إلى اليسار في عمود "Service Year" */
-    padding-left: 70px;
-    vertical-align: middle;  /* تحديد هامش لليسار داخل الخلية */
+    text-align: center;  
+    padding-left: 20px;
+    vertical-align: middle; 
 }
-
-  /* تغيير لون خطوط الجدول العمودية */
 .styled-table tr th,
 .styled-table tr td {
   border-right-color: white;
+  text-align: center;
 }
+.child-column {
+            color: transparent;
+            text-align: center;
+            margin-left: 10px;
+        }
+        .vertical-align-top {
+            vertical-align: top;
+        }
 
-
-  /* تغيير لون خطوط الجدول الأفقية */
- 
-
-
-  /* New styles for Group 20 */
-  /* Group 20 */
   .group-20 {
     position: absolute;
     width: 369px;
@@ -64,8 +58,6 @@
     left: 1254px;
     top: 0px;
   }
-
-  /* Rectangle 21 */
   .rectangle-21 {
     position: absolute;
     width: 369px;
@@ -76,8 +68,6 @@
     box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.5);
     border-radius: 0px 0px 30px 30px;
   }
-
-  /* Add Service Manager */
   .add-service-manager {
     position: absolute;
     width: 309.35px;
@@ -96,8 +86,6 @@
     color: #FFFFFF;
     box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.5);
   }
-  
-  /* Button style */
   .styled-button {
     position: absolute;
     width:400px;
@@ -116,150 +104,217 @@
     text-transform: uppercase;
     color: #FFFFFF;
     background-color: #FF7B1C;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
     border-radius: 0px 0px 30px 30px;
     border: none;
     cursor: pointer;
+    font-size: 20px;
   }
 
   .styled-button:hover {
     background-color: #FF983D;
   }
-
-  /* تغيير لون الخطوط العمودية للعناصر الفردية */
   .styled-table tr th {
     border-right-color: transparent;
   }
-
-  /* New styles for Account button */
  
   .styled-account:hover {
-    background-color: #39465E; /* Changed hover background color */
+    background-color: #39465E; 
   }
-
-  /* تغيير لون النص في أعمدة الأبناء إلى شفاف */
   .child-column {
     color: transparent;
   }
   .btn-succes {
   background-color: #FF7B1C; 
-  color:white;/* لون الزر البرتقالي */
+  color:white;
 }
 
 .btn-succes:hover {
-  background-color: #FF7B1C; /* لون الزر البرتقالي عند التحويم */
+  background-color: #FF7B1C; 
 }
 
 .btn-succes:active {
-  background-color: orange; /* لون الزر البرتقالي عند الضغط */
+  background-color: orange; 
 }
 
+.styled-account {
+    position: absolute;
+    width: 50px;
+    height: 60px;
+    margin-left: 1200px;
+    margin-top:40%;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 25px;
+    line-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align:center;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    background-color: #292D3D; 
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 0px 0px 30px 30px;
+    border: none;
+    cursor: pointer;
+    font-size:large;
+  }
 </style>
-<table class="styled-table">
-    <tr>
-      <th >Service Year</th>
-      <th>Service Specialization</th>
-      <th>Processes<th>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>Provost</td>
-      <td><button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                                data-target="#Delete"
-                                                title=Delete><i
-                                                class="fa fa-trash"></i></button></td>
-    </tr>
-  
-    <!-- تكرار الصفوف الأخرى هنا حسب الحاجة -->
-  </table>
-
-  <!-- Group 20 -->
- 
-    <!-- Add Service Manager -->
-   
-  
-    
-    <button class="styled-button" data-toggle="modal" data-target="#exampleModal">add YEAR & SPECIALIZATION</button>
 
 
+ @if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
 
-                                <!-- delete_modal_Grade -->
+@if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
 
-                                <div class="modal fade" id="Delete" tabindex="-1" role="dialog"
-                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 style="font-family: 'Cairo', sans-serif;" class="modal-title"
-                                                    id="exampleModalLabel">
-                                                   delete
-                                                </h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                             
-                                                    <input  type="hidden" name="id" class="form-control"
-                                                           value="">
-                                                     <input type="text" readonly value="" class="form-control">
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                                data-dismiss="modal"> No </button>
-                                                        <button type="submit"
-                                                                class="btn btn-danger"> yes</button>
-                                                    </div>
+
+         
+    <button class="styled-button" data-toggle="modal" data-target="#exampleModal">Add Years & Specialization</button>
+
+    <button type="button" class="styled-account" data-toggle="modal" data-target="#exampleMod" title="DeleteAll">
+                                    <i class="fa fa-trash"></i>
+                                        </button>
+            <div class="styled-table">
+                <table id="datatable" class="table  table-hover table-sm table-bordered p-0"
+                       data-page-length="50"
+                       style="text-align: center">
+
+<thead>
+                            <tr>
+                                <th>#</th>
+                                 <th>serviceYear</th>
+                                 <th>serviceSpecializationName</th>
+                                <th>Processes</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php $i = 0; ?>
+
+                            @foreach($allRecords as $record)
+
+                               <tr>
+                                   <?php $i++; ?>
+                                   <td>{{ $i }}</td>
+                                   <td>{{ $record->serviceYear }}</td>
+                                   <td>{{ $record->serviceSpecializationName }}</td>
+
+                                    <td>
+
+                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModa" title="Delete">
+                                    <i class="fa fa-trash"></i>
+                                        </button>
+
+                                    </td>
+</tr>
+
+                                <!-- delete_modal 1 -->
+
+                                <div class="modal fade" id="exampleModa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                       <div class="modal-dialog" role="document">
+                                             <div class="modal-content">
+                                               <div class="modal-header">
+                                              <h5 class="modal-title" id="exampleModalLabel">  Are you sure you want to delete this item?</h5>
+                                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                           <span aria-hidden="true">&times;</span>
+                                             </button>
+                                               </div>
+                                               <div class="modal-body">     
+                                             <form action="{{ route('deleteServiceYearAndSpecialization', ['serviceYearAndSpecialization' => $record->id]) }}" method="post">
+                                               @csrf
+                                          @method('DELETE')
+                                       <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                              <button type="submit" class="btn btn-danger">yes</button>
+                                              </div>
                                                 </form>
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
 
-                 
+                              @endforeach
 
                         </table>
                     </div>
                 </div>
             </div>
         </div>
+          <!-- delete_modal all -->
+
+        <div class="modal fade" id="exampleMod" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                       <div class="modal-dialog" role="document">
+                                             <div class="modal-content">
+                                               <div class="modal-header">
+                                              <h5 class="modal-title" id="exampleModalLabel">  Are you sure you want to delete all item?</h5>
+                                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                           <span aria-hidden="true">&times;</span>
+                                             </button>
+                                               </div>
+                                               <div class="modal-body">     
+                                             <form action="{{ route('deleteAllServicesYearsAndSpecializations') }}" method="post">
+                                               @csrf
+                                          @method('DELETE')
+                                       <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                              <button type="submit" class="btn btn-danger">yes</button>
+                                              </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
 
+
+       
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add Service Manager</h5>
+        <h5 class="modal-title" id="exampleModalLabel">addServiceYearAndSpecialization</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <!-- أضف العناصر التي تريد عرضها في هذه النافذة -->
-        <div class="row">
-          <div class="col">
-            <label for="Name" class="mr-sm-2">Service Year:</label>
-            <input id="category_name" type="text" name="category_name" class="form-control">
-          </div>
+      <div class="modal-body">        
+      <form action="{{ route('addServiceYearAndSpecialization') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <div class="row">
+        <div class="col">
+            <label for="Name" class="mr-sm-2">serviceYear:</label>
+            <input id="serviceYear" type="number" name="serviceYear" accept=".jpg,.jpeg,.bmp,.png,.gif,.doc,.docx,.csv,.rtf,.xlsx,.xls,.txt,.pdf,.zip" class="form-control">
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="col">
+            <label for="Name" class="mr-sm-2">serviceSpecializationName:</label>
+            <input id="serviceSpecializationName" type="text" name="serviceSpecializationName" accept=".jpg,.jpeg,.bmp,.png,.gif,.doc,.docx,.csv,.rtf,.xlsx,.xls,.txt,.pdf,.zip" class="form-control">
         </div>
-        <div class="row">
-          <div class="col">
-            <label for="Name" class="mr-sm-2"> Service Specialization:</label>
-            <input id="category_name" type="text" name="category_name" class="form-control">
-          </div>
-        </div>
-       
-      
-      <div class="modal-footer">
+    </div>
+    <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">consol</button>
-        <button type="button" class="btn btn-succes">save</button>
-      </div>
+        <button type="submit" class="btn btn-succes">save</button>
+    </div>
+</form>
+
     </div>
   </div>
 </div>
-    <!-- row closed -->
+
 @endsection
 @section('js')
     @toastr_js
