@@ -24,8 +24,8 @@ class AdvancedUser2 extends FormRequest
     public function rules(): array
     {
         return [
-            'password' => ['required', 'string'],
-            'email' => ['required', 'email', 'unique:advanced_users']
+            'password'=>['required','string'],
+            'email'=>['required','email','unique:users']
         ];
     }
 

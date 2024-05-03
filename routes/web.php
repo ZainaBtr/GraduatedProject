@@ -19,8 +19,10 @@ Route::get('/', function () {
 });
 
 Route::post('/login',[\App\Http\Controllers\AuthController::class,'login'])->name('login');
-Route::post('/changePassword',[\App\Http\Controllers\AuthController::class,'changePassword'])->name('changePassword');
-Route::post('/forgetPassword',[\App\Http\Controllers\AuthController::class,'forgetPassword'])->name('forgetPassword');
+Route::middleware(['auth:api'])->group(function() {
+    Route::put('/changePassword',[AuthController::class,'changePassword']);
+
+});Route::post('/forgetPassword',[\App\Http\Controllers\AuthController::class,'forgetPassword'])->name('forgetPassword');
 
 
 
