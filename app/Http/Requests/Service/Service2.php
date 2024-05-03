@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Service;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Validator;
 
 class Service2 extends FormRequest
 {
@@ -22,7 +24,26 @@ class Service2 extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'serviceName' => ['string'],
+            'serviceDescription' => ['text'],
+            'serviceType' => ['string', 'in:lectures,exams,projects interviews,advanced users interviews,activities,others'],
+            'serviceYearAndSpecializationID' => ['numeric', 'unique:services'],
+            'minimumNumberOfGroup' => ['numeric'],
+            'maximumNumberOfGroup' => ['numeric'],
+            'status' => ['boolean', 'in:effective,not effective']
         ];
+    }
+
+    /**
+     * Handle a failed validation attempt.
+     *
+     * @param  \Illuminate\Contracts\Validation\Validator  $validator
+     * @return void
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function failedValidation(Validator|\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        throw new HttpResponseException(response()->json($validator->errors(), 422));
     }
 }

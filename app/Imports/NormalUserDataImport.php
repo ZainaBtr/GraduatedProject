@@ -28,9 +28,15 @@ class NormalUserDataImport implements ToModel, WithHeadingRow
             ->where('serviceSpecializationName', $row['specialization'])
             ->first();
 
+        $password = Str::random(12);
+
+        while(User::where('password', $password)->exists()) {
+            $password = Str::random(12);
+        }
+
         $user = new User([
             'fullName' => $row['full_name'],
-            'password' => Str::random(12)
+            'password' => $password
         ]);
         $user->save();
 

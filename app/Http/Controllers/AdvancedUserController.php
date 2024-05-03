@@ -22,18 +22,19 @@ class AdvancedUserController extends Controller
 
     public function showAll()
     {
-        //
+        $allRecords = User::all();
+
+        return view('pages.AdvancedUsersTablePageForServiceManager',compact('allRecords'));
     }
 
-    public function createAccount(Request $request)
+    public function createAccount(AdvancedUser1 $request)
     {
         //
     }
-
+  
     /**
      * @throws AuthenticationException
      */
-
 
     public function completeAccount(AdvancedUser2 $request)
     {
@@ -46,9 +47,7 @@ class AdvancedUserController extends Controller
         return response()->json(['message' => 'we sent 6 digit code to this email']);
     }
 
-
-
-    public function updateEmail(Request $request)
+    public function updateEmail(AdvancedUser2 $request)
     {
         //
     }

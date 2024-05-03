@@ -3,6 +3,8 @@
 namespace App\Http\Requests\NormalUser;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Validator;
 
 class NormalUser4 extends FormRequest
 {
@@ -22,7 +24,20 @@ class NormalUser4 extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'skills' => ['string']
         ];
+    }
+
+    /**
+     * Handle a failed validation attempt.
+     *
+     * @param  \Illuminate\Contracts\Validation\Validator  $validator
+     * @return void
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function failedValidation(Validator|\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        throw new HttpResponseException(response()->json($validator->errors(), 422));
     }
 }

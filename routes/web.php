@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ServiceManagerController;
+use App\Http\Controllers\AdvancedUserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,7 +23,6 @@ Route::middleware(['auth:api'])->group(function() {
     Route::put('/changePassword',[AuthController::class,'changePassword']);
 
 });Route::post('/forgetPassword',[\App\Http\Controllers\AuthController::class,'forgetPassword'])->name('forgetPassword');
-
 
 
 

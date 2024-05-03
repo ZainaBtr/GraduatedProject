@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Requests\User\User4;
 use App\Mail\myEmail;
 use App\Mail\VerifyEmail;
@@ -27,7 +28,6 @@ class AuthController extends Controller
      * @throws AuthenticationException
      */
 
-
     public function login(User1 $request)
     {
         $credentials = request(['email','password']);
@@ -51,7 +51,6 @@ class AuthController extends Controller
             return response()->json(['message' => 'Password has changed successfully']);
         }
         return response()->json(['message' => 'Password is incorrect']);
-
     }
 
     public function forgetPassword(User3 $request)
@@ -63,7 +62,6 @@ class AuthController extends Controller
         $pin = rand(100000, 999999);
         DB::table('password_reset_tokens')->insert(['email' => $user['email'], 'token' => $pin ]);
         Mail::to($user['email'])->send(new VerifyEmail($pin));
-
     }
 
     public function verification(User4 $request)
