@@ -30,6 +30,29 @@
     left: 50%;
     transform: translate(-50%, -50%);
   }
+  .btnn {
+    position: absolute;
+    width: 107px;
+    height: 48px;
+    left: calc(50% - 107px/2 - 594.5px);
+    top: calc(50% - 48px/2 + 163.5px + 280px); /* زيادة 100px لنقل الزر للأسفل */
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #FFFFFF;
+    background: #64A78F;
+    border-radius: 24px;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);
+    text-decoration-line: none;
+  }
   .btn {
     position: absolute;
     width: 107px;
@@ -51,6 +74,7 @@
     cursor: pointer;
     outline: none;
     box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);
+    text-decoration-line: none;
   }
 </style>
 </head>
@@ -59,8 +83,10 @@
 <div class="container">
   <img src="assets/images/first.png" alt="صورة" class="background-image">
   <div class="content">
-    <button class="btn">Sign Up</button>
-    <button class="btn">login</button>
+    <!-- زر Sign Up -->
+    <a href="{{route('showAllAdvancedUsers')}}" data-category="Sign Up" class="btn">Sign Up</a>
+    <!-- زر Login -->
+    <a href="{{route('showAllRoles')}}"Login class="btnn">Login</a>
   </div>
 </div>
 

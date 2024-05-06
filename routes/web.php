@@ -15,7 +15,11 @@ use App\Http\Controllers\AdvancedUserController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('pages.FirstPageForServiceManager');
+});
+
+Route::get('/n', function () {
+    return view('page.FirstPageForSystemManager');
 });
 
 Route::post('/login',[\App\Http\Controllers\AuthController::class,'login'])->name('login');
