@@ -25,7 +25,7 @@ class AdvancedUser2 extends FormRequest
     {
         return [
             'password' => ['required', 'string'],
-            'email' => ['required', 'email', 'unique:advanced_users']
+            'email' => ['required', 'email', 'unique:users']
         ];
     }
 

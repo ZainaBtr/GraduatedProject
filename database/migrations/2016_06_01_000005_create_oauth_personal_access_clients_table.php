@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('service_year_and_specializations', function (Blueprint $table) {
-            $table->id();
-            $table->integer('serviceYear');
-            $table->string('serviceSpecializationName');
+        Schema::create('oauth_personal_access_clients', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('client_id');
             $table->timestamps();
-
-            $table->unique(['serviceYear', 'serviceSpecializationName'], 'service_year_and_specialization_unique');
         });
     }
 
@@ -26,7 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('service_year_and_specializations');
-
+        Schema::dropIfExists('oauth_personal_access_clients');
     }
 };

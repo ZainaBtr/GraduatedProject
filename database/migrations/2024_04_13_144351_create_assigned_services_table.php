@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('advancedUserID')->constrained('advanced_users')->cascadeOnDelete();
             $table->foreignId('serviceID')->constrained('services')->cascadeOnDelete();
             $table->timestamps();
+
+            $table->unique(['advancedUserID', 'serviceID'],'advanced_user_and_service_unique');
         });
     }
 

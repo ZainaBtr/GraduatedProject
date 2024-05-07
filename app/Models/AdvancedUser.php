@@ -15,8 +15,8 @@ class AdvancedUser extends Model
         'userID'
     ];
 
-    public function assignedServices()
+    public function user()
     {
-        return $this->hasMany(AssignedService::class, 'advancedUserID');
+        return $this->belongsTo(User::class, 'userID');
     }
 }
