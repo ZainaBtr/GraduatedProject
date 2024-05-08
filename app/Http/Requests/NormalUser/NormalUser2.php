@@ -40,7 +40,7 @@ class NormalUser2 extends FormRequest
             'favoriteBookType' => ['required', 'string', 'in:Scientific,Science Fiction,Cultural,Religious,Fantasy,Romance,Detective And Action,Others'],
             'favoriteTravelCountry' => ['required', 'string', 'in:Germany,France,UAE,Saudi Arabia,Switzerland,Thailand,Malaysia,Egypt,Others'],
             'favoriteFood' => ['required', 'string', 'in:Kubba,Kabsa,Pasta,Pizza,Mahashi,Grape Leaves,Shawarma,Broasted,Others'],
-            'favoriteDessert' => ['required', 'string', 'in:Kunafa,Cake,Ice Cream,Qatayef,Western Sweets,Others'],
+            'favoriteDesert' => ['required', 'string', 'in:Kunafa,Cake,Ice Cream,Qatayef,Western Sweets,Others'],
             'favoriteDrink' => ['required', 'string', 'in:Strawberry,Orange,Lemon,Tamarind,Fruits,Licorice,Mango,Carrot,Others'],
             'baccalaureateMark' => ['required', 'numeric', 'lte:240'],
             'ninthGradeMark' => ['required', 'numeric', 'lte:310']

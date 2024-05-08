@@ -24,7 +24,7 @@ class NormalUser3 extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email', 'unique:normal_users']
+            'email' => ['required', 'email', 'unique:users']
         ];
     }
 

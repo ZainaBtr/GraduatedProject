@@ -25,7 +25,7 @@ class ServiceManager2 extends FormRequest
     {
         return [
             'password' => ['required', 'string', 'min:8'],
-            'email' => ['required', 'email', 'unique:services_managers']
+            'email' => ['required', 'email', 'unique:users']
         ];
     }
 

@@ -12,12 +12,15 @@ use App\Http\Controllers\TeamMemberController;
 use App\Http\Controllers\JoiningRequestController;
 
 Route::prefix("normalUser")->group( function () {
-    Route::get('/showProfile',[NormalUserController::class,'showProfile']);
+    Route::middleware(['auth:api'])->group(function() {
+        Route::get('/showProfile', [NormalUserController::class, 'showProfile']);
+        Route::put('/completeAccount2', [NormalUserController::class, 'completeAccount2']);
+        Route::put('/completeAccount3', [NormalUserController::class, 'completeAccount3']);
+        Route::put('/completeAccount4', [NormalUserController::class, 'completeAccount4']);
+        Route::put('/updateEmail', [NormalUserController::class, 'updateEmail']);
+    });
     Route::put('/completeAccount1',[NormalUserController::class,'completeAccount1']);
-    Route::put('/completeAccount2',[NormalUserController::class,'completeAccount2']);
-    Route::put('/completeAccount3',[NormalUserController::class,'completeAccount3']);
-    Route::put('/completeAccount4',[NormalUserController::class,'completeAccount4']);
-    Route::put('/updateEmail',[NormalUserController::class,'updateEmail']);
+
 });
 
 Route::prefix("session")->group( function () {

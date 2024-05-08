@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use App\Models\NormalUser;
+
 use Illuminate\Contracts\Auth\CanResetPassword;
 
 class User  extends Authenticatable implements MustVerifyEmail
@@ -40,4 +42,16 @@ class User  extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function serviceManager(){
+        return $this->hasOne(ServiceManager::class,'userID' );
+    }
+
+    public function advancedUser(){
+        return $this->hasOne(AdvancedUser::class,'userID' );
+    }
+
+    public function normalUser(){
+       return $this->hasOne(NormalUser::class, 'userID' );
+    }
 }

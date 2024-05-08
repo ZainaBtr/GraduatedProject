@@ -41,7 +41,7 @@ class VerifyEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.verify',
+            view : 'emails.verify',
         );
     }
 
@@ -57,8 +57,8 @@ class VerifyEmail extends Mailable
 
     public function build()
     {
-        return $this->view('verify')
-            ->subject('Welcome to Our Application');
+        return $this->markdown('emails/verify')->subject('Welcome to Our Application');
+
     }
 
 }
