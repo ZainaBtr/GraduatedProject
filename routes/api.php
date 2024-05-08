@@ -37,10 +37,10 @@ Route::post('/sendEmail',[AuthController::class,'sendEmail']);
 
 Route::middleware(['auth:api'])->group(function() {
     Route::put('/changePassword',[AuthController::class,'changePassword']);
+    Route::delete('/verification',[AuthController::class,'verification']);
 });
 
 Route::post('/forgetPassword',[AuthController::class,'forgetPassword']);
-
 
 Route::prefix("announcement")->group( function () {
     Route::get('/showALl',[AnnouncementController::class,'showAll']);

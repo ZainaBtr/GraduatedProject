@@ -19,6 +19,7 @@ Route::prefix ("serviceManager")->group( function () {
     Route::get('/showAll',[ServiceManagerController::class,'showAll'])->name('showAllServiceManages');
     Route::post('/addAdvancedUsersFile',[ServiceManagerController::class,'addAdvancedUsersFile'])->name('addAdvancedUsersFile');
     Route::post('/addNormalUsersFile',[ServiceManagerController::class,'addNormalUsersFile'])->name('addNormalUsersFile');
+    Route::delete('/deleteAccount',[ServiceManagerController::class,'delete'])->name('deleteServiceManager');
 });
 
 Route::prefix ("announcement")->group( function () {
@@ -41,7 +42,7 @@ Route::prefix ("advancedUser")->group( function () {
     Route::get('/showAll',[AdvancedUserController::class,'showAll'])->name('showAllAdvancedUsers');
     Route::post('/createAccount',[AdvancedUserController::class,'createAccount'])->name('createAdvancedUserAccount');
     Route::delete('/deleteAccount/{advancedUser}',[AdvancedUserController::class,'deleteAccount'])->name('deleteAdvancedUserAccount');
-    Route::delete('/deleteAllAccount',[AdvancedUserController::class,'deleteAllAccounts'])->name('deleteAllAdvancedUserAccounts');
+    Route::delete('/deleteAllAccounts',[AdvancedUserController::class,'deleteAllAccounts'])->name('deleteAllAdvancedUserAccounts');
 });
 
 Route::prefix ("normalUser")->group( function () {

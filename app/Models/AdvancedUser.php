@@ -19,4 +19,8 @@ class AdvancedUser extends Model
     {
         return $this->hasMany(AssignedService::class, 'advancedUserID');
     }
+
+    public function user(){
+        return $this->belongsTo(User::class,'userID');
+    }
 }

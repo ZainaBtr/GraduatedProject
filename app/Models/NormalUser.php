@@ -60,4 +60,8 @@ class NormalUser extends Model
         'baccalaureateMark',
         'ninthGradeMark'
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

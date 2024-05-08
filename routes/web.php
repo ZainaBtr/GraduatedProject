@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceManagerController;
 use App\Http\Controllers\AdvancedUserController;
@@ -19,10 +20,12 @@ Route::get('/', function () {
 });
 
 Route::post('/login',[\App\Http\Controllers\AuthController::class,'login'])->name('login');
-Route::middleware(['auth:api'])->group(function() {
-    Route::put('/changePassword',[AuthController::class,'changePassword']);
+Route::post('/forgetPassword',[\App\Http\Controllers\AuthController::class,'forgetPassword'])->name('forgetPassword');
 
-});Route::post('/forgetPassword',[\App\Http\Controllers\AuthController::class,'forgetPassword'])->name('forgetPassword');
+Route::middleware(['auth'])->group(function() {
+    Route::put('/changePassword',[AuthController::class,'changePassword'])->name('changePassword');
+    Route::delete('/verification',[AuthController::class,'verification'])->name('verification');
+});
 
 
 
