@@ -42,56 +42,61 @@ Route::middleware(['auth:api'])->group(function() {
 Route::post('/forgetPassword',[AuthController::class,'forgetPassword']);
 
 
-Route::prefix("announcement")->group( function () {
-    Route::get('/showALl',[AnnouncementController::class,'showAll']);
-    Route::get('/showAllFromService/{service}',[AnnouncementController::class,'showAllFromService']);
-    Route::get('/showServiceNameForFilter',[AnnouncementController::class,'showServiceNameForFilter']);
-    Route::get('/showServiceYearForFilter',[AnnouncementController::class,'showServiceYearForFilter']);
-    Route::get('/showServiceTypeForFilter',[AnnouncementController::class,'showServiceTypeForFilter']);
-    Route::get('/showServiceSpecForFilter',[AnnouncementController::class,'showServiceSpecializationForFilter']);
-    Route::get('/filterByServiceName',[AnnouncementController::class,'filterByServiceName']);
-    Route::get('/filterByServiceYear',[AnnouncementController::class,'filterByServiceYear']);
-    Route::get('/filterByServiceSpec',[AnnouncementController::class,'filterByServiceSpecialization']);
-    Route::get('/filterByServiceType',[AnnouncementController::class,'filterByServiceType']);
+Route::get('register', [ServiceController::class, 'register']);
+Route::get('advancedUserRegister', [ServiceController::class, 'advancedUserRegister']);
+
+Route::middleware(['auth:api'])->group(function() {
+
+    Route::prefix("announcement")->group(function () {
+        Route::get('/showAll', [AnnouncementController::class, 'showAll']);
+        Route::get('/showAllFromService/{service}', [AnnouncementController::class, 'showAllFromService']);
+        Route::get('/showServiceNameForFilter', [AnnouncementController::class, 'showServiceNameForFilter']);
+        Route::get('/showServiceYearForFilter', [AnnouncementController::class, 'showServiceYearForFilter']);
+        Route::get('/showServiceTypeForFilter', [AnnouncementController::class, 'showServiceTypeForFilter']);
+        Route::get('/showServiceSpecForFilter', [AnnouncementController::class, 'showServiceSpecializationForFilter']);
+        Route::get('/filterByServiceName', [AnnouncementController::class, 'filterByServiceName']);
+        Route::get('/filterByServiceYear', [AnnouncementController::class, 'filterByServiceYear']);
+        Route::get('/filterByServiceSpec', [AnnouncementController::class, 'filterByServiceSpecialization']);
+        Route::get('/filterByServiceType', [AnnouncementController::class, 'filterByServiceType']);
+    });
+
+    Route::prefix("savedAnnouncement")->group(function () {
+        Route::get('/showALl', [SavedAnnouncementController::class, 'showAll']);
+        Route::post('/save/{announcement}', [SavedAnnouncementController::class, 'save']);
+        Route::delete('/unSave/{savedAnnouncement}', [SavedAnnouncementController::class, 'unSave']);
+    });
+
+    Route::prefix("service")->group(function () {
+        Route::get('/showByYearAndSpecialization/{serviceYearAndSpecialization}', [ServiceController::class, 'showByYearAndSpecialization']);
+        Route::get('/showByType/{type}', [ServiceController::class, 'showByType']);
+        Route::get('/showAdvancedUsersOfService/{service}', [ServiceController::class, 'showAdvancedUsersOfService']);
+    });
+
+    Route::prefix("interestedService")->group(function () {
+        Route::get('/showAllParent', [InterestedServiceController::class, 'showAllParent']);
+        Route::get('/showChild/{service}', [InterestedServiceController::class, 'showChild']);
+        Route::post('/interestInService/{service}', [InterestedServiceController::class, 'interestIn']);
+        Route::delete('/unInterestInService/{interestedService}', [InterestedServiceController::class, 'unInterestIn']);
+    });
+
+    Route::prefix("session")->group(function () {
+        Route::get('/showALl/{service}', [SessionController::class, 'showAll']);
+        Route::get('/showALlRelated/{advancedUser}', [SessionController::class, 'showAllRelatedToAdvancedUser']);
+        Route::get('/search', [SessionController::class, 'search']);
+    });
+
+    Route::prefix("publicSession")->group(function () {
+        Route::get('/showActivities', [PublicSessionController::class, 'showActivities']);
+        Route::get('/showExams', [PublicSessionController::class, 'showExams']);
+    });
+
+    Route::prefix("privateSession")->group(function () {
+        Route::get('/showProjectInterviews', [PrivateSessionController::class, 'showProjectsInterviews']);
+        Route::get('/showAdvancedUsersInterviews', [PrivateSessionController::class, 'showAdvancedUsersInterviews']);
+    });
+
+    Route::get('/showAll', [PrivateReservationController::class, 'showAll']);
+
+    Route::get('/showFakeReservation', [FakeReservationController::class, 'showALl']);
+
 });
-
-Route::prefix("savedAnnouncement")->group( function () {
-    Route::get('/showALl',[SavedAnnouncementController::class,'showAll']);
-    Route::post('/save/{announcement}',[SavedAnnouncementController::class,'save']);
-    Route::delete('/unSave/{savedAnnouncement}',[SavedAnnouncementController::class,'unSave']);
-
-});
-
-Route::prefix("service")->group( function () {
-    Route::get('/showByYearAndSpecialization/{serviceYearAndSpecialization}',[ServiceController::class,'showByYearAndSpecializationInGeneral']);
-    Route::get('/showByType/{type}',[ServiceController::class,'showByType']);
-    Route::get('/showAdvancedUsersOfService/{service}',[ServiceController::class,'showAdvancedUsersOfService']);
-});
-
-Route::prefix("interestedServices")->group( function () {
-    Route::get('/showALl',[InterestedServiceController::class,'showAll']);
-    Route::post('/interestInService/{service}',[InterestedServiceController::class,'interestIn']);
-    Route::delete('/unInterestInService/{interestedService}',[InterestedServiceController::class,'unInterestIn']);
-});
-
-Route::prefix("session")->group( function () {
-    Route::get('/showALl/{service}',[SessionController::class,'showAll']);
-    Route::get('/showALlRelated/{advancedUser}',[SessionController::class,'showAllRelatedToAdvancedUser']);
-    Route::get('/search',[SessionController::class,'search']);
-});
-
-Route::prefix("publicSession")->group( function () {
-    Route::get('/showActivities',[PublicSessionController::class,'showActivities']);
-    Route::get('/showExams',[PublicSessionController::class,'showExams']);
-});
-
-Route::prefix("privateSession")->group( function () {
-    Route::get('/showProjectInterviews',[PrivateSessionController::class,'showProjectsInterviews']);
-    Route::get('/showAdvancedUsersInterviews',[PrivateSessionController::class,'showAdvancedUsersInterviews']);
-});
-
-Route::get('/showAll',[PrivateReservationController::class,'showAll']);
-
-Route::get('/showFakeReservation',[FakeReservationController::class,'showALl']);
-
-

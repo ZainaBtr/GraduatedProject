@@ -4,6 +4,7 @@ namespace App\Http\Requests\Service;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 
 class Service2 extends FormRequest
@@ -23,14 +24,21 @@ class Service2 extends FormRequest
      */
     public function rules(): array
     {
+        $service = $this->route('service');
+
         return [
-            'serviceName' => ['string'],
-            'serviceDescription' => ['text'],
+            'serviceName' => ['string',
+                Rule::unique('services')
+                    ->where('serviceYearAndSpecializationID', $this->input('serviceYearAndSpecializationID'))
+                    ->where('parentServiceID', $service['parentServiceID'])
+                    ->ignore($service)
+            ],
+            'serviceDescription' => ['string'],
             'serviceType' => ['string', 'in:lectures,exams,projects interviews,advanced users interviews,activities,others'],
-            'serviceYearAndSpecializationID' => ['numeric', 'unique:services'],
-            'minimumNumberOfGroup' => ['numeric'],
-            'maximumNumberOfGroup' => ['numeric'],
-            'status' => ['boolean', 'in:effective,not effective']
+            'serviceYearAndSpecializationID' => ['numeric'],
+            'minimumNumberOfGroupMembers' => ['numeric'],
+            'maximumNumberOfGroupMembers' => ['numeric'],
+            'status' => ['boolean']
         ];
     }
 

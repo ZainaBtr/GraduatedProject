@@ -15,4 +15,9 @@ class AssignedRole extends Model
         'assignedServiceID',
         'roleID'
     ];
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'roleID');
+    }
 }

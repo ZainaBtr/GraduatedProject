@@ -16,8 +16,18 @@ class AssignedService extends Model
         'serviceID'
     ];
 
+    public function service()
+    {
+        return $this->belongsTo(Service::class, 'serviceID');
+    }
+
     public function advancedUser()
     {
         return $this->belongsTo(AdvancedUser::class, 'advancedUserID');
+    }
+
+    public function assignedRole()
+    {
+        return $this->hasMany(AssignedRole::class, 'assignedServiceID');
     }
 }

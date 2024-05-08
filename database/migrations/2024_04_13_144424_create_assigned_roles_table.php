@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('assignedServiceID')->constrained('assigned_services')->cascadeOnDelete();
             $table->foreignId('roleID')->constrained('roles')->cascadeOnDelete();
             $table->timestamps();
+
+            $table->unique(['assignedServiceID', 'roleID'],'assigned_service_and_role_unique');
         });
     }
 
