@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SavedAnnouncementController;
@@ -30,6 +31,16 @@ require  __DIR__ . '/ite_apis/system_manager_app.php';
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/login',[AuthController::class,'login']);
+Route::post('/sendEmail',[AuthController::class,'sendEmail']);
+
+Route::middleware(['auth:api'])->group(function() {
+    Route::put('/changePassword',[AuthController::class,'changePassword']);
+});
+
+Route::post('/forgetPassword',[AuthController::class,'forgetPassword']);
+
 
 Route::get('register', [ServiceController::class, 'register']);
 Route::get('advancedUserRegister', [ServiceController::class, 'advancedUserRegister']);

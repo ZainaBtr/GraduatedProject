@@ -21,7 +21,7 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="Years&Specializations" class="collapse" data-parent="#sidebarnav">
-                            <li><a href="">listYears&Specializations</a></li>
+                            <li><a href="{{route('showAllServicesYearsAndSpecializations')}}">listYears&Specializations</a></li>
 
                         </ul>
                     </li>
@@ -34,7 +34,7 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="Roles" class="collapse" data-parent="#sidebarnav">
-                            <li><a href="">listRoles</a></li>
+                            <li><a href="{{route('showAllRoles')}}">listRoles</a></li>
 
                         </ul>
                     </li>
