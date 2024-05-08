@@ -86,7 +86,7 @@
     <!-- زر Sign Up -->
     <a href="{{route('showAllAdvancedUsers')}}" data-category="Sign Up" class="btn">Sign Up</a>
     <!-- زر Login -->
-    <a href="{{route('showAllRoles')}}"Login class="btnn">Login</a>
+    <a href="/d"Login class="btnn">Login</a>
   </div>
 </div>
 

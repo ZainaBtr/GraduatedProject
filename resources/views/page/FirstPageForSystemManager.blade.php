@@ -84,7 +84,7 @@
   <img src="assets/images/first.png" alt="صورة" class="background-image">
   <div class="content">
     <!-- زر Login -->
-    <a href="" class="btnn">Login</a>
+    <a href="/d" class="btnn">Login</a>
   </div>
 </div>
 

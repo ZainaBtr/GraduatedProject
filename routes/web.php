@@ -31,7 +31,7 @@ Route::get('/d', function () {
 Route::post('/login',[\App\Http\Controllers\AuthController::class,'login'])->name('login');;
 
 
-Route::middleware(['auth:api'])->group(function() {
+Route::middleware(['auth'])->group(function() {
     Route::put('/changePassword',[\App\Http\Controllers\AuthController::class,'changePassword']);
     
 
