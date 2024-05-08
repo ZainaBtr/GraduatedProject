@@ -15,8 +15,9 @@ class ServiceManager extends Model
         'userID',
         'position'
     ];
-
-    public function user(){
-        return $this->belongsTo(User::class,'userID');
+  
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'userID');
     }
 }

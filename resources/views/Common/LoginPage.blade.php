@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Styled Image</title>
-    <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Styled Image</title>
+<style>
         body {
             margin: 0;
             padding: 0;
@@ -136,22 +136,22 @@
     </style>
 </head>
 <body>
-    <img src="assets/images/ne.png" alt="صورة" class="background-image">
-    <div class="warrber">
-        <form class="container">
-            <div class="inputbox">
-                <input type="email" name="name" placeholder="email">
-            </div>
-            <div class="inputbox">
-                <input type="password" name="email" placeholder="password ">
-            </div>
-          
-        </form>
-    </div>
-    <a href="#" data-category="I Forget My Password?" class="pass">I Forget My Password?</a>
-    <button class="login-button"> ➙ </button>
-    <p  class="log "> Login </p>
-    <p  class="logg "> Enter you account to more futures  </p>
-    <div class="arrow-forward"></div>
+<img src="assets/images/ne.png" alt="صورة" class="background-image">
+<div class="warrber">
+    <form action="{{ route('login') }}" method="POST" class="container">
+        @csrf
+        <div class="inputbox">
+            <input type="email" name="email" placeholder="Email" required>
+        </div>
+        <div class="inputbox">
+            <input type="password" name="password" placeholder="Password" required >
+        </div>
+        <button type="submit" class="login-button"> ➙ </button>
+    </form>
+</div>
+
+<a href="#" data-category="I Forget My Password?" class="pass">I Forget My Password?</a>
+<p class="log">Login</p>
+<p class="logg">Enter your account to access more features</p>
 </body>
 </html>

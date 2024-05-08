@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Controllers\Controller;
 use App\Http\Requests\User\User4;
 use App\Mail\myEmail;
 use App\Mail\VerifyEmail;
@@ -39,7 +39,11 @@ class AuthController extends Controller
         $data["user"]= $user;
         $data["token_type"]='Bearer';
         $data["access_token"]=$tokenResult->accessToken;
-        return response()->json($data,Response::HTTP_OK);
+        if(request()->is('api/*')){
+            return response()->json($data,Response::HTTP_OK);
+        }
+        return view('Common.ChangePasswordPageForChangePassword');
+        
 
     }
 

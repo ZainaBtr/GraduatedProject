@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdvancedUserController;
 use App\Http\Controllers\AnnouncementController;
@@ -61,4 +62,9 @@ Route::prefix("attendance")->group( function () {
     Route::get('/showSessionQr/{session}',[AttendanceController::class,'showSessionQr']);
     Route::get('/showAttendanceOfOneSession/{session}',[AttendanceController::class,'showOfOneSession']);
     Route::get('/showAttendanceOfOneService/{service}',[AttendanceController::class,'showOfOneService']);
+});
+
+Route::prefix("service")->group(function () {
+    Route::get('/showMyFromAdvancedUser', [ServiceController::class, 'showMyFromAdvancedUser']);
+    Route::get('/searchForAdvancedUser', [ServiceController::class, 'searchForAdvancedUser']);
 });

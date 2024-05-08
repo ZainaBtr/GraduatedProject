@@ -16,19 +16,25 @@ use App\Http\Controllers\AdvancedUserController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('pages.FirstPageForServiceManager');
 });
 
-Route::post('/login',[\App\Http\Controllers\AuthController::class,'login'])->name('login');
-Route::post('/forgetPassword',[\App\Http\Controllers\AuthController::class,'forgetPassword'])->name('forgetPassword');
+Route::post('/login',[AuthController::class,'login'])->name('login');
+
+Route::post('/forgetPassword',[AuthController::class,'forgetPassword'])->name('forgetPassword');
+
+Route::get('/n', function () {
+    return view('page.FirstPageForSystemManager');
+});
+Route::get('/m', function () {
+    return view('Common.ChangePasswordPageForChangePassword');
+});
+
+Route::get('/d', function () {
+    return view('Common.LoginPage');
+});
 
 Route::middleware(['auth'])->group(function() {
     Route::put('/changePassword',[AuthController::class,'changePassword'])->name('changePassword');
     Route::delete('/verification',[AuthController::class,'verification'])->name('verification');
 });
-
-
-
-
-
-

@@ -4,6 +4,7 @@ namespace App\Http\Requests\AssignedService;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 
 class AssignedService1 extends FormRequest
@@ -13,7 +14,7 @@ class AssignedService1 extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +24,13 @@ class AssignedService1 extends FormRequest
      */
     public function rules(): array
     {
+        $advancedUser = $this->route('advancedUser');
+
         return [
-            'serviceID' => ['required', 'numeric', 'unique:assigned_services']
+            'serviceID' => ['required', 'numeric',
+                Rule::unique('assigned_services')
+                    ->where('advancedUserID', $advancedUser['id'])
+            ]
         ];
     }
 

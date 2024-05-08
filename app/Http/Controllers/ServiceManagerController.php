@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\File\File1;
 use App\Http\Requests\ServiceManager\ServiceManager1;
 use App\Http\Requests\ServiceManager\ServiceManager2;
@@ -74,23 +73,6 @@ class ServiceManagerController extends Controller
 
     }
 
-    public function importUsersFile(File1 $request, $importClass)
-    {
-        $validated = $request->validated();
-
-        if ($validated['file']->isValid()) {
-            Excel::import(new $importClass(), $validated['file']);
-
-            if(request()->is('api/*')){
-                return response()->json(['message' => 'File imported successfully'], 200);
-            }
-            return view('');
-        }
-        else {
-            return view('');
-        }
-    }
-
     public function addAdvancedUsersFile(File1 $request)
     {
         return $this->importUsersFile($request, AdvancedUserDataImport::class);
@@ -111,4 +93,5 @@ class ServiceManagerController extends Controller
         return view('');
 
     }
+  
 }

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Controllers\Controller;
 use App\Http\Requests\NormalUser\NormalUser1;
 use App\Http\Requests\NormalUser\NormalUser2;
 use App\Http\Requests\NormalUser\NormalUser3;
