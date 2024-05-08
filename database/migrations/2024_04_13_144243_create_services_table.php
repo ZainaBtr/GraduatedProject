@@ -23,6 +23,8 @@ return new class extends Migration
             $table->Integer('maximumNumberOfGroupMembers');
             $table->boolean('status');
             $table->timestamps();
+
+            $table->unique(['serviceName', 'parentServiceID', 'serviceYearAndSpecializationID'],'service_name_and_parent_and_year_and_specialization_unique');
         });
     }
 

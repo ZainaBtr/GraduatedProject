@@ -24,19 +24,20 @@ class Service1 extends FormRequest
      */
     public function rules(): array
     {
-        $componentId = $this->route('component');
+        $parentService = $this->route('parentService');
 
         return [
             'serviceName' => ['required', 'string',
                 Rule::unique('services')
-                ->where('serviceYearAndSpecializationID', $this->input('serviceYear'))
+                ->where('serviceYearAndSpecializationID', $this->input('serviceYearAndSpecializationID'))
+                ->where('parentServiceID', $parentService)
             ],
-            'serviceDescription' => ['required', 'text'],
+            'serviceDescription' => ['required', 'string'],
             'serviceType' => ['required', 'string', 'in:lectures,exams,projects interviews,advanced users interviews,activities,others'],
-            'serviceYearAndSpecializationID' => ['required', 'numeric', 'unique:services'],
-            'minimumNumberOfGroup' => ['required', 'numeric'],
-            'maximumNumberOfGroup' => ['required', 'numeric'],
-            'status' => ['required', 'boolean', 'in:effective,not effective']
+            'serviceYearAndSpecializationID' => ['required', 'numeric'],
+            'minimumNumberOfGroupMembers' => ['required', 'numeric'],
+            'maximumNumberOfGroupMembers' => ['required', 'numeric'],
+            'status' => ['required', 'boolean']
         ];
     }
 

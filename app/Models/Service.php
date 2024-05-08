@@ -22,4 +22,29 @@ class Service extends Model
         'maximumNumberOfGroupMembers',
         'status'
     ];
+
+    public function serviceManager()
+    {
+        return $this->belongsTo(ServiceManager::class, 'serviceManagerID');
+    }
+
+    public function parentService()
+    {
+        return $this->belongsTo(Service::class, 'parentServiceID');
+    }
+
+    public function serviceYearAndSpecialization()
+    {
+        return $this->belongsTo(ServiceYearAndSpecialization::class, 'serviceYearAndSpecializationID');
+    }
+
+    public function assignedService()
+    {
+        return $this->hasMany(AssignedService::class, 'serviceID');
+    }
+
+    public function interestedService()
+    {
+        return $this->hasMany(InterestedService::class, 'serviceID');
+    }
 }

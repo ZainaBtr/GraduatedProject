@@ -4,6 +4,7 @@ namespace App\Http\Requests\AssignedRole;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 
 class AssignedRole1 extends FormRequest
@@ -23,8 +24,13 @@ class AssignedRole1 extends FormRequest
      */
     public function rules(): array
     {
+        $assignedService = $this->route('assignedService');
+
         return [
-            'roleID' => ['required', 'numeric', 'unique:assigned_roles']
+            'roleID' => ['required', 'numeric',
+                Rule::unique('assigned_roles')
+                    ->where('assignedServiceID', $assignedService['id'])
+            ]
         ];
     }
 
