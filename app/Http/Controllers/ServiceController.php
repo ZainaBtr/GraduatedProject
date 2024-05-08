@@ -22,7 +22,9 @@ class ServiceController extends Controller
             ->orderByDesc('status')
             ->get();
 
-        return $this->getServiceData($allRecords);
+        $allRecords = $this->getServiceData($allRecords);
+
+        return response()->json($allRecords, Response::HTTP_OK);
     }
 
     public function showChild(Service $service)
@@ -32,39 +34,41 @@ class ServiceController extends Controller
             ->orderByDesc('status')
             ->get();
 
-        return $this->getServiceData($allRecords);
+        $allRecords = $this->getServiceData($allRecords);
+
+        return response()->json($allRecords, Response::HTTP_OK);
     }
 
     public function showByYearAndSpecialization(ServiceYearAndSpecialization $serviceYearAndSpecialization)
     {
-        $allData = Service::where('serviceYearAndSpecializationID', $serviceYearAndSpecialization['id'])
+        $allRecords = Service::where('serviceYearAndSpecializationID', $serviceYearAndSpecialization['id'])
             ->whereNull('parentServiceID')
             ->where('status', 1)
             ->get();
 
-        foreach ($allData as $data) {
-            $data['children'] = Service::where('parentServiceID', $data['id'])
+        foreach ($allRecords as $record) {
+            $record['children'] = Service::where('parentServiceID', $record['id'])
                 ->where('status', 1)
                 ->get();
         }
 
-        return response()->json($allData, Response::HTTP_OK);
+        return response()->json($allRecords, Response::HTTP_OK);
     }
 
     public function showByType($type)
     {
-        $allData = Service::where('serviceType', $type)
+        $allRecords = Service::where('serviceType', $type)
             ->whereNull('parentServiceID')
             ->where('status', 1)
             ->get();
 
-        foreach ($allData as $data) {
-            $data['children'] = Service::where('parentServiceID', $data['id'])
+        foreach ($allRecords as $record) {
+            $record['children'] = Service::where('parentServiceID', $record['id'])
                 ->where('status', 1)
                 ->get();
         }
 
-        return response()->json($allData, Response::HTTP_OK);
+        return response()->json($allRecords, Response::HTTP_OK);
     }
 
     public function showMyAllParentFromServiceManager()
@@ -76,7 +80,9 @@ class ServiceController extends Controller
             ->select('services.*')
             ->get();
 
-        return $this->getServiceData($allRecords);
+        $allRecords = $this->getServiceData($allRecords);
+
+        return response()->json($allRecords, Response::HTTP_OK);
     }
 
     public function showMyChildFromServiceManager(Service $service)
@@ -88,7 +94,9 @@ class ServiceController extends Controller
             ->select('services.*')
             ->get();
 
-        return $this->getServiceData($allRecords);
+        $allRecords = $this->getServiceData($allRecords);
+
+        return response()->json($allRecords, Response::HTTP_OK);
     }
 
     public function showMyFromAdvancedUser()
@@ -100,41 +108,41 @@ class ServiceController extends Controller
             ->select('services.*')
             ->get();
 
-        $allRecord = [];
+        $allRecords = [];
 
         foreach ($allData as $data) {
             $record = [];
-            if($data['parentServiceID'] == null && !isset($allRecord[$data['id']])) {
+            if($data['parentServiceID'] == null && !isset($allRecords[$data['id']])) {
                 $record['parent'] = $data;
                 $record['children'] = Service::where('parentServiceID', $data['id'])
                     ->where('status', 1)
                     ->get();
-                $allRecord[$data['id']] = $record;
+                $allRecords[$data['id']] = $record;
             }
-            else if ($data['parentServiceID'] != null && !isset($allRecord[$data['parentServiceID']])) {
+            else if ($data['parentServiceID'] != null && !isset($allRecords[$data['parentServiceID']])) {
                 $record['parent'] = Service::where('id', $data['parentServiceID'])
                     ->where('status', 1)
                     ->first();
                 $record['children'] = Service::where('parentServiceID', $data['parentServiceID'])
                     ->where('status', 1)
                     ->get();
-                $allRecord[$data['parentServiceID']] = $record;
+                $allRecords[$data['parentServiceID']] = $record;
             }
         }
 
-        return response()->json($allRecord, Response::HTTP_OK);
+        return response()->json($allRecords, Response::HTTP_OK);
     }
 
     public function showAdvancedUsersOfService(Service $service)
     {
-        $advancedUserRoles = $service->assignedService->map(function ($assignedService) {
+        $allRecords = $service->assignedService->map(function ($assignedService) {
             return [
                 'fullName' => $assignedService->advancedUser->user->fullName,
                 'roles' => $assignedService->assignedRole->pluck('role.roleName')
             ];
         });
 
-        return response()->json($advancedUserRoles, Response::HTTP_OK);
+        return response()->json($allRecords, Response::HTTP_OK);
     }
 
     public function add(Service1 $request, ?Service $parentService = null)

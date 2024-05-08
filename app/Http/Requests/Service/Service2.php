@@ -36,8 +36,8 @@ class Service2 extends FormRequest
             'serviceDescription' => ['string'],
             'serviceType' => ['string', 'in:lectures,exams,projects interviews,advanced users interviews,activities,others'],
             'serviceYearAndSpecializationID' => ['numeric'],
-            'minimumNumberOfGroupMembers' => ['numeric'],
-            'maximumNumberOfGroupMembers' => ['numeric'],
+            'minimumNumberOfGroupMembers' => ['numeric', 'gte:0'],
+            'maximumNumberOfGroupMembers' => ['numeric', 'gte:0'],
             'status' => ['boolean']
         ];
     }

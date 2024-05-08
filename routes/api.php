@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ServiceYearAndSpecializationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -46,6 +47,8 @@ Route::get('register', [ServiceController::class, 'register']);
 Route::get('advancedUserRegister', [ServiceController::class, 'advancedUserRegister']);
 
 Route::middleware(['auth:api'])->group(function() {
+
+    Route::get('serviceYearAndSpecialization/showAll', [ServiceYearAndSpecializationController::class, 'showAll']);
 
     Route::prefix("announcement")->group(function () {
         Route::get('/showAll', [AnnouncementController::class, 'showAll']);
