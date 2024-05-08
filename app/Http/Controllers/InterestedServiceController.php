@@ -19,7 +19,9 @@ class InterestedServiceController extends Controller
             ->orderByDesc('status')
             ->get();
 
-        return $this->getServiceData($allRecords);
+        $allRecords = $this->getServiceData($allRecords);
+
+        return response()->json($allRecords, Response::HTTP_OK);
     }
 
     public function showChild(Service $service)
@@ -29,7 +31,9 @@ class InterestedServiceController extends Controller
             ->orderByDesc('status')
             ->get();
 
-        return $this->getServiceData($allRecords);
+        $allRecords = $this->getServiceData($allRecords);
+
+        return response()->json($allRecords, Response::HTTP_OK);
     }
 
     public function interestIn(Service $service)
