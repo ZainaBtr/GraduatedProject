@@ -35,13 +35,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/login',[AuthController::class,'login']);
 Route::post('/forgetPassword',[AuthController::class,'forgetPassword']);
+Route::delete('/verification',[AuthController::class,'verification']);
+Route::post('/setEmail',[AuthController::class,'setEmail']);
 
 Route::middleware(['auth:api'])->group(function() {
 
     Route::put('/changePassword',[AuthController::class,'changePassword']);
-    
-    Route::delete('/verification',[AuthController::class,'verification']);
-  
+
+    Route::put('/updateEmail',[AuthController::class,'updateEmail']);
+
+    Route::put('/setNewPassword',[AuthController::class,'setNewPassword']);
+
     Route::get('serviceYearAndSpecialization/showAll', [ServiceYearAndSpecializationController::class, 'showAll']);
 
     Route::prefix("announcement")->group(function () {
