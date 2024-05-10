@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Requests\NormalUser;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Validator;
+use function response;
 
-class NormalUser5 extends FormRequest
+class User7 extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +25,8 @@ class NormalUser5 extends FormRequest
     public function rules(): array
     {
         return [
-            'password' => ['required', 'string'],
-            'email' => ['required', 'email', 'unique:normal_users']
+            'password' => ['required','string'],
+            'email' => ['required', 'email', 'unique:users']
         ];
     }
 

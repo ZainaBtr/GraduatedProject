@@ -2,15 +2,10 @@
 
 namespace App\Http\Controllers;
 use App\Http\Requests\AdvancedUser\AdvancedUser1;
-use App\Http\Requests\AdvancedUser\AdvancedUser2;
 use App\Models\AdvancedUser;
 use App\Models\User;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use Symfony\Component\HttpFoundation\Response;
 
 class AdvancedUserController extends Controller
 {
@@ -28,19 +23,29 @@ class AdvancedUserController extends Controller
 
     public function showAll()
     {
-        $advancedUsers=AdvancedUser::query()->get()->all();
-        $result[]=array();
 
-        foreach ($advancedUsers as $advancedUser){
-            $result[] = User::query()->where('id',$advancedUser['userID'])->first();
+        $users = User::whereHas('advancedUser')->get();
+
+        $advancedUser = [];
+
+        foreach ($users as $user) {
+            $accountStatus = $user->advancedUser->isAccountCompleted;
+
+            $advancedUser[] = [
+                'full_name' => $user->fullName,
+                'email' => $user->email,
+                'accountStatus'=>$accountStatus
+            ];
         }
 
-        if(request()->is('api/*')){
-            return response()->json($result,200);
-        }
+        if(request()->is('api/*')) {
+                return response()->json($advancedUser, 200);
+            }
 
         return view('');
     }
+
+    // complete account = set email in auth controller
 
     public function createAccount(AdvancedUser1 $request)
     {
@@ -60,27 +65,6 @@ class AdvancedUserController extends Controller
 
     }
 
-    /**
-     * @throws AuthenticationException
-     */
-
-    public function setEmail(AdvancedUser2 $request)
-    {
-        $user = User::where('password',$request['password'])->first();
-        if(!$user){
-            return response()->json(['message' => 'Account Not Found']);
-        }
-        $user->update(['email' => $request['email']]);
-        $this->sendEmail($request['email']);
-    }
-
-    public function updateEmail(AdvancedUser2 $request)
-    {
-        $user = Auth::user();
-        $user->update(['email' => $request['email']]);
-        $this->sendEmail($request['email']);
-    }
-
     public function deleteAccount(User $advancedUser)
     {
         $advancedUser->delete();
@@ -93,16 +77,12 @@ class AdvancedUserController extends Controller
 
     public function deleteAllAccounts()
     {
-        $advancedUsers = AdvancedUser::query()->get()->all();
+        User::whereHas('advancedUser')->delete();
 
-        foreach ($advancedUsers as $advancedUser){
-            User::where('id', $advancedUser['userID'])->delete();
-        }
         AdvancedUser::query()->delete();
         if(request()->is('api/*')){
             return response()->json(['message' => 'All Accounts have been Deleted Successfully']);
         }
         return view('');
     }
-
 }
