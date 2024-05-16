@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 use App\Http\Requests\User\User4;
+use App\Mail\myEmail;
+use App\Mail\VerifyEmail;
+use App\Models\AdvancedUser;
+use App\Models\ServiceManager;
 use App\Http\Requests\User\User6;
 use App\Http\Requests\User\User7;
 use App\Models\User;
@@ -124,4 +128,5 @@ class AuthController extends Controller
         }
         return view('');
     }
+  
 }

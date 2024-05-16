@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AssignedService\AssignedService1;
 use App\Models\AdvancedUser;
 use App\Models\AssignedService;
+use App\Models\ServiceManager;
 use Illuminate\Http\Response;
 
 class AssignedServiceController extends Controller
@@ -37,9 +38,13 @@ class AssignedServiceController extends Controller
 
     public function deleteAll(AdvancedUser $advancedUser)
     {
-        AssignedService::where('advancedUserID', $advancedUser['id'])->delete();
+        if (ServiceManager::where('userID', auth()->id())->where('position', 'provost')->exists()) {
 
-        return response()->json(['message' => 'all records deleted successfully']);
+            AssignedService::where('advancedUserID', $advancedUser['id'])->delete();
+
+            return response()->json(['message' => 'all records deleted successfully']);
+        }
+        return response()->json(['message' => 'you dont have the permission to delete all records in this table']);
     }
 
 }

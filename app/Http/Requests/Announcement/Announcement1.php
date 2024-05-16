@@ -24,8 +24,11 @@ class Announcement1 extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string'],
-            'description' => ['required', 'text']
+            'serviceID' => ['numeric'],
+            'userID' => ['numeric'],
+            'title' => ['string'],
+            'description' => ['string'],
+            'file' => ['required', 'mimes:xlsx,xls']
         ];
     }
 

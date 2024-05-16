@@ -2,28 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\File\File1;
-use App\Models\Announcement;
 use App\Models\File;
-use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class FileController extends Controller
 {
 
     public function download(File $file)
     {
-        //
-    }
+        $filePath = storage_path('app/public/' . $file['filePath']);
 
-    // request في تابع ال add file من اجل تخزين الفايل من ال request السابق
-    public function add(File1 $request, Announcement $announcement)
-    {
-        //
-    }
+        if (file_exists($filePath)) {
 
-    public function delete(File1 $request, File $file)
-    {
-        //
+            return response()->download($filePath, $file['fileName']);
+        }
+        return response()->json('File not found', Response::HTTP_NOT_FOUND);
     }
 
 }

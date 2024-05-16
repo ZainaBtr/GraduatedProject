@@ -20,10 +20,18 @@ Route::middleware(['auth:api'])->group(function() {
         Route::get('/showProfile',[AdvancedUserController::class,'showProfile']);
     });
 
-    Route::prefix("announcement")->group( function () {
-        Route::get('/showMy',[AnnouncementController::class,'showMy']);
-        Route::post('/add/{service}',[AnnouncementController::class,'add']);
-        Route::put('/update/{announcement}',[AnnouncementController::class,'update']);
+    Route::put('/updateEmail',[AdvancedUserController::class,'updateEmail']);
+
+    Route::prefix("service")->group(function () {
+        Route::get('/showMyFromAdvancedUser', [ServiceController::class, 'showMyFromAdvancedUser']);
+        Route::get('/searchForAdvancedUser', [ServiceController::class, 'searchForAdvancedUser']);
+    });
+
+    Route::prefix("announcement")->group(function () {
+        Route::get('/showMy', [AnnouncementController::class, 'showMy'])->name('showMyAnnouncements');
+        Route::post('/add', [AnnouncementController::class, 'add'])->name('addAnnouncement');
+        Route::post('/addFromService/{service}', [AnnouncementController::class, 'addFromService']);
+        Route::put('/update/{announcement}', [AnnouncementController::class, 'update']);
     });
 
     Route::prefix("session")->group( function () {
@@ -33,7 +41,7 @@ Route::middleware(['auth:api'])->group(function() {
         Route::put('/close/{session}',[SessionController::class,'close']);
         Route::delete('/cancel/{session}',[SessionController::class,'cancel']);
         Route::put('/update/{session}',[SessionController::class,'update']);
-});
+    });
 
     Route::prefix("publicSession")->group( function () {
         Route::get('/showMyActivity',[PublicSessionController::class,'showMyActivities']);
@@ -60,11 +68,6 @@ Route::middleware(['auth:api'])->group(function() {
         Route::get('/showSessionQr/{session}',[AttendanceController::class,'showSessionQr']);
         Route::get('/showAttendanceOfOneSession/{session}',[AttendanceController::class,'showOfOneSession']);
         Route::get('/showAttendanceOfOneService/{service}',[AttendanceController::class,'showOfOneService']);
-    });
-
-    Route::prefix("service")->group(function () {
-        Route::get('/showMyFromAdvancedUser', [ServiceController::class, 'showMyFromAdvancedUser']);
-        Route::get('/searchForAdvancedUser', [ServiceController::class, 'searchForAdvancedUser']);
     });
 
 });

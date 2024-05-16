@@ -13,7 +13,6 @@ use App\Http\Controllers\JoiningRequestController;
 
 Route::post('normalUser/completeAccount1',[NormalUserController::class,'completeAccount1']);
 
-
 Route::middleware(['auth:api'])->group(function() {
 
     Route::prefix("normalUser")->group( function () {
@@ -79,3 +78,8 @@ Route::middleware(['auth:api'])->group(function() {
     });
 
 });
+
+///ما الفرق بين create joining request وال ask joining request
+///
+
+// هل نحن بحاجة لجدول جديد لتخزين طلبات الانضمام ؟ والا كيف ينتقل العضو من حالة الطلب الى حالة التخزين ان لم يكن هناك مرحلة تخزين وسيطية ؟

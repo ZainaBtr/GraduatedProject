@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\File;
+namespace App\Http\Requests\Announcement;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Validator;
 
-class File1 extends FormRequest
+class Announcement2 extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,10 @@ class File1 extends FormRequest
     public function rules(): array
     {
         return [
-            'file' => ['required','mimes:xlsx,xls']
+            'userID' => ['numeric'],
+            'title' => ['string'],
+            'description' => ['string'],
+            'file' => ['required', 'mimes:xlsx,xls']
         ];
     }
 

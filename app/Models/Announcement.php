@@ -13,8 +13,24 @@ class Announcement extends Model
     public $timestamp = true ;
     public $fillable = [
         'serviceID',
+        'userID',
         'fileID',
         'title',
         'description'
     ];
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class, 'serviceID');
+    }
+
+    public function file()
+    {
+        return $this->hasMany(File::class, 'announcementID');
+    }
+
+    public function savedAnnouncement()
+    {
+        return $this->hasMany(SavedAnnouncement::class, 'announcementID');
+    }
 }
