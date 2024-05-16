@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Role\Role1;
 use App\Models\Role;
+use App\Models\ServiceManager;
 use Illuminate\Http\Response;
 
 class RoleController extends Controller
@@ -13,7 +14,7 @@ class RoleController extends Controller
     {
         $allRecords = Role::all();
 
-        return view('pages.RolePageForServiceManager',compact('allRecords'));
+        //return view('pages.RolePageForServiceManager',compact('allRecords'));
         return response()->json($allRecords, Response::HTTP_OK);
     }
 
@@ -33,9 +34,13 @@ class RoleController extends Controller
 
     public function deleteAll()
     {
-        Role::query()->delete();
+        if (ServiceManager::where('userID', auth()->id())->where('position', 'provost')->exists()) {
 
-        return response()->json(['message' => 'all records deleted successfully']);
+            Role::query()->delete();
+
+            return response()->json(['message' => 'all records deleted successfully']);
+        }
+        return response()->json(['message' => 'you dont have the permission to delete all records in this table']);
     }
 
 }

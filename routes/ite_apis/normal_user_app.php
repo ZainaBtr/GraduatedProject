@@ -20,7 +20,6 @@ Route::prefix("normalUser")->group( function () {
         Route::put('/updateEmail', [NormalUserController::class, 'updateEmail']);
     });
     Route::put('/completeAccount1',[NormalUserController::class,'completeAccount1']);
-
 });
 
 Route::prefix("session")->group( function () {
@@ -46,7 +45,6 @@ Route::prefix("privateReservation")->group( function () {
     Route::put('/accept/{privateReservation}',[PrivateReservationController::class,'accept']);
     Route::delete('/decline/{privateReservation}',[PrivateReservationController::class,'decline']);
 });
-
 
 Route::post('/storeFakeReservation',[FakeReservationController::class,'store']);
 
@@ -79,9 +77,7 @@ Route::prefix("joiningRequest")->group( function () {
     Route::delete('/decline/{joiningRequest}',[JoiningRequestController::class,'decline']);
 });
 
-
 ///ما الفرق بين create joining request وال ask joining request
 ///
 
 // هل نحن بحاجة لجدول جديد لتخزين طلبات الانضمام ؟ والا كيف ينتقل العضو من حالة الطلب الى حالة التخزين ان لم يكن هناك مرحلة تخزين وسيطية ؟
-

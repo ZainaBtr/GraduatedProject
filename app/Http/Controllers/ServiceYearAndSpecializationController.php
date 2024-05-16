@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Http\Requests\ServiceYearAndSpecialization\ServiceYearAndSpecialization1;
+use App\Models\ServiceManager;
 use App\Models\ServiceYearAndSpecialization;
 use Illuminate\Http\Response;
 
@@ -12,7 +13,7 @@ class ServiceYearAndSpecializationController extends Controller
     {
         $allRecords = ServiceYearAndSpecialization::all();
 
-        return view('pages.YearAndSpecializationPageForServiceManager',compact('allRecords'));
+        //return view('pages.YearAndSpecializationPageForServiceManager',compact('allRecords'));
         return response()->json($allRecords, Response::HTTP_OK);
     }
 
@@ -32,9 +33,13 @@ class ServiceYearAndSpecializationController extends Controller
 
     public function deleteAll()
     {
-        ServiceYearAndSpecialization::query()->delete();
+        if (ServiceManager::where('userID', auth()->id())->where('position', 'provost')->exists()) {
 
-        return response()->json(['message' => 'all records deleted successfully']);
+            ServiceYearAndSpecialization::query()->delete();
+
+            return response()->json(['message' => 'all records deleted successfully']);
+        }
+        return response()->json(['message' => 'you dont have the permission to delete all records in this table']);
     }
 
 }

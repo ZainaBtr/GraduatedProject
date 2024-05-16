@@ -9,6 +9,3 @@ Route::get('/showProfile',[ServiceManagerController::class,'showSystemManagerPro
 Route::post('/createServiceManagerAccount',[ServiceManagerController::class,'createAccount'])->name('createServiceManagerAccount');
 Route::delete('/deleteServiceManagerAccount/{serviceManager}',[ServiceManagerController::class,'deleteAccount'])->name('deleteServiceManagerAccount');
 });
-
-
-

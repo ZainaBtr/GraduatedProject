@@ -10,7 +10,6 @@ use App\Models\ServiceManager;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use Maatwebsite\Excel\Facades\Excel;
 
 class ServiceManagerController extends Controller
 {
@@ -93,5 +92,5 @@ class ServiceManagerController extends Controller
         return view('');
 
     }
-  
+
 }

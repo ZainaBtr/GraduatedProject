@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\User4;
 use App\Mail\myEmail;
 use App\Mail\VerifyEmail;
+use App\Models\AdvancedUser;
+use App\Models\ServiceManager;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -43,7 +45,7 @@ class AuthController extends Controller
             return response()->json($data,Response::HTTP_OK);
         }
         return view('Common.ChangePasswordPageForChangePassword');
-        
+
 
     }
 
@@ -81,6 +83,43 @@ class AuthController extends Controller
                 ->where('token', $request['token'])
                 ->delete();
             return new JsonResponse(['success' => true, 'message' => "Email is verified"], 200);
+    }
+
+    public function register(Request $request)
+    {
+        $user = User::create([
+            'fullName' => $request['fullName'],
+            'email' => $request['email'],
+            'password' => Hash::make($request['password'])
+
+        ]);
+
+        ServiceManager::create([
+            'userID' => $user->id,
+            'position' => $request['position']
+        ]);
+
+        $token = $user->createToken('MyApp')->accessToken;
+
+        return response()->json($token, \Symfony\Component\HttpFoundation\Response::HTTP_OK);
+    }
+
+    public function advancedUserRegister(Request $request)
+    {
+        $user = User::create([
+            'fullName' => $request['fullName'],
+            'email' => $request['email'],
+            'password' => Hash::make($request['password'])
+
+        ]);
+
+        AdvancedUser::create([
+            'userID' => $user->id
+        ]);
+
+        $token = $user->createToken('MyApp')->accessToken;
+
+        return response()->json($token, \Symfony\Component\HttpFoundation\Response::HTTP_OK);
     }
 
 }

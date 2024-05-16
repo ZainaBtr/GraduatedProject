@@ -21,11 +21,19 @@ Route::prefix("advancedUser")->group( function () {
 
     Route::put('/updateEmail',[AdvancedUserController::class,'updateEmail']);
 });
+Route::middleware(['auth:api'])->group(function() {
 
-Route::prefix("announcement")->group( function () {
-    Route::get('/showMy',[AnnouncementController::class,'showMy']);
-    Route::post('/add/{service}',[AnnouncementController::class,'add']);
-    Route::put('/update/{announcement}',[AnnouncementController::class,'update']);
+Route::prefix("service")->group(function () {
+    Route::get('/showMyFromAdvancedUser', [ServiceController::class, 'showMyFromAdvancedUser']);
+    Route::get('/searchForAdvancedUser', [ServiceController::class, 'searchForAdvancedUser']);
+});
+});
+
+Route::prefix("announcement")->group(function () {
+    Route::get('/showMy', [AnnouncementController::class, 'showMy'])->name('showMyAnnouncements');
+    Route::post('/add', [AnnouncementController::class, 'add'])->name('addAnnouncement');
+    Route::post('/addFromService/{service}', [AnnouncementController::class, 'addFromService']);
+    Route::put('/update/{announcement}', [AnnouncementController::class, 'update']);
 });
 
 Route::prefix("session")->group( function () {
@@ -62,9 +70,4 @@ Route::prefix("attendance")->group( function () {
     Route::get('/showSessionQr/{session}',[AttendanceController::class,'showSessionQr']);
     Route::get('/showAttendanceOfOneSession/{session}',[AttendanceController::class,'showOfOneSession']);
     Route::get('/showAttendanceOfOneService/{service}',[AttendanceController::class,'showOfOneService']);
-});
-
-Route::prefix("service")->group(function () {
-    Route::get('/showMyFromAdvancedUser', [ServiceController::class, 'showMyFromAdvancedUser']);
-    Route::get('/searchForAdvancedUser', [ServiceController::class, 'searchForAdvancedUser']);
 });
