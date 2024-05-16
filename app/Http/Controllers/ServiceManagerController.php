@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 use App\Http\Requests\File\File1;
 use App\Http\Requests\ServiceManager\ServiceManager1;
-use App\Http\Requests\ServiceManager\ServiceManager2;
 use App\Imports\AdvancedUserDataImport;
 use App\Imports\NormalUserDataImport;
 use App\Models\ServiceManager;
@@ -18,11 +17,12 @@ class ServiceManagerController extends Controller
     {
         $user = Auth::user();
         if(request()->is('api/*')){
-
+            return response()->json($user,200);
         }
         return view('');
 
     }
+
     public function createAccount(ServiceManager1 $request)
     {
          $user =User::query()->create([
@@ -35,41 +35,48 @@ class ServiceManagerController extends Controller
                       'position'=>$request['position']
                 ]);
 
-        return view('');
-
-    }
-
-    public function completeAccount(ServiceManager2 $request)
-    {
-        $user = User::where('password',$request['password'])->first();
-
-        if(!$user){
-            return response()->json(['message' => 'Account Not Found']);
+        if(request()->is('api/*')){
+            return response()->json($user,200);
         }
-        $user->update(['email' => $request['email']]);
-        $this->sendEmail($request['email']);
-
+        return view('');
     }
 
     public function showProfile()
     {
         $user = Auth::user();
+        $userData = [
+            'name' => $user->fullName,
+            'email' => $user->email,
+        ];
+        $position = $user->serviceManager->position;
+
+        $responseData = array_merge($userData, ['position' => $position]);
+
+        if(request()->is('api/*')){
+            return response()->json($responseData);
+        }
         return view('');
 
     }
 
     public function showAll()
     {
-        $serviceManagers=ServiceManager::query()->get()->all();
+        $serviceManagers = ServiceManager::with('user')->get();
+        $responseData = [];
 
-        $result[]=array();
-
-        foreach ($serviceManagers as $serviceManager){
-            $result[] = User::query()->where('id',$serviceManager['userID'])->first();
+        foreach ($serviceManagers as $serviceManager) {
+            $userData = [
+                'name' => $serviceManager->user->fullName,
+                'email' => $serviceManager->user->email,
+                'position' => $serviceManager->position,
+            ];
+            $responseData[] = $userData;
         }
 
+        if(request()->is('api/*')){
+            return response()->json($responseData);
+        }
         return view('');
-
     }
 
     public function addAdvancedUsersFile(File1 $request)

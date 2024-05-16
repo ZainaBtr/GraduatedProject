@@ -24,7 +24,7 @@ class User4 extends FormRequest
     public function rules(): array
     {
         return [
-            'token' => ['required', 'string']
+            'token' => ['required', 'string','size:6']
         ];
     }
 

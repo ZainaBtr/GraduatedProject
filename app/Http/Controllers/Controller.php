@@ -18,6 +18,8 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use PharIo\Manifest\Email;
+use App\Http\Requests\User\User4;
+use App\Models\User;
 use Maatwebsite\Excel\Facades\Excel;
 
 class Controller extends BaseController
@@ -33,10 +35,24 @@ class Controller extends BaseController
         $pin = rand(100000, 999999);
         DB::table('password_reset_tokens')->insert(['email' => $email, 'token' => $pin ]);
         Mail::to($email)->send(new VerifyEmail($pin));
-        if(request()->is('api/*')){
-            return response()->json(['message' => 'we sent 6 digit code to this email']);
+    }
+
+    public function createToken(User $user){
+        $tokenResult = $user->createToken('Personal Access Token');
+        $data["user"]= $user;
+        $data["token_type"]='Bearer';
+        $data["access_token"]=$tokenResult->accessToken;
+        return $data;
+    }
+
+    public function checkToken(User4 $request){
+        $select = DB::table('password_reset_tokens')
+            ->where('token', $request['token']);
+
+        if ($select->get()->isEmpty()) {
+            return false;
         }
-        return view('');
+        return $select->value('email');
     }
 
     protected function importUsersFile(File1 $request, $importClass)
