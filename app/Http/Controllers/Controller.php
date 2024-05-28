@@ -29,25 +29,34 @@ class Controller extends BaseController
     public function sendEmail($email)
     {
         $verify = DB::table('password_reset_tokens')->where([['email',$email]]);
+
         if ($verify->exists()) {
             $verify->delete();
         }
+
         $pin = rand(100000, 999999);
+
         DB::table('password_reset_tokens')->insert(['email' => $email, 'token' => $pin ]);
+
         Mail::to($email)->send(new VerifyEmail($pin));
     }
 
-    public function createToken(User $user){
+    public function createToken(User $user)
+    {
         $tokenResult = $user->createToken('Personal Access Token');
+
         $data["user"]= $user;
+
         $data["token_type"]='Bearer';
+
         $data["access_token"]=$tokenResult->accessToken;
+
         return $data;
     }
 
-    public function checkToken(User4 $request){
-        $select = DB::table('password_reset_tokens')
-            ->where('token', $request['token']);
+    public function checkToken(User4 $request)
+    {
+        $select = DB::table('password_reset_tokens')->where('token', $request['token']);
 
         if ($select->get()->isEmpty()) {
             return false;

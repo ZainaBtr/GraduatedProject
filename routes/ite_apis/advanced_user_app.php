@@ -11,16 +11,11 @@ use App\Http\Controllers\PublicReservationController;
 use App\Http\Controllers\PrivateReservationController;
 use App\Http\Controllers\AttendanceController;
 
-
-
 Route::middleware(['auth:api'])->group(function() {
 
     Route::prefix("advancedUser")->group( function () {
-        Route::post('/createAccount',[AdvancedUserController::class,'createAccount'])->name('front');
         Route::get('/showProfile',[AdvancedUserController::class,'showProfile']);
     });
-
-    Route::put('/updateEmail',[AdvancedUserController::class,'updateEmail']);
 
     Route::prefix("service")->group(function () {
         Route::get('/showMyFromAdvancedUser', [ServiceController::class, 'showMyFromAdvancedUser']);

@@ -27,13 +27,15 @@ Route::post('/advancedUserRegister',[AuthController::class,'advancedUserRegister
 Route::post('/login',[AuthController::class,'login']);
 
 Route::post('/forgetPassword',[AuthController::class,'forgetPassword']);
+
 Route::delete('/verification',[AuthController::class,'verification']);
+
 Route::post('/setEmail',[AuthController::class,'setEmail']);
 
 Route::middleware(['auth:api'])->group(function() {
 
     Route::put('/changePassword',[AuthController::class,'changePassword']);
-  
+
     Route::put('/updateEmail',[AuthController::class,'updateEmail']);
 
     Route::put('/setNewPassword',[AuthController::class,'setNewPassword']);
@@ -55,7 +57,7 @@ Route::middleware(['auth:api'])->group(function() {
     });
 
     Route::prefix("announcement")->group(function () {
-        Route::get('/showAll', [AnnouncementController::class, 'showAnnouncements']);
+        Route::get('/showAll', [AnnouncementController::class, 'showAll']);
         Route::get('/showAllFromService/{service}', [AnnouncementController::class, 'showAllFromService']);
         Route::get('/filterByType', [AnnouncementController::class, 'filterByType']);
     });

@@ -16,11 +16,11 @@ class ServiceManagerController extends Controller
     public function showSystemManagerProfile()
     {
         $user = Auth::user();
+
         if(request()->is('api/*')){
             return response()->json($user,200);
         }
         return view('');
-
     }
 
     public function createAccount(ServiceManager1 $request)
@@ -31,9 +31,9 @@ class ServiceManagerController extends Controller
          ]);
 
          ServiceManager::query()->create([
-                    'userID'=>$user['id'],
-                      'position'=>$request['position']
-                ]);
+             'userID'=>$user['id'],
+             'position'=>$request['position']
+         ]);
 
         if(request()->is('api/*')){
             return response()->json($user,200);
@@ -44,8 +44,9 @@ class ServiceManagerController extends Controller
     public function showProfile()
     {
         $user = Auth::user();
+
         $userData = [
-            'name' => $user->fullName,
+            'fullName' => $user->fullName,
             'email' => $user->email,
         ];
         $position = $user->serviceManager->position;
@@ -56,25 +57,24 @@ class ServiceManagerController extends Controller
             return response()->json($responseData);
         }
         return view('');
-
     }
 
     public function showAll()
     {
         $serviceManagers = ServiceManager::with('user')->get();
-        $responseData = [];
+
+        $usersData = [];
 
         foreach ($serviceManagers as $serviceManager) {
-            $userData = [
-                'name' => $serviceManager->user->fullName,
+            $usersData = [
+                'fullName' => $serviceManager->user->fullName,
                 'email' => $serviceManager->user->email,
-                'position' => $serviceManager->position,
+                'password' => $serviceManager->user->password,
+                'position' => $serviceManager->position
             ];
-            $responseData[] = $userData;
         }
-
-        if(request()->is('api/*')){
-            return response()->json($responseData);
+        if(request()->is('api/*')) {
+            return response()->json($usersData);
         }
         return view('');
     }
@@ -87,17 +87,6 @@ class ServiceManagerController extends Controller
     public function addNormalUsersFile(File1 $request)
     {
         return $this->importUsersFile($request, NormalUserDataImport::class);
-    }
-
-    public function deleteAccount(User $serviceManager)
-    {
-        $serviceManager->delete();
-
-        if(request()->is('api/*')){
-            return response()->json(['message' => ' Service Manager Deleted Successfully']);
-        }
-        return view('');
-
     }
 
 }

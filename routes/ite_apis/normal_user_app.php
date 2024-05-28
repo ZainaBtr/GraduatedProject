@@ -17,7 +17,6 @@ Route::middleware(['auth:api'])->group(function() {
 
     Route::prefix("normalUser")->group( function () {
         Route::get('/showProfile', [NormalUserController::class, 'showProfile']);
-        Route::put('/completeAccount1', [NormalUserController::class, 'completeAccount1']);
         Route::put('/completeAccount2', [NormalUserController::class, 'completeAccount2']);
         Route::put('/completeAccount4', [NormalUserController::class, 'completeAccount4']);
     });

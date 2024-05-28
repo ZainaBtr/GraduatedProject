@@ -41,7 +41,8 @@ class AnnouncementController extends Controller
 
         $announcement = Announcement::create($data);
 
-        $announcement['fileStored'] = $this->addFileInAnnouncement($request,  $announcement);
+        if($request['file'])
+            $announcement['fileStored'] = $this->addFileInAnnouncement($request,  $announcement);
 
         return response()->json($announcement, Response::HTTP_OK);
     }
@@ -56,7 +57,8 @@ class AnnouncementController extends Controller
 
         $announcement = Announcement::create($data);
 
-        $announcement['fileStored'] = $this->addFileFromServiceInAnnouncement($request,  $announcement);
+        if($request['file'])
+            $announcement['fileStored'] = $this->addFileFromServiceInAnnouncement($request,  $announcement);
 
         return response()->json($announcement, Response::HTTP_OK);
     }
