@@ -205,8 +205,6 @@ body {
                                    <?php $i++; ?>
                                    <td>{{ $i }}</td>
                                    <td>{{ $record->roleName }}</td>
-                                   
-
                                     <td>
 
                                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModa" title="Delete">
