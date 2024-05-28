@@ -14,28 +14,23 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\AnnouncementController;
 
-Route::put('serviceManager/completeAccount',[ServiceManagerController::class,'completeAccount'])->name('completeAccount');
-
 Route::middleware(['auth:api'])->group(function() {
 
   Route::prefix("serviceManager")->group(function () {
-    Route::get('/showProfile',[ServiceManagerController::class,'showProfile'])->name('showServiceManagerProfile');
-    Route::get('/showAll',[ServiceManagerController::class,'showAll'])->name('showAllServiceManages');
-    Route::post('/addAdvancedUsersFile',[ServiceManagerController::class,'addAdvancedUsersFile'])->name('addAdvancedUsersFile');
-    Route::post('/addNormalUsersFile',[ServiceManagerController::class,'addNormalUsersFile'])->name('addNormalUsersFile');
-    Route::delete('/deleteAccount',[ServiceManagerController::class,'delete'])->name('deleteServiceManager');
+        Route::get('/showProfile',[ServiceManagerController::class,'showProfile'])->name('showServiceManagerProfile');
+        Route::post('/addAdvancedUsersFile',[ServiceManagerController::class,'addAdvancedUsersFile'])->name('addAdvancedUsersFile');
+        Route::post('/addNormalUsersFile',[ServiceManagerController::class,'addNormalUsersFile'])->name('addNormalUsersFile');
     });
 
     Route::prefix ("advancedUser")->group( function () {
-      Route::get('/showAll',[AdvancedUserController::class,'showAll'])->name('showAllAdvancedUsers');
-      Route::post('/createAccount',[AdvancedUserController::class,'createAccount'])->name('createAdvancedUserAccount');
-      Route::delete('/deleteAccount/{advancedUser}',[AdvancedUserController::class,'deleteAccount'])->name('deleteAdvancedUserAccount');
-      Route::delete('/deleteAllAccounts',[AdvancedUserController::class,'deleteAllAccounts'])->name('deleteAllAdvancedUserAccounts');
+        Route::get('/showAll',[AdvancedUserController::class,'showAll'])->name('showAllAdvancedUsers');
+        Route::post('/createAccount',[AdvancedUserController::class,'createAccount'])->name('createAdvancedUserAccount');
+        Route::delete('/deleteAllAccounts',[AdvancedUserController::class,'deleteAllAccounts'])->name('deleteAllAdvancedUsersAccounts');
     });
 
     Route::prefix("normalUser")->group(function () {
         Route::get('/showAll', [NormalUserController::class, 'showAll'])->name('showAllNormalUsers');
-        Route::delete('/deleteAll', [NormalUserController::class, 'deleteAllAccounts'])->name('deleteAllNormalUsersAccounts');
+        Route::delete('/deleteAllAccounts', [NormalUserController::class, 'deleteAllAccounts'])->name('deleteAllNormalUsersAccounts');
     });
 
     Route::prefix("serviceYearAndSpecialization")->group(function () {
@@ -89,7 +84,7 @@ Route::middleware(['auth:api'])->group(function() {
     });
 
     Route::prefix("announcement")->group(function () {
-        Route::get('/showAll', [AnnouncementController::class, 'showAnnouncements'])->name('showAnnouncements');
+        Route::get('/showAll', [AnnouncementController::class, 'showAll'])->name('showAnnouncements');
         Route::get('/showAllFromService/{service}', [AnnouncementController::class, 'showAllFromService'])->name('showAllAnnouncementsFromService');
         Route::get('/showMy', [AnnouncementController::class, 'showMy'])->name('showMyAnnouncements');
         Route::post('/add', [AnnouncementController::class, 'add'])->name('addAnnouncement');

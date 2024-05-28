@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Http\Requests\AdvancedUser\AdvancedUser1;
 use App\Models\AdvancedUser;
+use App\Models\ServiceManager;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -18,34 +19,36 @@ class AdvancedUserController extends Controller
             return response()->json($user);
         }
         return view('');
-
     }
 
     public function showAll()
     {
-
         $users = User::whereHas('advancedUser')->get();
 
-        $advancedUser = [];
+        $usersData = [];
 
         foreach ($users as $user) {
-            $accountStatus = $user->advancedUser->isAccountCompleted;
-
-            $advancedUser[] = [
-                'full_name' => $user->fullName,
-                'email' => $user->email,
-                'accountStatus'=>$accountStatus
-            ];
-        }
-
-        if(request()->is('api/*')) {
-                return response()->json($advancedUser, 200);
+            if ($user->advancedUser->isAccountCompleted == 0) {
+                $usersData[] = [
+                    'fullName' => $user->fullName,
+                    'email' => $user->email,
+                    'password' => $user->password,
+                    'isAccountCompleted'=>$user->advancedUser->isAccountCompleted
+                ];
             }
-
+            else {
+                $usersData[] = [
+                    'fullName' => $user->fullName,
+                    'email' => $user->email,
+                    'isAccountCompleted'=>$user->advancedUser->isAccountCompleted
+                ];
+            }
+        }
+        if(request()->is('api/*')) {
+            return response()->json($usersData, 200);
+        }
         return view('');
     }
-
-    // complete account = set email in auth controller
 
     public function createAccount(AdvancedUser1 $request)
     {
@@ -56,33 +59,26 @@ class AdvancedUserController extends Controller
         AdvancedUser::query()->create([
             'userID'=>$user['id']
         ]);
-
-        if(request()->is('api/*')){
+        if(request()->is('api/*')) {
             return response()->json($user);
-
-        }
-        return view('');
-
-    }
-
-    public function deleteAccount(User $advancedUser)
-    {
-        $advancedUser->delete();
-
-        if(request()->is('api/*')){
-            return response()->json(['message' => 'Account Deleted Successfully']);
         }
         return view('');
     }
+
+    // complete account = set email in AuthController
 
     public function deleteAllAccounts()
     {
-        User::whereHas('advancedUser')->delete();
+        if (ServiceManager::where('userID', auth()->id())->where('position', 'provost')->exists()) {
 
-        AdvancedUser::query()->delete();
-        if(request()->is('api/*')){
-            return response()->json(['message' => 'All Accounts have been Deleted Successfully']);
+            User::whereHas('advancedUser')->delete();
+
+            if(request()->is('api/*')) {
+                return response()->json(['message' => 'All Accounts have been Deleted Successfully']);
+            }
+            return view('');
         }
-        return view('');
+        return response()->json(['message' => 'you dont have the permission to delete all records in this table']);
     }
+
 }
