@@ -66,12 +66,14 @@ class ServiceManagerController extends Controller
         $usersData = [];
 
         foreach ($serviceManagers as $serviceManager) {
-            $usersData = [
+            $userData = [
+                'id' => $serviceManager->user->id,
                 'fullName' => $serviceManager->user->fullName,
                 'email' => $serviceManager->user->email,
                 'password' => $serviceManager->user->password,
                 'position' => $serviceManager->position
             ];
+            $usersData [] = $userData;
         }
         if(request()->is('api/*')) {
             return response()->json($usersData);

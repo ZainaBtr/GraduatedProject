@@ -52,6 +52,7 @@ class NormalUserController extends Controller
             $normalUser = $user->normalUser;
 
             if ($normalUser->isAccountCompleted == 0) {
+
                 $userData[] = [
                     'fullName' => $user->fullName,
                     'email' => $user->email,
@@ -93,7 +94,7 @@ class NormalUserController extends Controller
         }
         $data=$this->createToken($user);
 
-        response()->json($data,Response::HTTP_OK);
+        return  response()->json($data,Response::HTTP_OK);
     }
 
    public function completeAccount2(NormalUser2 $request)

@@ -11,18 +11,20 @@ class InterestedServiceController extends Controller
 
     public function showAll()
     {
-        $allRecords = Service::whereHas('interestedService', function ($query) {
-                $query->where('userID', auth()->id());
+        $allRecords = InterestedService::whereHas('service', function ($query) {
+            $query->whereNull('parentServiceID')
+                ->where('status', 1);
         })
-            ->whereNull('parentServiceID')
-            ->where('status', 1)
+            ->where('userID', auth()->id())
+            ->with('service')
             ->get();
 
         foreach ($allRecords as $record) {
-            $record['children'] = Service::where('parentServiceID', $record['id'])
-            ->where('status', 1)
-            ->get();
+            $record->service['children'] = Service::where('parentServiceID', $record->service['id'])
+                ->where('status', 1)
+                ->get();
         }
+
         return response()->json($allRecords, Response::HTTP_OK);
     }
 
