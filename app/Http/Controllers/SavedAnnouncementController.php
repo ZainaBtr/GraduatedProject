@@ -11,10 +11,8 @@ class SavedAnnouncementController extends Controller
 
     public function showAll()
     {
-        $allRecords = Announcement::whereHas('savedAnnouncement', function ($query) {
-            $query->where('userID', auth()->id());
-        })
-            ->with('service', 'file')->get();
+        $allRecords = SavedAnnouncement::where('userID', auth()->id())
+            ->with('announcement', 'announcement.service', 'announcement.file')->get();
 
         return response()->json($allRecords, Response::HTTP_OK);
     }
