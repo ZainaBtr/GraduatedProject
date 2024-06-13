@@ -24,7 +24,7 @@ class Service4 extends FormRequest
     public function rules(): array
     {
         return [
-            'filterType' => ['required', 'string', 'in:serviceYear,serviceSpecializationName,serviceType,status'],
+            'filterType' => ['required', 'string', 'in:serviceName,serviceYear,serviceSpecializationName,serviceType,status'],
             'filterName' => ['required', 'string']
         ];
     }

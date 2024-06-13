@@ -6,7 +6,6 @@ use App\Http\Requests\Service\Service1;
 use App\Http\Requests\Service\Service2;
 use App\Http\Requests\Service\Service3;
 use App\Http\Requests\Service\Service4;
-use App\Models\AssignedService;
 use App\Models\Service;
 use App\Models\ServiceManager;
 use App\Models\ServiceYearAndSpecialization;
@@ -14,6 +13,24 @@ use Illuminate\Http\Response;
 
 class ServiceController extends Controller
 {
+
+    public function showServiceNameForDynamicDropDown()
+    {
+        $allRecords = Service::all()
+            ->unique()
+            ->values();
+
+        return response()->json($allRecords, Response::HTTP_OK);
+    }
+
+    public function showServiceYearAndSpecForDynamicDropDown()
+    {
+        $allRecords = ServiceYearAndSpecialization::all()
+            ->unique()
+            ->values();
+
+        return response()->json($allRecords, Response::HTTP_OK);
+    }
 
     public function showAllParent()
     {
@@ -39,6 +56,34 @@ class ServiceController extends Controller
         return response()->json($allRecords, Response::HTTP_OK);
     }
 
+    public function showMyAllParentFromServiceManager()
+    {
+        $allRecords = Service::whereHas('serviceManager', function ($query) {
+            $query->where('userID', auth()->id());
+        })
+            ->whereNull('parentServiceID')
+            ->orderByDesc('services.status')
+            ->get();
+
+        $allRecords = $this->getServiceData($allRecords);
+
+        return response()->json($allRecords, Response::HTTP_OK);
+    }
+
+    public function showMyChildFromServiceManager(Service $service)
+    {
+        $allRecords = Service::whereHas('serviceManager', function ($query) {
+            $query->where('userID', auth()->id());
+        })
+            ->where('parentServiceID', $service['id'])
+            ->orderByDesc('services.status')
+            ->get();
+
+        $allRecords = $this->getServiceData($allRecords);
+
+        return response()->json($allRecords, Response::HTTP_OK);
+    }
+
     public function showByYearAndSpecialization(ServiceYearAndSpecialization $serviceYearAndSpecialization)
     {
         $allRecords = Service::where('serviceYearAndSpecializationID', $serviceYearAndSpecialization['id'])
@@ -51,7 +96,6 @@ class ServiceController extends Controller
                 ->where('status', 1)
                 ->get();
         }
-
         return response()->json($allRecords, Response::HTTP_OK);
     }
 
@@ -67,45 +111,15 @@ class ServiceController extends Controller
                 ->where('status', 1)
                 ->get();
         }
-
-        return response()->json($allRecords, Response::HTTP_OK);
-    }
-
-    public function showMyAllParentFromServiceManager()
-    {
-        $allRecords = Service::join('services_managers', 'services.serviceManagerID', '=', 'services_managers.id')
-            ->where('services_managers.userID', auth()->id())
-            ->whereNull('services.parentServiceID')
-            ->orderByDesc('services.status')
-            ->select('services.*')
-            ->get();
-
-        $allRecords = $this->getServiceData($allRecords);
-
-        return response()->json($allRecords, Response::HTTP_OK);
-    }
-
-    public function showMyChildFromServiceManager(Service $service)
-    {
-        $allRecords = Service::join('services_managers', 'services.serviceManagerID', '=', 'services_managers.id')
-            ->where('services_managers.userID', auth()->id())
-            ->where('services.parentServiceID', $service['id'])
-            ->orderByDesc('services.status')
-            ->select('services.*')
-            ->get();
-
-        $allRecords = $this->getServiceData($allRecords);
-
         return response()->json($allRecords, Response::HTTP_OK);
     }
 
     public function showMyFromAdvancedUser()
     {
-        $allData = AssignedService::join('services', 'assigned_services.serviceID', '=', 'services.id')
-            ->join('advanced_users', 'assigned_services.advancedUserID', '=', 'advanced_users.id')
-            ->where('advanced_users.userID', auth()->id())
-            ->where('services.status', 1)
-            ->select('services.*')
+        $allData = Service::whereHas('assignedService.advancedUser', function ($query) {
+            $query->where('userID', auth()->id());
+        })
+            ->where('status', 1)
             ->get();
 
         $allRecords = [];
@@ -129,7 +143,6 @@ class ServiceController extends Controller
                 $allRecords[$data['parentServiceID']] = $record;
             }
         }
-
         return response()->json($allRecords, Response::HTTP_OK);
     }
 
@@ -142,7 +155,6 @@ class ServiceController extends Controller
                 'roles' => $assignedService->assignedRole->pluck('role.roleName')
             ];
         });
-
         return response()->json($allRecords, Response::HTTP_OK);
     }
 
@@ -155,7 +167,6 @@ class ServiceController extends Controller
         if ($parentService && $parentService->exists) {
             $data['parentServiceID'] = $parentService['id'];
         }
-
         $recordStored = Service::create($data);
 
         return response()->json($recordStored, Response::HTTP_OK);
@@ -177,29 +188,41 @@ class ServiceController extends Controller
 
     public function deleteAll()
     {
-        Service::query()->delete();
+        if (ServiceManager::where('userID', auth()->id())->where('position', 'provost')->exists()) {
 
-        return response()->json(['message' => 'all records deleted successfully']);
+            Service::query()->delete();
+
+            return response()->json(['message' => 'all records deleted successfully']);
+        }
+        return response()->json(['message' => 'you dont have the permission to delete all records in this table']);
     }
 
     public function searchForServiceManager(Service3 $request)
     {
-        $searchResults = Service::where('serviceName', 'like', '%' . $request['serviceName'] . '%')
+        $allRecords = Service::where('serviceName', 'like', '%' . $request['serviceName'] . '%')
             ->whereNull('parentServiceID')
             ->orderByDesc('status')
             ->get();
 
-        return response()->json($searchResults, Response::HTTP_OK);
+        $allRecords = $this->getServiceData($allRecords);
+
+        return response()->json($allRecords, Response::HTTP_OK);
     }
 
     public function searchForAdvancedUser(Service3 $request)
     {
-        $searchResults = Service::where('serviceName', 'like', '%' . $request['serviceName'] . '%')
+        $allRecords = Service::where('serviceName', 'like', '%' . $request['serviceName'] . '%')
             ->whereNull('parentServiceID')
             ->where('status', 1)
             ->get();
 
-        return response()->json($searchResults, Response::HTTP_OK);
+        foreach ($allRecords as $record) {
+            $record['children'] = Service::where('parentServiceID', $record['id'])
+                ->where('status', 1)
+                ->get();
+        }
+
+        return response()->json($allRecords, Response::HTTP_OK);
     }
 
     public function filterByType(Service4 $request)
@@ -215,14 +238,12 @@ class ServiceController extends Controller
                 $subQuery->where($filterType, $filterName);
             });
         }
-
         elseif ($filterType == 'serviceType' || $filterType == 'status') {
             $query->where($filterType, $filterName);
         }
+        $allRecords = $this->getServiceData($query->get());
 
-        $filteredServices = $query->get();
-
-        return response()->json($filteredServices, Response::HTTP_OK);
+        return response()->json($allRecords, Response::HTTP_OK);
     }
 
 }

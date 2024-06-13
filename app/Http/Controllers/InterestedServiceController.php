@@ -9,6 +9,25 @@ use Illuminate\Http\Response;
 class InterestedServiceController extends Controller
 {
 
+    public function showAll()
+    {
+        $allRecords = InterestedService::whereHas('service', function ($query) {
+            $query->whereNull('parentServiceID')
+                ->where('status', 1);
+        })
+            ->where('userID', auth()->id())
+            ->with('service')
+            ->get();
+
+        foreach ($allRecords as $record) {
+            $record->service['children'] = Service::where('parentServiceID', $record->service['id'])
+                ->where('status', 1)
+                ->get();
+        }
+
+        return response()->json($allRecords, Response::HTTP_OK);
+    }
+
     public function showAllParent()
     {
         $allRecords = Service::with(['interestedService', 'serviceManager.user', 'parentService', 'serviceYearAndSpecialization', 'assignedService.advancedUser.user', 'assignedService.assignedRole.role'])

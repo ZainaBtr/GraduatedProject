@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Http\Requests\User\User4;
+use App\Http\Requests\User\User5;
 use App\Http\Requests\User\User6;
 use App\Http\Requests\User\User7;
 use App\Http\Requests\User\User8;
@@ -88,7 +89,7 @@ class AuthController extends Controller
         return view('');
     }
 
-    public function setNewPassword(User8 $request){
+    public function setNewPassword(User5 $request){
         $user=Auth::user();
         $user->update(['password' => Hash::make($request['password'])]);
         if(request()->is('api/*')){

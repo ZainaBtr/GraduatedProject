@@ -11,5 +11,9 @@ class File extends Model
     protected $table = "files";
     protected $primaryKey = "id";
     public $timestamp = true ;
-    public $fillable = [];
+    public $fillable = [
+        'announcementID',
+        'fileName',
+        'filePath'
+    ];
 }

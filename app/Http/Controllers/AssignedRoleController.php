@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AssignedRole\AssignedRole1;
 use App\Models\AssignedRole;
 use App\Models\AssignedService;
+use App\Models\ServiceManager;
 use Illuminate\Http\Response;
 
 class AssignedRoleController extends Controller
@@ -37,9 +38,13 @@ class AssignedRoleController extends Controller
 
     public function deleteAll(AssignedService $assignedService)
     {
-        AssignedRole::where('assignedServiceID', $assignedService['id'])->delete();
+        if (ServiceManager::where('userID', auth()->id())->where('position', 'provost')->exists()) {
 
-        return response()->json(['message' => 'all records deleted successfully']);
+            AssignedRole::where('assignedServiceID', $assignedService['id'])->delete();
+
+            return response()->json(['message' => 'all records deleted successfully']);
+        }
+        return response()->json(['message' => 'you dont have the permission to delete all records in this table']);
     }
 
 }

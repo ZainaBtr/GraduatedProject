@@ -27,63 +27,7 @@ class PublicSessionController extends Controller
 
         return view('', compact('publicSessions'));
     }
-//    public function showActivities()
-//    {
-//        $publicSessions = PublicSession::with('session')
-//            ->whereHas('session.service', function ($query) {
-//            $query->where('serviceType', 'Activity');})->get();
-//
-//        if (request()->is('api/*')) {
-//            return response()->json($publicSessions, 200);
-//        }
-//
-//        return view('', compact('publicSessions'));
-//    }
-//
-//    public function showExams()
-//    {
-//        $exams = PublicSession::with('session')
-//            ->whereHas('session.service', function ($query) {
-//            $query->where('serviceType', 'Exam');})->get();
-//
-//        if (request()->is('api/*')) {
-//            return response()->json($exams, 200);
-//        }
-//
-//        return view('', compact('exams'));
-//    }
-//
-//    public function showMyActivities()
-//    {
-//        $userID = Auth::id();
-//        $advancedUser = AdvancedUser::where('userID', $userID)->first();
-//        $assignedServiceIDs = AssignedService::where('advancedUserID', $advancedUser->id)->pluck('serviceID');
-//        $sessions = Session::whereIn('serviceID', $assignedServiceIDs)
-//                ->whereHas('service', function ($query) {
-//                    $query->where('serviceType', 'Activity');})->get();
-//
-//        if (request()->is('api/*')) {
-//            return response()->json($sessions, 200);
-//        }
-//
-//         return view('', compact('sessions'));
-//    }
 
-    public function showMyExams()
-    {
-        $userID = Auth::id();
-        $advancedUser = AdvancedUser::where('userID', $userID)->first();
-        $assignedServiceIDs = AssignedService::where('advancedUserID', $advancedUser->id)->pluck('serviceID');
-        $sessions = Session::whereIn('serviceID', $assignedServiceIDs)
-            ->whereHas('service', function ($query) {
-                $query->where('serviceType', 'exam');})->get();
-
-        if (request()->is('api/*')) {
-            return response()->json($sessions, 200);
-        }
-
-         return view('', compact('sessions'));
-        }
 
     public function create(PublicSession1 $request, Session $session)
     {

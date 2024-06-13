@@ -5,7 +5,6 @@ namespace App\Http\Requests\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Validator;
-use function response;
 
 class User7 extends FormRequest
 {
@@ -25,7 +24,6 @@ class User7 extends FormRequest
     public function rules(): array
     {
         return [
-            'password' => ['required','string'],
             'email' => ['required', 'email', 'unique:users']
         ];
     }

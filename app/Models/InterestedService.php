@@ -15,4 +15,9 @@ class InterestedService extends Model
         'userID',
         'serviceID'
     ];
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class, 'serviceID');
+    }
 }

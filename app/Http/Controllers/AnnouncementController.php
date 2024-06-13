@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Announcement\Announcement1;
+use App\Http\Requests\Announcement\Announcement2;
+use App\Http\Requests\Service\Service4;
 use App\Models\Announcement;
 use App\Models\Service;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class AnnouncementController extends Controller
@@ -13,76 +14,53 @@ class AnnouncementController extends Controller
 
     public function showAll()
     {
-        $allRecords = Announcement::all();
+        $allRecords = Announcement::with('service', 'file')->get();
 
         return response()->json($allRecords, Response::HTTP_OK);
     }
 
     public function showAllFromService(Service $service)
     {
-        $allRecords = Announcement::where('serviceID', $service['id'])->get();
+        $allRecords = Announcement::where('serviceID', $service['id'])->with('service', 'file')->get();
 
         return response()->json($allRecords, Response::HTTP_OK);
     }
 
     public function showMy()
     {
-        $id = auth()->id();
-
-        $allRecords = Announcement::where('serviceManagerID', $id)->get();
+        $allRecords = Announcement::where('userID', auth()->id())->with('service', 'file')->get();
 
         return response()->json($allRecords, Response::HTTP_OK);
     }
 
-    public function showServiceNameForFilter()
+    public function add(Announcement1 $request)
     {
-        //
+        $data = $request->validated();
+
+        $data['userID'] = auth()->id();
+
+        $announcement = Announcement::create($data);
+
+        if($request['file'])
+            $announcement['fileStored'] = $this->addFileInAnnouncement($request,  $announcement);
+
+        return response()->json($announcement, Response::HTTP_OK);
     }
 
-    public function showServiceYearForFilter()
-    {
-        //
-    }
-
-    public function showServiceSpecializationForFilter()
-    {
-        //
-    }
-
-    public function showServiceTypeForFilter()
-    {
-        //
-    }
-
-    public function filterByServiceName()
-    {
-        //
-    }
-
-    public function filterByServiceYear()
-    {
-        //
-    }
-
-    public function filterByServiceSpecialization()
-    {
-        //
-    }
-
-    public function filterByServiceType()
-    {
-        //
-    }
-
-    public function add(Announcement1 $request, Service $service)
+    public function addFromService(Announcement2 $request, Service $service)
     {
         $data = $request->validated();
 
         $data['serviceID'] = $service['id'];
 
-        $recordStored = Service::create($data);
+        $data['userID'] = auth()->id();
 
-        return response()->json($recordStored, Response::HTTP_OK);
+        $announcement = Announcement::create($data);
+
+        if($request['file'])
+            $announcement['fileStored'] = $this->addFileFromServiceInAnnouncement($request,  $announcement);
+
+        return response()->json($announcement, Response::HTTP_OK);
     }
 
     public function update(Announcement1 $request, Announcement $announcement)
@@ -90,6 +68,28 @@ class AnnouncementController extends Controller
         $recordUpdated = $announcement->update($request->validated());
 
         return response()->json($recordUpdated, Response::HTTP_OK);
+    }
+
+    public function filterByType(Service4 $request)
+    {
+        $filterType = $request['filterType'];
+        $filterName = $request['filterName'];
+
+        $query = Announcement::query();
+
+        if ($filterType == 'serviceYear' || $filterType == 'serviceSpecializationName') {
+            $query->whereHas('service.serviceYearAndSpecialization', function ($subQuery) use ($filterType, $filterName) {
+                $subQuery->where($filterType, $filterName);
+            });
+        }
+        elseif ($filterType == 'serviceName' || $filterType == 'serviceType') {
+            $query->whereHas('service', function ($subQuery) use ($filterType, $filterName) {
+                $subQuery->where($filterType, $filterName);
+            });
+        }
+        $filteredServices = $query->with('service', 'file')->get();
+
+        return response()->json($filteredServices, Response::HTTP_OK);
     }
 
 }

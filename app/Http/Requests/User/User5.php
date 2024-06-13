@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Requests\ServiceYearAndSpecialization;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 
-class ServiceYearAndSpecialization1 extends FormRequest
+class User5 extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,11 +24,7 @@ class ServiceYearAndSpecialization1 extends FormRequest
     public function rules(): array
     {
         return [
-            'serviceYear' => ['required', 'string'],
-            'serviceSpecializationName' => ['required', 'string',
-                Rule::unique('service_year_and_specializations')
-                    ->where('serviceYear', $this->input('serviceYear'))
-            ]
+            'password' => ['required', 'string', 'min:8']
         ];
     }
 

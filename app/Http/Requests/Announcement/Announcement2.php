@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Announcement;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Validator;
-use function response;
 
-class User8 extends FormRequest
+class Announcement2 extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +24,9 @@ class User8 extends FormRequest
     public function rules(): array
     {
         return [
-            'password' => ['required','string'],
+            'title' => ['string'],
+            'description' => ['string'],
+            'file' => ['mimes:xlsx,xls']
         ];
     }
 
