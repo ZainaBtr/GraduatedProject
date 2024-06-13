@@ -14,6 +14,8 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\AnnouncementController;
 
+Route::put('serviceManager/completeAccount',[ServiceManagerController::class,'completeAccount'])->name('completeAccount');
+
 Route::middleware(['auth:api'])->group(function() {
 
   Route::prefix("serviceManager")->group(function () {

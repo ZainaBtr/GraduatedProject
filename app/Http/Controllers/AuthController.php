@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 use App\Http\Requests\User\User4;
+use App\Http\Requests\User\User5;
+use App\Http\Requests\User\User6;
+use App\Http\Requests\User\User7;
+use App\Http\Requests\User\User8;
 use App\Http\Requests\User\User7;
 use App\Mail\myEmail;
 use App\Http\Requests\User\User5;
@@ -91,6 +95,7 @@ class AuthController extends Controller
         return view('');
     }
 
+
     public function setNewPassword(User5 $request)
     {
         $user=Auth::user();
@@ -103,20 +108,27 @@ class AuthController extends Controller
         return view('');
     }
 
+
     public function setEmail(User6 $request)
     {
-        $user = User::where('password', $request['password'])->first();
+        $user = Auth::guard('api')->user();
 
-        if (!$user) {
-            return response()->json(['message' => 'Account Not Found']);
-        }
+        if ($user === null) {
+            $user = User::where('email', $request['email'])->first();
+
+            if (!$user || !Hash::check($request['password'], $user->password)) {
+                return response()->json(['message' => 'Account Not Found or Wrong Password'], 404);
+            }
+
         $this->sendEmail($request['email']);
 
         $user->update(['email' => $request['email']]);
 
+
         if(request()->is('api/*')) {
             return  response()->json(['message' => 'We Sent 6 Digits Code To Your Email'],200);
         }
+
         return view('');
     }
 
@@ -127,6 +139,10 @@ class AuthController extends Controller
     public function updateEmail(User7 $request)
     {
         $user = Auth::user();
+
+        if (!Hash::check($request['password'], $user->password)) {
+            return response()->json(['message' => 'Wrong password'], 400);
+        }
 
         $user->update(['email' => $request['email']]);
 

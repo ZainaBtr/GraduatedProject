@@ -150,6 +150,7 @@ class ServiceController extends Controller
     {
         $allRecords = $service->assignedService->map(function ($assignedService) {
             return [
+                'advancedUserID' => $assignedService->advancedUserID,
                 'fullName' => $assignedService->advancedUser->user->fullName,
                 'roles' => $assignedService->assignedRole->pluck('role.roleName')
             ];

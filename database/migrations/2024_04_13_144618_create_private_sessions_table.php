@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('private_sessions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('sessionID')->constrained('sessionss')->cascadeOnDelete();
-            $table->time('DurationForEachReservation');
+            $table->time('durationForEachReservation');
             $table->timestamps();
         });
     }

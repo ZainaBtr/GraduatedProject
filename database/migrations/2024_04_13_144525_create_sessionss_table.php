@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('sessionss', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('userID')->constrained('users')->cascadeOnDelete();
             $table->foreignId('serviceID')->constrained('services')->cascadeOnDelete();
             $table->string('sessionName');
             $table->text('sessionDescription')->nullable();
-            $table->dateTime('startSessionDate');
-            $table->dateTime('closeSessionDate')->nullable();
-            $table->time('sessionDuration');
-            $table->string('status');
+            $table->date('sessionDate');
+            $table->time('sessionStartTime');
+            $table->time('sessionEndTime');
+            $table->string('status')->default('created');
             $table->timestamps();
         });
     }
