@@ -3,6 +3,7 @@
 namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class User6 extends FormRequest
 {
@@ -21,8 +22,14 @@ class User6 extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'password' => ['required', 'string', 'min:8']
+        $rules = [
+            'email' => ['required', 'email', 'unique:users,email']
         ];
+
+        if (Auth::guard('api')->guest()) {
+            $rules['password'] = ['required', 'string', 'min:8'];
+        }
+
+        return $rules;
     }
 }

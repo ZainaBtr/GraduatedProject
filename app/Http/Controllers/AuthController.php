@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\User\User4;
 use App\Http\Requests\User\User6;
 use App\Http\Requests\User\User7;
+use App\Http\Requests\User\User8;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -87,7 +88,7 @@ class AuthController extends Controller
         return view('');
     }
 
-    public function setNewPassword(User6 $request){
+    public function setNewPassword(User8 $request){
         $user=Auth::user();
         $user->update(['password' => Hash::make($request['password'])]);
         if(request()->is('api/*')){
@@ -96,17 +97,26 @@ class AuthController extends Controller
         return view('');
     }
 
-    public function setEmail(User7 $request)
+
+    public function setEmail(User6 $request)
     {
-        $user = User::where('password', $request['password'])->first();
-        if (!$user) {
-            return response()->json(['message' => 'Account Not Found']);
+        $user = Auth::guard('api')->user();
+
+        if ($user === null) {
+            $user = User::where('email', $request['email'])->first();
+
+            if (!$user || !Hash::check($request['password'], $user->password)) {
+                return response()->json(['message' => 'Account Not Found or Wrong Password'], 404);
+            }
         }
+
         $this->sendEmail($request['email']);
         $user->update(['email' => $request['email']]);
-        if(request()->is('api/*')){
-            return  response()->json(['message' => 'We Sent 6 Digits Code To Your Email'],200);
+
+        if (request()->is('api/*')) {
+            return response()->json(['message' => 'We Sent 6 Digits Code To Your Email'], 200);
         }
+
         return view('');
     }
 
@@ -117,6 +127,9 @@ class AuthController extends Controller
     public function updateEmail(User7 $request)
     {
         $user = Auth::user();
+        if (!Hash::check($request['password'], $user->password)) {
+            return response()->json(['message' => 'Wrong password'], 400);
+        }
         $user->update(['email' => $request['email']]);
         $this->sendEmail($request['email']);
         if(request()->is('api/*')){

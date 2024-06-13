@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Requests\Session;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Validator;
+use function response;
 
-class Session2 extends FormRequest
+class User8 extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +25,7 @@ class Session2 extends FormRequest
     public function rules(): array
     {
         return [
-            'sessionName' => ['string'],
-            'sessionDescription' => ['string'],
-            'sessionDate' => ['date'],
-            'sessionStartTime' => ['date_format:H:i'],
-            'sessionEndTime' => ['date_format:H:i'],
-
+            'password' => ['required','string'],
         ];
     }
 

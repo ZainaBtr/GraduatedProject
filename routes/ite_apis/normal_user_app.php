@@ -14,7 +14,7 @@ use App\Http\Controllers\JoiningRequestController;
 Route::post('normalUser/completeAccount1',[NormalUserController::class,'completeAccount1']);
 
 
-Route::middleware(['auth:api'])->group(function() {
+//Route::middleware(['auth:api'])->group(function() {
 
     Route::prefix("normalUser")->group( function () {
         Route::get('/showProfile', [NormalUserController::class, 'showProfile']);
@@ -78,4 +78,4 @@ Route::middleware(['auth:api'])->group(function() {
         Route::delete('/decline/{joiningRequest}',[JoiningRequestController::class,'decline']);
     });
 
-});
+//});

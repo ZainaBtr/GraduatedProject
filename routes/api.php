@@ -33,10 +33,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('/createToken/{user}',[\App\Http\Controllers\Controller::class,'createToken']);
+
 Route::post('/login',[AuthController::class,'login']);
 Route::post('/forgetPassword',[AuthController::class,'forgetPassword']);
 Route::delete('/verification',[AuthController::class,'verification']);
 Route::post('/setEmail',[AuthController::class,'setEmail']);
+
 
 Route::middleware(['auth:api'])->group(function() {
 
@@ -81,19 +84,20 @@ Route::middleware(['auth:api'])->group(function() {
     });
 
     Route::prefix("session")->group(function () {
-        Route::get('/showALl/{service}', [SessionController::class, 'showAll']);
-        Route::get('/showALlRelated/{advancedUser}', [SessionController::class, 'showAllRelatedToAdvancedUser']);
+        Route::get('/showAll/{service}', [SessionController::class, 'showAll']);
+        Route::get('/showAllRelated/{user}', [SessionController::class, 'showAllRelatedToAdvancedUser']);
         Route::get('/search', [SessionController::class, 'search']);
     });
 
     Route::prefix("publicSession")->group(function () {
-        Route::get('/showActivities', [PublicSessionController::class, 'showActivities']);
-        Route::get('/showExams', [PublicSessionController::class, 'showExams']);
+        Route::get('/show/{service}', [PublicSessionController::class, 'show']);
+//        Route::get('/showActivities', [PublicSessionController::class, 'showActivities']);
+//        Route::get('/showExams', [PublicSessionController::class, 'showExams']);
     });
 
     Route::prefix("privateSession")->group(function () {
-        Route::get('/showProjectInterviews', [PrivateSessionController::class, 'showProjectsInterviews']);
-        Route::get('/showAdvancedUsersInterviews', [PrivateSessionController::class, 'showAdvancedUsersInterviews']);
+        Route::get('/showProjectInterviews/{service}', [PrivateSessionController::class, 'showProjectInterviews']);
+        Route::get('/showAdvancedUsersInterviews/{service}/{user}', [PrivateSessionController::class, 'showAdvancedUsersInterviews']);
     });
 
     Route::get('/showAll', [PrivateReservationController::class, 'showAll']);

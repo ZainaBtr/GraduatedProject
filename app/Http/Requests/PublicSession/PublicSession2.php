@@ -26,9 +26,7 @@ class PublicSession2 extends FormRequest
     public function rules(): array
     {
         return [
-            'maximumNumberOfReservations' => ['numeric',
-                Rule::gt(DB::table('public_sessions')->value('maximumNumberOfReservations'))
-            ]
+            'MaximumNumberOfReservations' => ['numeric']
         ];
     }
 

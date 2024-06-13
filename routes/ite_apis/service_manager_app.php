@@ -15,7 +15,7 @@ use App\Http\Controllers\AnnouncementController;
 
 Route::put('serviceManager/completeAccount',[ServiceManagerController::class,'completeAccount'])->name('completeAccount');
 
-Route::middleware(['auth:api'])->group(function() {
+//Route::middleware(['auth:api'])->group(function() {
 
   Route::prefix("serviceManager")->group(function () {
     Route::get('/showProfile',[ServiceManagerController::class,'showProfile'])->name('showServiceManagerProfile');
@@ -107,4 +107,4 @@ Route::middleware(['auth:api'])->group(function() {
         Route::delete('/delete/{file}', [FileController::class, 'delete'])->name('deleteFile');
     });
 
-});
+//});

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 use App\Http\Requests\User\User4;
 use App\Mail\VerifyEmail;
+use App\Models\FakeReservation;
+use App\Models\Session;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
@@ -85,4 +88,35 @@ class Controller extends BaseController
             ];
         });
     }
+
+    public function createFakeReservations(Session $session): array
+    {
+        $privateSession = $session->privateSession;
+
+        $sessionStartTime = Carbon::parse($session->sessionStartTime);
+        $sessionEndTime = Carbon::parse($session->sessionEndTime);
+        $durationForEachReservation = Carbon::parse( $privateSession->durationForEachReservation);
+
+        $totalSessionDurationMinutes = $sessionEndTime->diffInMinutes($sessionStartTime);
+        $reservationDurationMinutes = $durationForEachReservation->hour * 60 + $durationForEachReservation->minute;
+        $numberOfReservations = intval($totalSessionDurationMinutes / $reservationDurationMinutes);
+
+        $reservations = [];
+        for ($i = 0; $i < $numberOfReservations; $i++) {
+            $reservationStartTime = $sessionStartTime->copy()->addMinutes($i * $reservationDurationMinutes);
+            $reservationEndTime = $reservationStartTime->copy()->addMinutes($reservationDurationMinutes);
+
+            $reservationStartTimeFormatted = $reservationStartTime->format('H:i');
+            $reservationEndTimeFormatted = $reservationEndTime->format('H:i');
+
+            $reservations[] = FakeReservation::create([
+                'privateSessionID' => $privateSession->id,
+                'reservationStartTime' => $reservationStartTimeFormatted,
+                'reservationEndTime' => $reservationEndTimeFormatted
+            ]);
+        }
+
+        return $reservations;
+    }
+
 }
