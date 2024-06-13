@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\InterestedServiceController;
+use App\Http\Controllers\SavedAnnouncementController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceManagerController;
 use App\Http\Controllers\AdvancedUserController;
@@ -15,42 +16,23 @@ use App\Http\Controllers\AnnouncementController;
 
 Route::put('serviceManager/completeAccount',[ServiceManagerController::class,'completeAccount'])->name('completeAccount');
 
-//Route::middleware(['auth:api'])->group(function() {
+Route::middleware(['auth:api'])->group(function() {
 
   Route::prefix("serviceManager")->group(function () {
-    Route::get('/showProfile',[ServiceManagerController::class,'showProfile'])->name('showServiceManagerProfile');
-    Route::get('/showAll',[ServiceManagerController::class,'showAll'])->name('showAllServiceManages');
-    Route::post('/addAdvancedUsersFile',[ServiceManagerController::class,'addAdvancedUsersFile'])->name('addAdvancedUsersFile');
-    Route::post('/addNormalUsersFile',[ServiceManagerController::class,'addNormalUsersFile'])->name('addNormalUsersFile');
-    Route::delete('/deleteAccount',[ServiceManagerController::class,'delete'])->name('deleteServiceManager');
-    });
-
-    Route::prefix("announcement")->group(function () {
-        Route::get('/showALl', [AnnouncementController::class, 'showAnnouncements'])->name('showAnnouncements');
-        Route::get('/showAllFromService/{service}', [AnnouncementController::class, 'showAllFromService'])->name('showAllAnnouncementsFromService');
-        Route::get('/showServiceNameForFilter', [AnnouncementController::class, 'showServiceNameForFilter'])->name('showServiceNameForFilter');
-        Route::get('/showServiceYearForFilter', [AnnouncementController::class, 'showServiceYearForFilter'])->name('showServiceYearForFilter');
-        Route::get('/showServiceTypeForFilter', [AnnouncementController::class, 'showServiceTypeForFilter'])->name('showServiceTypeForFilter');
-        Route::get('/showServiceSpecForFilter', [AnnouncementController::class, 'showServiceSpecializationForFilter'])->name('showServiceSpecializationForFilter');
-        Route::get('/filterByServiceName', [AnnouncementController::class, 'filterByServiceName'])->name('announcementFilterByServiceName');
-        Route::get('/filterByServiceYear', [AnnouncementController::class, 'filterByServiceYear'])->name('announcementFilterByServiceYear');
-        Route::get('/filterByServiceSpec', [AnnouncementController::class, 'filterByServiceSpecialization'])->name('announcementFilterByServiceSpecialization');
-        Route::get('/filterByServiceType', [AnnouncementController::class, 'filterByServiceType'])->name('announcementFilterByServiceType');
-        Route::get('/showMy', [AnnouncementController::class, 'showMy'])->name('showMyAnnouncements');
-        Route::post('/add/{service}', [AnnouncementController::class, 'add'])->name('addAnnouncement');
-        Route::put('/update/{announcement}', [AnnouncementController::class, 'update'])->name('updateAnnouncement');
+        Route::get('/showProfile',[ServiceManagerController::class,'showProfile'])->name('showServiceManagerProfile');
+        Route::post('/addAdvancedUsersFile',[ServiceManagerController::class,'addAdvancedUsersFile'])->name('addAdvancedUsersFile');
+        Route::post('/addNormalUsersFile',[ServiceManagerController::class,'addNormalUsersFile'])->name('addNormalUsersFile');
     });
 
     Route::prefix ("advancedUser")->group( function () {
-      Route::get('/showAll',[AdvancedUserController::class,'showAll'])->name('showAllAdvancedUsers');
-      Route::post('/createAccount',[AdvancedUserController::class,'createAccount'])->name('createAdvancedUserAccount');
-      Route::delete('/deleteAccount/{advancedUser}',[AdvancedUserController::class,'deleteAccount'])->name('deleteAdvancedUserAccount');
-      Route::delete('/deleteAllAccounts',[AdvancedUserController::class,'deleteAllAccounts'])->name('deleteAllAdvancedUserAccounts');
+        Route::get('/showAll',[AdvancedUserController::class,'showAll'])->name('showAllAdvancedUsers');
+        Route::post('/createAccount',[AdvancedUserController::class,'createAccount'])->name('createAdvancedUserAccount');
+        Route::delete('/deleteAllAccounts',[AdvancedUserController::class,'deleteAllAccounts'])->name('deleteAllAdvancedUsersAccounts');
     });
 
     Route::prefix("normalUser")->group(function () {
         Route::get('/showAll', [NormalUserController::class, 'showAll'])->name('showAllNormalUsers');
-        Route::delete('/deleteAll', [NormalUserController::class, 'deleteAllAccounts'])->name('deleteAllNormalUsersAccounts');
+        Route::delete('/deleteAllAccounts', [NormalUserController::class, 'deleteAllAccounts'])->name('deleteAllNormalUsersAccounts');
     });
 
     Route::prefix("serviceYearAndSpecialization")->group(function () {
@@ -82,6 +64,8 @@ Route::put('serviceManager/completeAccount',[ServiceManagerController::class,'co
     });
 
     Route::prefix("service")->group(function () {
+        Route::get('/showServiceNameForDynamicDropDown', [ServiceController::class, 'showServiceNameForDynamicDropDown'])->name('showServiceNameForDynamicDropDown');
+        Route::get('/showServiceYearAndSpecForDynamicDropDown', [ServiceController::class, 'showServiceYearAndSpecForDynamicDropDown'])->name('showServiceYearAndSpecForDynamicDropDown');
         Route::get('/showAllParent', [ServiceController::class, 'showAllParent'])->name('showAllParentServices');
         Route::get('/showChild/{service}', [ServiceController::class, 'showChild'])->name('showChildServices');
         Route::get('/showMyAllParentFromServiceManager', [ServiceController::class, 'showMyAllParentFromServiceManager'])->name('showMyAllParentServices');
@@ -91,7 +75,7 @@ Route::put('serviceManager/completeAccount',[ServiceManagerController::class,'co
         Route::delete('/delete/{service}', [ServiceController::class, 'delete'])->name('deleteService');
         Route::delete('/deleteAll', [ServiceController::class, 'deleteAll'])->name('deleteAllServices');
         Route::get('/searchForServiceManager', [ServiceController::class, 'searchForServiceManager'])->name('searchForServiceByServiceName');
-        Route::get('/filterByType', [ServiceController::class, 'filterByType'])->name('deleteAllServices');
+        Route::get('/filterByType', [ServiceController::class, 'filterByType'])->name('filterServicesByType');
     });
 
     Route::prefix("interestedService")->group(function () {
@@ -101,10 +85,22 @@ Route::put('serviceManager/completeAccount',[ServiceManagerController::class,'co
         Route::delete('/unInterestInService/{interestedService}', [InterestedServiceController::class, 'unInterestIn'])->name('unInterestInService');
     });
 
-    Route::prefix("file")->group(function () {
-        Route::get('/download', [FileController::class, 'download'])->name('download');
-        Route::post('/add/{announcement}', [FileController::class, 'add'])->name('addFile');
-        Route::delete('/delete/{file}', [FileController::class, 'delete'])->name('deleteFile');
+    Route::prefix("announcement")->group(function () {
+        Route::get('/showAll', [AnnouncementController::class, 'showAll'])->name('showAnnouncements');
+        Route::get('/showAllFromService/{service}', [AnnouncementController::class, 'showAllFromService'])->name('showAllAnnouncementsFromService');
+        Route::get('/showMy', [AnnouncementController::class, 'showMy'])->name('showMyAnnouncements');
+        Route::post('/add', [AnnouncementController::class, 'add'])->name('addAnnouncement');
+        Route::post('/addFromService/{service}', [AnnouncementController::class, 'addFromService'])->name('addAnnouncementFromService');
+        Route::put('/update/{announcement}', [AnnouncementController::class, 'update'])->name('updateAnnouncement');
+        Route::get('/filterByType', [AnnouncementController::class, 'filterByType'])->name('filterServicesByType');
     });
 
-//});
+    Route::prefix("savedAnnouncement")->group(function () {
+        Route::get('/showAll', [SavedAnnouncementController::class, 'showAll'])->name('showAllAnnouncements');
+        Route::post('/save/{announcement}', [SavedAnnouncementController::class, 'save'])->name('saveAnnouncement');
+        Route::delete('/unSave/{savedAnnouncement}', [SavedAnnouncementController::class, 'unSave'])->name('unSaveAnnouncement');
+    });
+
+    Route::post('/file/download/{file}', [FileController::class, 'download'])->name('downloadFile');
+
+});
