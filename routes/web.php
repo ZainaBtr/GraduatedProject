@@ -17,6 +17,7 @@ use App\Http\Controllers\AnnouncementController;
 
 //////////////////////////////////////// Common Methods ////////////////////////////////////////
 
+
 Route::post('/login',[AuthController::class,'login'])->name('login');
 
 Route::post('/forgetPassword',[AuthController::class,'forgetPassword'])->name('forgetPassword');
@@ -25,7 +26,7 @@ Route::delete('/verification',[AuthController::class,'verification'])->name('ver
 
 Route::post('/setEmail',[AuthController::class,'setEmail'])->name('setEmail');
 
-Route::middleware(['auth'])->group(function() {
+Route::middleware(['auth:api', 'check.role:1||serviceManager'])->group(function() {
 
     Route::put('/changePassword',[AuthController::class,'changePassword'])->name('changePassword');
 
@@ -36,6 +37,7 @@ Route::middleware(['auth'])->group(function() {
     Route::delete('/deleteAccount/{user}',[AuthController::class,'deleteAccount'])->name('deleteAccount');
 
 });
+
 
 Route::get('/', function () {
     return view('pages.FirstPageForServiceManager');
@@ -56,7 +58,7 @@ Route::get('/d', function () {
 //////////////////////////////////// System Manager Methods ////////////////////////////////////
 
 
-Route::middleware(['auth:api'])->group(function() {
+Route::middleware(['auth:api', 'check.role:1'])->group(function() {
 
     Route::prefix ("systemManager")->group( function () {
         Route::get('/showProfile',[ServiceManagerController::class,'showSystemManagerProfile'])->name('showSystemManagerProfile');
@@ -70,7 +72,7 @@ Route::middleware(['auth:api'])->group(function() {
 /////////////////////////////////// Services Managers Methods //////////////////////////////////
 
 
-Route::middleware(['auth:api'])->group(function () {
+Route::middleware(['auth:api', 'check.role:serviceManager'])->group(function() {
 
     Route::prefix("serviceManager")->group(function () {
         Route::get('/showProfile', [ServiceManagerController::class, 'showProfile'])->name('showServiceManagerProfile');
@@ -111,10 +113,10 @@ Route::middleware(['auth:api'])->group(function () {
     });
 
     Route::prefix("assignedService")->group(function () {
-        Route::get('/showAll/{advancedUser}', [AssignedServiceController::class, 'showAll'])->name('showAllAssignedServices');
-        Route::post('/assign/{advancedUser}', [AssignedServiceController::class, 'assign'])->name('assignService');
+        Route::get('/showAll/{user}', [AssignedServiceController::class, 'showAll'])->name('showAllAssignedServices');
+        Route::post('/assign/{user}', [AssignedServiceController::class, 'assign'])->name('assignService');
         Route::delete('/delete/{assignedService}', [AssignedServiceController::class, 'delete'])->name('deleteAssignedService');
-        Route::delete('/deleteAll/{advancedUser}', [AssignedServiceController::class, 'deleteAll'])->name('deleteAllAssignedServices');
+        Route::delete('/deleteAll/{user}', [AssignedServiceController::class, 'deleteAll'])->name('deleteAllAssignedServices');
     });
 
     Route::prefix("service")->group(function () {

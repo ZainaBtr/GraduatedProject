@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('assigned_services', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('advancedUserID')->constrained('advanced_users')->cascadeOnDelete();
+            $table->foreignId('userID')->constrained('users')->cascadeOnDelete();
             $table->foreignId('serviceID')->constrained('services')->cascadeOnDelete();
             $table->timestamps();
 
-            $table->unique(['advancedUserID', 'serviceID'],'advanced_user_and_service_unique');
+            $table->unique(['userID', 'serviceID'],'user_and_service_unique');
         });
     }
 

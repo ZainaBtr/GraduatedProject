@@ -35,10 +35,7 @@ class NormalUserController extends Controller
         ];
         $responseData = array_merge($userData, $additionalData);
 
-        if(request()->is('api/*')){
-            return response()->json($responseData,200);
-        }
-        return view('');
+        return response()->json($responseData,200);
     }
 
     public function showAll()
@@ -51,33 +48,38 @@ class NormalUserController extends Controller
 
             $normalUser = $user->normalUser;
 
+            $serviceYearAndSpecialization = ServiceYearAndSpecialization::find($normalUser->serviceYearAndSpecializationID);
+
             if ($normalUser->isAccountCompleted == 0) {
 
-                $userData[] = [
+                $usersData[] = [
+                    'id' => $normalUser->id,
                     'fullName' => $user->fullName,
                     'email' => $user->email,
                     'password' => $user->password,
-                    'isAccountCompleted'=>$normalUser->isAccountCompleted
+                    'isAccountCompleted'=>$normalUser->isAccountCompleted,
+                    'serviceYear' => $serviceYearAndSpecialization->serviceYear,
+                    'serviceSpecialization' => $serviceYearAndSpecialization->serviceSpecializationName,
+                    'examinationNumber' => $normalUser->examinationNumber,
+                    'studySituation' => $normalUser->studySituation,
+                    'skills' => $normalUser->skills,
+                    'birthDate' => $normalUser->birthDate
                 ];
             }
             else {
-                $userData[] = [
+                $usersData[] = [
+                    'id' => $normalUser->id,
                     'fullName' => $user->fullName,
                     'email' => $user->email,
-                    'isAccountCompleted'=>$normalUser->isAccountCompleted
+                    'isAccountCompleted'=>$normalUser->isAccountCompleted,
+                    'serviceYear' => $serviceYearAndSpecialization->serviceYear,
+                    'serviceSpecialization' => $serviceYearAndSpecialization->serviceSpecializationName,
+                    'examinationNumber' => $normalUser->examinationNumber,
+                    'studySituation' => $normalUser->studySituation,
+                    'skills' => $normalUser->skills,
+                    'birthDate' => $normalUser->birthDate,
                 ];
             }
-            $serviceYearAndSpecialization = ServiceYearAndSpecialization::find($normalUser->serviceYearAndSpecializationID);
-
-            $additionalData = [
-                'serviceYear' => $serviceYearAndSpecialization->serviceYear,
-                'serviceSpecialization' => $serviceYearAndSpecialization->serviceSpecializationName,
-                'examinationNumber' => $normalUser->examinationNumber,
-                'studySituation' => $normalUser->studySituation,
-                'skills' => $normalUser->skills,
-                'birthDate' => $normalUser->birthDate,
-            ];
-            $usersData[] = array_merge($userData, $additionalData);
         }
         if (request()->is('api/*')) {
             return response()->json($usersData, 200);

@@ -12,7 +12,7 @@ class AssignedService extends Model
     protected $primaryKey = "id";
     public $timestamp = true ;
     public $fillable = [
-        'advancedUserID',
+        'userID',
         'serviceID'
     ];
 
@@ -21,9 +21,9 @@ class AssignedService extends Model
         return $this->belongsTo(Service::class, 'serviceID');
     }
 
-    public function advancedUser()
+    public function user()
     {
-        return $this->belongsTo(AdvancedUser::class, 'advancedUserID');
+        return $this->belongsTo(User::class, 'userID');
     }
 
     public function assignedRole()

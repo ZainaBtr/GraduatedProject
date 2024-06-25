@@ -26,6 +26,7 @@ class InterestedServiceController extends Controller
         }
 
         return response()->json($allRecords, Response::HTTP_OK);
+
     }
 
     public function showAllParent()
@@ -40,7 +41,10 @@ class InterestedServiceController extends Controller
 
         $allRecords = $this->getServiceData($allRecords);
 
-        return response()->json($allRecords, Response::HTTP_OK);
+        if (request()->is('api/*')) {
+            return response()->json($allRecords, Response::HTTP_OK);
+        }
+        return view('');
     }
 
     public function showChild(Service $service)
@@ -52,7 +56,10 @@ class InterestedServiceController extends Controller
 
         $allRecords = $this->getServiceData($allRecords);
 
-        return response()->json($allRecords, Response::HTTP_OK);
+        if (request()->is('api/*')) {
+            return response()->json($allRecords, Response::HTTP_OK);
+        }
+        return view('');
     }
 
     public function interestIn(Service $service)
@@ -62,14 +69,20 @@ class InterestedServiceController extends Controller
 
         $recordStored = InterestedService::create($data);
 
-        return response()->json($recordStored, Response::HTTP_OK);
+        if (request()->is('api/*')) {
+            return response()->json($recordStored, Response::HTTP_OK);
+        }
+        return view('');
     }
 
     public function unInterestIn(InterestedService $interestedService)
     {
         $interestedService->delete();
 
-        return response()->json(['message' => 'this service uninterested successfully']);
+        if (request()->is('api/*')) {
+            return response()->json(['message' => 'this service uninterested successfully']);
+        }
+        return view('');
     }
 
 }

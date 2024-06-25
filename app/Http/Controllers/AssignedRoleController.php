@@ -15,25 +15,36 @@ class AssignedRoleController extends Controller
     {
         $allRecords = AssignedRole::where('assignedServiceID', $assignedService['id'])->with('role')->get();
 
-        return response()->json($allRecords, Response::HTTP_OK);
+        if (request()->is('api/*')) {
+            return response()->json($allRecords, Response::HTTP_OK);
+        }
+        return view('');
     }
 
     public function assign(AssignedRole1 $request, AssignedService $assignedService)
     {
         $data = $request->validated();
 
-        $data['assignedServiceID'] = $assignedService['id'];
+        $allData['roleID'] = $data['id'];
 
-        $recordStored = AssignedRole::create($data);
+        $allData['assignedServiceID'] = $assignedService['id'];
 
-        return response()->json($recordStored, Response::HTTP_OK);
+        $recordStored = AssignedRole::create($allData);
+
+        if (request()->is('api/*')) {
+            return response()->json($recordStored, Response::HTTP_OK);
+        }
+        return view('');
     }
 
     public function delete(AssignedRole $assignedRole)
     {
         $assignedRole->delete();
 
-        return response()->json(['message' => 'this record deleted successfully']);
+        if (request()->is('api/*')) {
+            return response()->json(['message' => 'this record deleted successfully']);
+        }
+        return view('');
     }
 
     public function deleteAll(AssignedService $assignedService)
@@ -42,9 +53,15 @@ class AssignedRoleController extends Controller
 
             AssignedRole::where('assignedServiceID', $assignedService['id'])->delete();
 
-            return response()->json(['message' => 'all records deleted successfully']);
+            if (request()->is('api/*')) {
+                return response()->json(['message' => 'all records deleted successfully']);
+            }
+            return view('');
         }
-        return response()->json(['message' => 'you dont have the permission to delete all records in this table']);
+        if (request()->is('api/*')) {
+            return response()->json(['message' => 'you dont have the permission to delete all records in this table']);
+        }
+        return view('');
     }
 
 }
