@@ -15,10 +15,7 @@ class AdvancedUserController extends Controller
     {
         $user = Auth::user();
 
-        if(request()->is('api/*')){
-            return response()->json($user);
-        }
-        return view('');
+        return response()->json($user);
     }
 
     public function showAll()
@@ -30,6 +27,7 @@ class AdvancedUserController extends Controller
         foreach ($users as $user) {
             if ($user->advancedUser->isAccountCompleted == 0) {
                 $usersData[] = [
+                    'id' => $user->advancedUser->id,
                     'fullName' => $user->fullName,
                     'email' => $user->email,
                     'password' => $user->password,
@@ -38,6 +36,7 @@ class AdvancedUserController extends Controller
             }
             else {
                 $usersData[] = [
+                    'id' => $user->advancedUser->id,
                     'fullName' => $user->fullName,
                     'email' => $user->email,
                     'isAccountCompleted'=>$user->advancedUser->isAccountCompleted

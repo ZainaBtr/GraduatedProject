@@ -14,22 +14,30 @@ class RoleController extends Controller
     {
         $allRecords = Role::all();
 
-        //return view('pages.RolePageForServiceManager',compact('allRecords'));
-        return response()->json($allRecords, Response::HTTP_OK);
+        if (request()->is('api/*')) {
+            return response()->json($allRecords, Response::HTTP_OK);
+        }
+        return view('pages.RolePageForServiceManager',compact('allRecords'));
     }
 
     public function add(Role1 $request)
     {
         $recordStored = Role::create($request->validated());
 
-        return response()->json($recordStored, Response::HTTP_OK);
+        if (request()->is('api/*')) {
+            return response()->json($recordStored, Response::HTTP_OK);
+        }
+        return view('');
     }
 
     public function delete(Role $role)
     {
         $role->delete();
 
-        return response()->json(['message' => 'this record deleted successfully']);
+        if (request()->is('api/*')) {
+            return response()->json(['message' => 'this record deleted successfully']);
+        }
+        return view('');
     }
 
     public function deleteAll()
@@ -38,9 +46,15 @@ class RoleController extends Controller
 
             Role::query()->delete();
 
-            return response()->json(['message' => 'all records deleted successfully']);
+            if (request()->is('api/*')) {
+                return response()->json(['message' => 'all records deleted successfully']);
+            }
+            return view('');
         }
-        return response()->json(['message' => 'you dont have the permission to delete all records in this table']);
+        if (request()->is('api/*')) {
+            return response()->json(['message' => 'you dont have the permission to delete all records in this table']);
+        }
+        return view('');
     }
 
 }

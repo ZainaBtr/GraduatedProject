@@ -16,9 +16,7 @@ class Announcement extends Model
         'userID',
         'fileID',
         'title',
-        'description',
-        'date',
-        'time'
+        'description'
     ];
 
     public function service()

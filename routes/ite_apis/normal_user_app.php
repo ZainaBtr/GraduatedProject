@@ -11,10 +11,9 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\TeamMemberController;
 use App\Http\Controllers\JoiningRequestController;
 
-Route::post('normalUser/completeAccount1',[NormalUserController::class,'completeAccount1']);
+Route::post('normalUser/completeAccount1',[NormalUserController::class,'completeAccount1'])->middleware(['check.role:normalUser']);
 
-
-Route::middleware(['auth:api'])->group(function() {
+Route::middleware(['auth:api', 'check.role:normalUser'])->group(function() {
 
     Route::prefix("normalUser")->group( function () {
         Route::get('/showProfile', [NormalUserController::class, 'showProfile']);

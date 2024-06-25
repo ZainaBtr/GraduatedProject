@@ -41,15 +41,15 @@ class User  extends Authenticatable implements MustVerifyEmail
     ];
 
     public function serviceManager(){
-        return $this->hasOne(ServiceManager::class,'userID' );
+        return $this->hasOne(ServiceManager::class,'userID');
     }
 
     public function advancedUser(){
-        return $this->hasOne(AdvancedUser::class,'userID' );
+        return $this->hasOne(AdvancedUser::class,'userID');
     }
 
     public function normalUser(){
-       return $this->hasOne(NormalUser::class, 'userID' );
+       return $this->hasOne(NormalUser::class, 'userID');
     }
 
 }
