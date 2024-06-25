@@ -33,7 +33,7 @@
     width: 468px;
     height: 73px;
 
-    left: 100%;
+    left: 110%;
     top: calc(50% - 73px/2 - 296px);
     font-family: 'Inter', sans-serif;
     font-style: normal;
@@ -53,7 +53,7 @@
     width: 540px;
     height: 50px;
     margin-left:92%;
-    margin-top: 60%;
+    margin-top: 30%;
     font-family: 'Inter', sans-serif;
     font-weight: 600;
     font-size: 40px;
@@ -142,15 +142,17 @@
 <div class="container">
   <img src="assets/images/emmm.png"  alt="Image Description" class="img">
   <div class="warrber">
-        <form class="container">
+        <form class="container" action="{{ route('forgetPassword') }}" method="POST">
+            @csrf
             <div class="inputbox">
-                <input type="email" name="name" placeholder="Email">
+                <input type="email" name="email" placeholder="Email">
             </div>
+            <button type="submit" class="btn">Next</button>
+            <button type="submit" class="login-button">⬅</button>
         </form>
 </div>
-<p  class="write" > Enter your Email  </p>
-<button class="btn">Next</button>
-<button class="login-button"> ⬅ </button>
+<p class="write">Enter your Email</p>
+
  
 <script>
   // You can add JavaScript functionality here if needed

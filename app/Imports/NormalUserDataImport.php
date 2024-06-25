@@ -48,6 +48,7 @@ class NormalUserDataImport implements ToModel, WithHeadingRow
             'examinationNumber' => $row['examination_number'],
             'studySituation' => $row['study_situation']
         ]);
+
         $normalUser->save();
 
         return null;

@@ -35,15 +35,16 @@ Route::middleware(['auth:api'])->group(function() {
     });
 
     Route::prefix("privateReservation")->group( function () {
-        Route::get('/showMyActivities',[PrivateReservationController::class,'showMyActivities']);
+        Route::get('/showMy',[PrivateReservationController::class,'showMy']);
         Route::get('/showMyExam',[PrivateReservationController::class,'showMyExams']);
         Route::get('/showAskedSwitch',[PrivateReservationController::class,'showAskedSwitch']);
         Route::get('/showSentSwitch',[PrivateReservationController::class,'showSentSwitch']);
-        Route::post('/book/{fakeReservation}',[PrivateReservationController::class,'book']);
+        Route::post('/book/{id}',[PrivateReservationController::class,'book']);
         Route::delete('/delete/{privateReservation}',[PrivateReservationController::class,'delete']);
-        Route::put('/switch/{privateReservation}',[PrivateReservationController::class,'switch']);
-        Route::put('/accept/{privateReservation}',[PrivateReservationController::class,'accept']);
-        Route::delete('/decline/{privateReservation}',[PrivateReservationController::class,'decline']);
+        Route::post('/switch/{receiverReservationID}',[PrivateReservationController::class,'switch']);
+        Route::put('/acceptSwapRequest/{swapRequestID}',[PrivateReservationController::class,'accept']);
+        Route::put('/declineSwapRequest/{swapRequestID}',[PrivateReservationController::class,'decline']);
+        Route::delete('/cancelSwapRequest/{swapRequestID}',[PrivateReservationController::class,'cancelSwapReservation']);
     });
 
     Route::post('/storeFakeReservation',[FakeReservationController::class,'store']);

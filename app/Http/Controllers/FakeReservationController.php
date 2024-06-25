@@ -11,12 +11,8 @@ class FakeReservationController extends Controller
 
     public function showALl(PrivateSession $privateSession)
     {
-        //
-    }
-
-    public function store(PrivateSession $privateSession)
-    {
-        //
+        $fakeReservations = $privateSession->fakeReservation;
+        return response()->json($fakeReservations, 200);
     }
 
 }

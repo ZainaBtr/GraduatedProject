@@ -5,11 +5,6 @@ use App\Http\Requests\User\User4;
 use App\Http\Requests\User\User5;
 use App\Http\Requests\User\User6;
 use App\Http\Requests\User\User7;
-use App\Http\Requests\User\User8;
-use App\Http\Requests\User\User7;
-use App\Mail\myEmail;
-use App\Http\Requests\User\User5;
-use App\Http\Requests\User\User6;
 use App\Models\AdvancedUser;
 use App\Models\ServiceManager;
 use App\Models\User;
@@ -44,7 +39,7 @@ class AuthController extends Controller
         if(request()->is('api/*')){
             return response()->json($data,Response::HTTP_OK);
         }
-        return view('Common.ChangePasswordPageForChangePassword');
+        return redirect()->action([ServiceManagerController::class, 'showAll']);
     }
 
     public function changePassword(User2 $request)
@@ -73,7 +68,7 @@ class AuthController extends Controller
         if(request()->is('api/*')) {
             return response()->json(['message' => 'we send new code to your email'],200);
         }
-        return view('');
+        return view('Common.VerificationCodePage');
     }
 
     public function verification(User4 $request)
@@ -92,44 +87,63 @@ class AuthController extends Controller
         if(request()->is('api/*')){
             return  response()->json($data,200,['success' => true, 'message' => 'your Email Is Verified']);
         }
-        return view('');
+        return view('Common.ChangePasswordPageForForgetPassword');
     }
 
 
-    public function setNewPassword(User5 $request)
+    public function setNewPassword(Request $request)
     {
-        $user=Auth::user();
-
-        $user->update(['password' => Hash::make($request['password'])]);
-
-        if(request()->is('api/*')){
-            return response()->json(['message' => 'Password Has Updated Successfully'],200);
+        if ($request->is('api/*')) {
+            $user = Auth::guard('api')->user();
+        } else {
+            $user = Auth::guard('web')->user();
         }
-        return view('');
+
+        if (!$user) {
+            return response()->json(['message' => 'Unauthenticated'], 401);
+        }
+
+        $user->update(['password' => Hash::make($request->input('password'))]);
+
+        if ($request->is('api/*')) {
+            return response()->json(['message' => 'Password Has Updated Successfully'], 200);
+        }
+
+        return redirect()->action([NormalUserController::class, 'showAll']);
     }
+
 
 
     public function setEmail(User6 $request)
     {
-        $user = Auth::guard('api')->user();
+        if (request()->is('api/*')) {
+            $user = Auth::guard('api')->user();
+        } else {
+            // إزالة أي جلسة مستخدم حالية
+            Auth::guard('web')->logout();
+            session()->invalidate();
+            session()->regenerateToken();
 
-        if ($user === null) {
-            $user = User::where('email', $request['email'])->first();
-
-            if (!$user || !Hash::check($request['password'], $user->password)) {
-                return response()->json(['message' => 'Account Not Found or Wrong Password'], 404);
-            }
-
-        $this->sendEmail($request['email']);
-
-        $user->update(['email' => $request['email']]);
-
-
-        if(request()->is('api/*')) {
-            return  response()->json(['message' => 'We Sent 6 Digits Code To Your Email'],200);
+            $user = null; // إعادة تعيين المستخدم إلى null للتحقق لاحقًا
         }
 
-        return view('');
+        // إذا لم يتم العثور على المستخدم، تحقق منه يدويًا باستخدام كلمة المرور
+        if ($user === null) {
+            $user = User::where('password', $request['password'])->first();
+
+            if (!$user || $request['password']!=$user->password) {
+                return response()->json(['message' => 'Account Not Found or Wrong Password'], 404);
+            }
+        }
+
+        $this->sendEmail($request['email']);
+        $user->update(['email' => $request['email']]);
+
+        if (request()->is('api/*')) {
+            return response()->json(['message' => 'We Sent 6 Digits Code To Your Email'], 200);
+        }
+
+        return view('Common.VerificationCodePage');
     }
 
     /**
@@ -151,8 +165,7 @@ class AuthController extends Controller
         if(request()->is('api/*')) {
             return  response()->json(['message' => 'We Sent 6 Digits Code To Your Email'],200);
         }
-        return view('');
-    }
+        return view('Common.VerificationCodePage');    }
 
     public function deleteAccount(User $user)
     {
@@ -161,7 +174,7 @@ class AuthController extends Controller
         if(request()->is('api/*')){
             return response()->json(['message' => 'Account Deleted Successfully']);
         }
-        return view('');
+        return redirect()->back();
     }
 
     public function register(Request $request)

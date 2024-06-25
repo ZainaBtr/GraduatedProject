@@ -19,4 +19,8 @@ class PublicSession extends Model
     public function session(){
         return $this->belongsTo(Session::class,'sessionID');
     }
+
+    public function reservations(){
+        return $this->hasMany(PublicReservation::class, 'publicSessionID');
+    }
 }

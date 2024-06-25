@@ -47,7 +47,7 @@ class AdvancedUserController extends Controller
         if(request()->is('api/*')) {
             return response()->json($usersData, 200);
         }
-        return view('');
+        return view('pages.AdvancedUsersTablePageForServiceManager',compact('usersData'));
     }
 
     public function createAccount(AdvancedUser1 $request)

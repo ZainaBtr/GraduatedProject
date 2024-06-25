@@ -84,7 +84,7 @@
         height: 73px;
         left: 0;
         right: 375px;
-        top: calc(50% - 73px/2 - 52px);
+        top: -100px;
         background: #FF7B1C;
         border: 5px solid #FF7B1C;
         border-radius: 25px;
@@ -147,7 +147,21 @@
         height: 73px;
         left: 0;
         right: 375px;
-        top: 50px;
+        top: 15px;
+        background: #FF7B1C;
+        border: 5px solid #FF7B1C;
+        border-radius: 25px;
+        display: flex;
+        align-items: center;
+        padding-left: 20px; /* تحريك النص لليسار */
+    }
+    .form-inp {
+        box-sizing: border-box;
+        position: absolute;
+        height: 73px;
+        left: 0;
+        right: 375px;
+        top: 120px;
         background: #FF7B1C;
         border: 5px solid #FF7B1C;
         border-radius: 25px;
@@ -186,6 +200,9 @@
     </div>
     <div class="form-inpu">
         <span class="full-name">{{ $user->email }}</span>
+    </div>
+    <div class="form-inp">
+        <span class="full-name">{{ $user->position }}</span>
     </div>
 </div>
 

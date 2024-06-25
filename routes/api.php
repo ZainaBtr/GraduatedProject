@@ -41,9 +41,7 @@ Route::middleware(['auth:api'])->group(function() {
 
     Route::put('/updateEmail',[AuthController::class,'updateEmail']);
 
-    Route::put('/setNewPassword',[AuthController::class,'setNewPassword']);
-
-    Route::delete('/verification',[AuthController::class,'verification']);
+    Route::post('/setNewPassword',[AuthController::class,'setNewPassword'])->name('setNewPassword');;
 
     Route::get('/serviceYearAndSpecialization/showAll', [ServiceYearAndSpecializationController::class, 'showAll']);
 
@@ -91,8 +89,47 @@ Route::middleware(['auth:api'])->group(function() {
         Route::get('/showAdvancedUsersInterviews/{service}/{user}', [PrivateSessionController::class, 'showAdvancedUsersInterviews']);
     });
 
-    Route::get('/showAll', [PrivateReservationController::class, 'showAll']);
+    Route::get('privateReservation/showAll/{session}', [PrivateReservationController::class, 'showAll']);
 
-    Route::get('/showFakeReservation', [FakeReservationController::class, 'showALl']);
+    Route::get('/showFakeReservations/{privateSession}', [FakeReservationController::class, 'showALl']);
 
 });
+
+//
+//Route::get('/', function () {
+//    return view('pages.FirstPageForServiceManager');
+//});
+//
+//Route::get('/n', function () {
+//    return view('page.FirstPageForSystemManager');
+//});
+//Route::get('/m', function () {
+//    return view('Common.ChangePasswordPageForChangePassword');
+//});
+//
+//Route::get('/kk', function () {
+//    return view('Common.EnterInformationPage');
+//});
+//Route::get('/dd', function () {
+//    return view('Common.EnterEmailPage');
+//});
+//Route::get('/FF', function () {
+//    return view('Common.ChangePasswordPageForChangePassword');
+//});
+//Route::get('/pp', function () {
+//    return view('Common.EnterEmailPage');
+//});
+//
+//
+//Route::get('/d', function () {
+//    return view('Common.LoginPage');
+//});
+//
+//Route::get('/xx', function () {
+//    return view('pages.SignUpPageForServiceManager');
+//});
+//
+//Route::get('/z', function () {
+//    return view('pages.AdvancedUserRolePageForServiceManager');
+//});
+//Route::view('/t', "page.ServiceManagersTablePageForSystemManager");

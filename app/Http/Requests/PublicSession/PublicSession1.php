@@ -24,7 +24,7 @@ class PublicSession1 extends FormRequest
     public function rules(): array
     {
         return [
-            'MaximumNumberOfReservations' => ['required', 'numeric']
+            'MaximumNumberOfReservations' => ['numeric']
         ];
     }
 
