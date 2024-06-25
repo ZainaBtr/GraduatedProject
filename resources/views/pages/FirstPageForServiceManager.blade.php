@@ -84,7 +84,7 @@
   <img src="assets/images/first.png" alt="صورة" class="background-image">
   <div class="content">
     <!-- زر Sign Up -->
-    <a href="{{route('showAllAdvancedUsers')}}" data-category="Sign Up" class="btn">Sign Up</a>
+    <a href="/xx" data-category="Sign Up" class="btn">Sign Up</a>
     <!-- زر Login -->
     <a href="/d"Login class="btnn">Login</a>
   </div>

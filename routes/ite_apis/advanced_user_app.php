@@ -41,22 +41,24 @@ Route::middleware(['auth:api', 'check.role:advancedUser'])->group(function() {
     Route::prefix("publicSession")->group( function () {
         Route::get('/showMyActivity',[PublicSessionController::class,'showMyActivities']);
         Route::get('/showMyExams',[PublicSessionController::class,'showMyExams']);
-        Route::post('/create/{session}',[PublicSessionController::class,'create']);
+        Route::post('/create/{service}',[PublicSessionController::class,'create']);
         Route::put('/update/{publicSession}',[PublicSessionController::class,'update']);
     });
 
     Route::prefix("privateSession")->group( function () {
         Route::get('/showMyProjectInterviews',[PrivateSessionController::class,'showMyProjectsInterviews']);
         Route::get('/showMyAdvancedUserInterviews',[PrivateSessionController::class,'showMyAdvancedUsersInterviews']);
-        Route::post('/create/{session}',[PrivateSessionController::class,'create']);
+        Route::post('/create/{service}',[PrivateSessionController::class,'create']);
         Route::put('/update/{privateSession}',[PrivateSessionController::class,'update']);
     });
 
-    Route::get('/showAll/{publicSession}',[PublicReservationController::class,'showALl']);
+    Route::get('/publicReservation/showAll/{session}',[PublicReservationController::class,'showAll']);
 
     Route::prefix("privateReservation")->group( function () {
         Route::get('/showAttendance/{privateSession}',[PrivateReservationController::class,'showAttendance']);
+        Route::put('/attend/{privateReservation}',[PrivateReservationController::class,'markAsAttendance']);
         Route::put('/delay/{privateReservation}',[PrivateReservationController::class,'delay']);
+
     });
 
     Route::prefix("attendance")->group( function () {

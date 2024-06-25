@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('public_sessions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('sessionID')->constrained('sessionss')->cascadeOnDelete();
-            $table->integer('MaximumNumberOfReservations');
+            $table->integer('MaximumNumberOfReservations')->nullable();
             $table->timestamps();
         });
     }

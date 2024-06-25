@@ -24,4 +24,8 @@ class PrivateSession extends Model
         return $this->hasMany(FakeReservation::class,'privateSessionID');
     }
 
+    public function privateReservation(){
+        return $this->hasMany(PrivateReservation::class,'privateSessionID');
+    }
+
 }

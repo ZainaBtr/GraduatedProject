@@ -4,14 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PublicSession\PublicSession1;
 use App\Http\Requests\PublicSession\PublicSession2;
+use App\Http\Requests\Session\Session1;
 use App\Models\AdvancedUser;
 use App\Models\AssignedService;
 use App\Models\PublicSession;
 use App\Models\Service;
 use App\Models\ServiceManager;
 use App\Models\Session;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PublicSessionController extends Controller
 {
@@ -29,16 +32,37 @@ class PublicSessionController extends Controller
     }
 
 
-    public function create(PublicSession1 $request, Session $session)
+    public function create(Session1 $request, Service $service, PublicSession1 $publicSession1)
     {
-        $data = array_merge($request->validated(), ['sessionID' => $session->id]);
-        $publicSession = PublicSession::create($data);
+        DB::beginTransaction();
+        try {
+            $userID = Auth::id();
+            $sessionData = array_merge($request->validated(), [
+                'userID' => $userID,
+                'serviceID' => $service->id,
+            ]);
 
-        if (request()->is('api/*')) {
-            return response()->json($publicSession, 200);
+            $session = Session::create($sessionData);
+
+            $data = array_merge($publicSession1->validated(), ['sessionID' => $session->id]);
+            $publicSession = PublicSession::create($data);
+
+            DB::commit();
+
+            if (request()->is('api/*')) {
+                return response()->json(['session' => $session, 'publicSession' => $publicSession], 200);
+            }
+
+            return view('', compact('session', 'publicSession'));
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            if (request()->is('api/*')) {
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
+
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-
-        return view('', compact('publicSession'));
     }
 
     public function update(PublicSession $publicSession, PublicSession2 $request)

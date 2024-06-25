@@ -15,4 +15,20 @@ class TeamMember extends Model
         'normalUserID',
         'groupID'
     ];
+
+    public function normalUser()
+    {
+        return $this->belongsTo(NormalUser::class, 'normalUserID');
+    }
+
+    public function group()
+    {
+        return $this->belongsTo(Group::class, 'groupID');
+    }
+
+    public function service()
+    {
+        return $this->group->belongsTo(Service::class, 'serviceID');
+    }
+
 }

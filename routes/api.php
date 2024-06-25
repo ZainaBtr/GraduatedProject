@@ -44,9 +44,7 @@ Route::middleware(['auth:api', 'check.role:advancedUser||normalUser'])->group(fu
 
     Route::put('/updateEmail',[AuthController::class,'updateEmail']);
 
-    Route::put('/setNewPassword',[AuthController::class,'setNewPassword']);
-
-    Route::delete('/verification',[AuthController::class,'verification']);
+    Route::post('/setNewPassword',[AuthController::class,'setNewPassword'])->name('setNewPassword');;
 
     Route::get('/serviceYearAndSpecialization/showAll', [ServiceYearAndSpecializationController::class, 'showAll']);
 
@@ -94,9 +92,9 @@ Route::middleware(['auth:api', 'check.role:advancedUser||normalUser'])->group(fu
         Route::get('/showAdvancedUsersInterviews/{service}/{user}', [PrivateSessionController::class, 'showAdvancedUsersInterviews']);
     });
 
-    Route::get('/showAll', [PrivateReservationController::class, 'showAll']);
+    Route::get('privateReservation/showAll/{session}', [PrivateReservationController::class, 'showAll']);
 
-    Route::get('/showFakeReservation', [FakeReservationController::class, 'showALl']);
+    Route::get('/showFakeReservations/{privateSession}', [FakeReservationController::class, 'showALl']);
 
 });
 

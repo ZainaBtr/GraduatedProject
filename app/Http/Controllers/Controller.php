@@ -24,7 +24,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use PharIo\Manifest\Email;
 use App\Http\Requests\User\User4;
-use App\Models\User;
 use Maatwebsite\Excel\Facades\Excel;
 
 class Controller extends BaseController
@@ -128,13 +127,12 @@ class Controller extends BaseController
         });
     }
 
-    public function createFakeReservations(Session $session): array
+    public function createFakeReservations($session): array
     {
         $privateSession = $session->privateSession;
-
         $sessionStartTime = Carbon::parse($session->sessionStartTime);
         $sessionEndTime = Carbon::parse($session->sessionEndTime);
-        $durationForEachReservation = Carbon::parse( $privateSession->durationForEachReservation);
+        $durationForEachReservation = Carbon::parse($privateSession->durationForEachReservation);
 
         $totalSessionDurationMinutes = $sessionEndTime->diffInMinutes($sessionStartTime);
         $reservationDurationMinutes = $durationForEachReservation->hour * 60 + $durationForEachReservation->minute;
@@ -156,7 +154,8 @@ class Controller extends BaseController
         }
 
         return $reservations;
-      
+    }
+
     private function storeFile($request, $announcement)
     {
         $newFile = $request->file('file');

@@ -39,7 +39,7 @@ class ServiceManagerController extends Controller
         if(request()->is('api/*')){
             return response()->json($user,200);
         }
-        return view('');
+        return redirect()->back();
     }
 
     public function showProfile()
@@ -92,7 +92,9 @@ class ServiceManagerController extends Controller
         if(request()->is('api/*')) {
             return response()->json($usersData);
         }
-        return view('');
+        return view('page.ServiceManagersTablePageForSystemManager', [
+            'usersData' => $usersData,
+            'serviceManagers' => $serviceManagers,]);
     }
 
     public function addAdvancedUsersFile(File1 $request)

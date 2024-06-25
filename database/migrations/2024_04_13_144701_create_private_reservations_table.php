@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('groupID')->constrained('groups')->cascadeOnDelete();
             $table->foreignId('privateSessionID')->constrained('private_sessions')->cascadeOnDelete();
-            $table->dateTime('reservationDate');
-            $table->boolean('privateReservationStatus');
+            $table->date('reservationDate');
+            $table->time('reservationStartTime');
+            $table->time('reservationEndTime');
+            $table->boolean('privateReservationStatus')->default(false);
             $table->timestamps();
         });
     }
