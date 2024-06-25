@@ -13,22 +13,30 @@ class ServiceYearAndSpecializationController extends Controller
     {
         $allRecords = ServiceYearAndSpecialization::all();
 
-        //return view('pages.YearAndSpecializationPageForServiceManager',compact('allRecords'));
-        return response()->json($allRecords, Response::HTTP_OK);
+        if (request()->is('api/*')) {
+            return response()->json($allRecords, Response::HTTP_OK);
+        }
+        return view('pages.YearAndSpecializationPageForServiceManager',compact('allRecords'));
     }
 
     public function add(ServiceYearAndSpecialization1 $request)
     {
         $recordStored = ServiceYearAndSpecialization::create($request->validated());
 
-        return response()->json($recordStored, Response::HTTP_OK);
+        if (request()->is('api/*')) {
+            return response()->json($recordStored, Response::HTTP_OK);
+        }
+        return view('');
     }
 
     public function delete(ServiceYearAndSpecialization $serviceYearAndSpecialization)
     {
         $serviceYearAndSpecialization->delete();
 
-        return response()->json(['message' => 'this record deleted successfully']);
+        if (request()->is('api/*')) {
+            return response()->json(['message' => 'this record deleted successfully']);
+        }
+        return view('');
     }
 
     public function deleteAll()
@@ -37,9 +45,15 @@ class ServiceYearAndSpecializationController extends Controller
 
             ServiceYearAndSpecialization::query()->delete();
 
-            return response()->json(['message' => 'all records deleted successfully']);
+            if (request()->is('api/*')) {
+                return response()->json(['message' => 'all records deleted successfully']);
+            }
+            return view('');
         }
-        return response()->json(['message' => 'you dont have the permission to delete all records in this table']);
+        if (request()->is('api/*')) {
+            return response()->json(['message' => 'you dont have the permission to delete all records in this table']);
+        }
+        return view('');
     }
 
 }

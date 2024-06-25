@@ -8,6 +8,7 @@ use App\Imports\NormalUserDataImport;
 use App\Models\ServiceManager;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class ServiceManagerController extends Controller
@@ -66,14 +67,27 @@ class ServiceManagerController extends Controller
         $usersData = [];
 
         foreach ($serviceManagers as $serviceManager) {
-            $userData = [
-                'id' => $serviceManager->user->id,
-                'fullName' => $serviceManager->user->fullName,
-                'email' => $serviceManager->user->email,
-                'password' => $serviceManager->user->password,
-                'position' => $serviceManager->position
-            ];
-            $usersData [] = $userData;
+
+            $info = Hash::info($serviceManager->user->password);
+
+            if ($info['algoName'] == 'unknown')
+            {
+                $usersData[] = [
+                    'id' => $serviceManager->user->id,
+                    'fullName' => $serviceManager->user->fullName,
+                    'email' => $serviceManager->user->email,
+                    'password' => $serviceManager->user->password,
+                    'position' => $serviceManager->position
+                ];
+            }
+            else {
+                $usersData[] = [
+                    'id' => $serviceManager->user->id,
+                    'fullName' => $serviceManager->user->fullName,
+                    'email' => $serviceManager->user->email,
+                    'position' => $serviceManager->position
+                ];
+            }
         }
         if(request()->is('api/*')) {
             return response()->json($usersData);

@@ -16,7 +16,10 @@ class FileController extends Controller
 
             return response()->download($filePath, $file['fileName']);
         }
-        return response()->json('File not found', Response::HTTP_NOT_FOUND);
+        if (request()->is('api/*')) {
+            return response()->json('File not found', Response::HTTP_NOT_FOUND);
+        }
+        return view('');
     }
 
 }

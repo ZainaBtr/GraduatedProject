@@ -9,6 +9,7 @@ use App\Http\Requests\User\User3;
 use App\Mail\VerifyEmail;
 use App\Models\Announcement;
 use App\Models\File;
+use App\Models\InterestedService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
@@ -69,11 +70,24 @@ class Controller extends BaseController
         if ($request['file']->isValid()) {
             Excel::import(new $importClass(), $request['file']);
 
-            return response()->json(['message' => 'File imported successfully'], 200);
+            if(request()->is('api/*')) {
+                return response()->json(['message' => 'File imported successfully'], 200);
+            }
         }
         else {
-            return response()->json(['message' => 'Failed to upload file'], 500);
+            if(request()->is('api/*')) {
+                return response()->json(['message' => 'Failed to upload file'], 500);
+            }
         }
+    }
+
+    function checkIsInterested($serviceId, $userId)
+    {
+        $exists = InterestedService::where('serviceID', $serviceId)
+            ->where('userID', $userId)
+            ->exists();
+
+        return $exists ? 1 : 0;
     }
 
     protected function getServiceData($allRecords)
@@ -81,9 +95,15 @@ class Controller extends BaseController
         return $allRecords->map(function ($record) {
             $advancedUserRoles = $record->assignedService->map(function ($assignedService) {
                 return [
-                    'fullName' => $assignedService->advancedUser->user->fullName,
+                    'fullName' => $assignedService->user->fullName,
                     'roles' => $assignedService->assignedRole->pluck('role.roleName')
                 ];
+            });
+
+            $interestedServices = $record->interestedService;
+
+            $isInterested = $interestedServices->contains(function ($interestedService) use ($record) {
+                return $this->checkIsInterested($record['id'], $interestedService->userID);
             });
 
             return [
@@ -98,7 +118,8 @@ class Controller extends BaseController
                 'minimumNumberOfGroupMembers' => $record->minimumNumberOfGroupMembers,
                 'maximumNumberOfGroupMembers' => $record->maximumNumberOfGroupMembers,
                 'statusName' => $record->status == 1 ? 'Effective' : 'Not Effective',
-                'advancedUsersWithRoles' => $advancedUserRoles
+                'advancedUsersWithRoles' => $advancedUserRoles,
+                'isInterested' => $isInterested ? 1 : 0
             ];
         });
     }

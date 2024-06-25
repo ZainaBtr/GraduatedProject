@@ -11,7 +11,7 @@ use App\Http\Controllers\PublicReservationController;
 use App\Http\Controllers\PrivateReservationController;
 use App\Http\Controllers\AttendanceController;
 
-Route::middleware(['auth:api'])->group(function() {
+Route::middleware(['auth:api', 'check.role:advancedUser'])->group(function() {
 
     Route::prefix("advancedUser")->group( function () {
         Route::get('/showProfile',[AdvancedUserController::class,'showProfile']);

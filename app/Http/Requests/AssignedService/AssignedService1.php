@@ -24,12 +24,12 @@ class AssignedService1 extends FormRequest
      */
     public function rules(): array
     {
-        $advancedUser = $this->route('advancedUser');
+        $user = $this->route('user');
 
         return [
-            'serviceID' => ['required', 'numeric',
+            'id' => ['required', 'numeric',
                 Rule::unique('assigned_services')
-                    ->where('advancedUserID', $advancedUser['id'])
+                    ->where('userID', $user['id'])
             ]
         ];
     }
