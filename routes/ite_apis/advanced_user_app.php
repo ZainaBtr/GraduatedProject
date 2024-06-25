@@ -42,14 +42,14 @@ Route::middleware(['auth:api', 'check.role:advancedUser'])->group(function() {
         Route::get('/showMyActivity',[PublicSessionController::class,'showMyActivities']);
         Route::get('/showMyExams',[PublicSessionController::class,'showMyExams']);
         Route::post('/create/{service}',[PublicSessionController::class,'create']);
-        Route::put('/update/{publicSession}',[PublicSessionController::class,'update']);
+        Route::put('/update/{session}',[PublicSessionController::class,'update']);
     });
 
     Route::prefix("privateSession")->group( function () {
         Route::get('/showMyProjectInterviews',[PrivateSessionController::class,'showMyProjectsInterviews']);
         Route::get('/showMyAdvancedUserInterviews',[PrivateSessionController::class,'showMyAdvancedUsersInterviews']);
         Route::post('/create/{service}',[PrivateSessionController::class,'create']);
-        Route::put('/update/{privateSession}',[PrivateSessionController::class,'update']);
+        Route::put('/update/{session}',[PrivateSessionController::class,'update']);
     });
 
     Route::get('/publicReservation/showAll/{session}',[PublicReservationController::class,'showAll']);

@@ -65,15 +65,43 @@ class PublicSessionController extends Controller
         }
     }
 
-    public function update(PublicSession $publicSession, PublicSession2 $request)
+    public function update(PublicSession2 $request, Session $session)
     {
-        $publicSession->update($request->validated());
+        DB::beginTransaction();
+        try {
+            // تحديث بيانات session
+            $sessionData = $request->only(['sessionName', 'sessionDescription', 'sessionDate', 'sessionStartTime', 'sessionEndTime']);
 
-        if (request()->is('api/*')){
-            return response()->json($publicSession,200);
+            if (!empty($sessionData)) {
+                $session->update($sessionData);
+            }
+
+            // تحديث بيانات public session
+            $publicSessionData = $request->only(['MaximumNumberOfReservations']);
+            $publicSession = $session->publicSession;
+
+            if ($publicSession && !empty($publicSessionData)) {
+                $publicSession->update($publicSessionData);
+            }
+
+            DB::commit();
+
+            if (request()->is('api/*')) {
+                return response()->json([
+                    'session' => $session,
+                ], 200);
+            }
+
+            return view('', compact('session', 'publicSession'));
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            if (request()->is('api/*')) {
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
+
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-
-        return view ('');
     }
 
 }
