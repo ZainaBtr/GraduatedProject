@@ -76,9 +76,6 @@ Route::middleware(['auth:api', 'check.role:normalUser'])->group(function() {
         Route::delete('/decline/{joiningRequest}',[JoiningRequestController::class,'decline']);
     });
 
+
 });
 
-///ما الفرق بين create joining request وال ask joining request
-///
-
-// هل نحن بحاجة لجدول جديد لتخزين طلبات الانضمام ؟ والا كيف ينتقل العضو من حالة الطلب الى حالة التخزين ان لم يكن هناك مرحلة تخزين وسيطية ؟

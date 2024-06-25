@@ -13,5 +13,12 @@ class FakeReservation extends Model
     public $timestamp = true ;
     public $fillable = [
         'privateSessionID',
+        'reservationStartTime',
+        'reservationEndTime'
     ];
+
+    public function privateSession()
+    {
+        return $this->belongsTo(PrivateSession::class,'privateSessionID');
+    }
 }

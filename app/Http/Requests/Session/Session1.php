@@ -25,9 +25,10 @@ class Session1 extends FormRequest
     {
         return [
             'sessionName' => ['required', 'string'],
-            'sessionDescription' => ['text'],
-            'startSessionDate' => ['required', 'datetime'],
-            'sessionDuration' => ['required', 'time']
+            'sessionDescription' => ['string'],
+            'sessionDate' => ['required','date'],
+            'sessionStartTime' => ['required','date_format:H:i'],
+            'sessionEndTime' => ['required','date_format:H:i'],
         ];
     }
 

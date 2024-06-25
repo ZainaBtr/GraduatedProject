@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('fake_reservations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('privateSessionID')->constrained('private_sessions')->cascadeOnDelete();
-            $table->dateTime('reservationDate');
+            $table->time('reservationStartTime');
+            $table->time('reservationEndTime');
             $table->timestamps();
         });
     }
