@@ -26,6 +26,11 @@ class PublicSession2 extends FormRequest
     public function rules(): array
     {
         return [
+            'sessionName' => ['string', 'nullable'],
+            'sessionDescription' => ['string', 'nullable'],
+            'sessionDate' => ['date', 'nullable'],
+            'sessionStartTime' => ['date_format:H:i', 'nullable'],
+            'sessionEndTime' => ['date_format:H:i', 'nullable'],
             'MaximumNumberOfReservations' => ['numeric']
         ];
     }

@@ -34,7 +34,6 @@ class PrivateSessionController extends Controller
         return view('', compact('privateSession'));
     }
 
-
     public function showAdvancedUsersInterviews(Service $service, User $user)
     {
         $privateSession = PrivateSession::with('session')
@@ -49,43 +48,20 @@ class PrivateSessionController extends Controller
         return view('', compact('privateSession'));
     }
 
-
-    public function create(PrivateSession1 $request, Session $session)
-    {
-        $privateSession = PrivateSession::create([
-            'sessionID' => $session->id,
-            'durationForEachReservation' => $request->input('durationForEachReservation')
-        ]);
-        $reservations = $this->createFakeReservations($session);
-
-        if (request()->is('api/*')) {
-            return response()->json(['privateSession' => $privateSession, 'fakeReservations' => $reservations], 201);
-        }
-
-        return view('', compact('privateSession', 'reservations'));
-    }
-
-
-    public function create2(Session1 $request, Service $service, PrivateSession1 $privateRequest)
+    public function create(Session1 $request, Service $service, PrivateSession1 $privateRequest)
     {
         DB::beginTransaction();
         try {
             $userID = Auth::id();
-            // جمع بيانات الجلسة
             $sessionData = array_merge($request->validated(), [
                 'userID' => $userID,
                 'serviceID' => $service->id,
 
             ]);
-
-            // إنشاء الجلسة
             $session = Session::create($sessionData);
 
-            // إنشاء الجلسة الخاصة
             $privateSessionData = array_merge($privateRequest->validated(), ['sessionID' => $session->id]);
             $privateSession = PrivateSession::create($privateSessionData);
-
-            // إنشاء الحجوزات الوهمية
             $reservations = $this->createFakeReservations($session);
 
 
@@ -107,21 +83,47 @@ class PrivateSessionController extends Controller
         }
     }
 
-
-    public function update(PrivateSession2 $request, PrivateSession $privateSession)
+    public function update(PrivateSession2 $request, Session $session)
     {
-        $privateSession->update([
-            'durationForEachReservation' => $request['durationForEachReservation'],
-        ]);
-        $session = $privateSession->session;
+        DB::beginTransaction();
+        try {
+            $sessionData = $request->only(['sessionName', 'sessionDescription', 'sessionDate', 'sessionStartTime', 'sessionEndTime']);
+            $privateSessionData = $request->only(['durationForEachReservation']);
 
-        FakeReservation::where('privateSessionID', $privateSession->id)->delete();
+            $updated = false;
 
-        $this->createFakeReservations($session);
+            if (!empty($sessionData)) {
+                $session->update($sessionData);
+                $updated = true;
+            }
+            $privateSession = $session->privateSession;
 
-        return response()->json(['session'=>$session,
-            'privateSession'=>$session->privateSession,
-            'fakeReservation'=>$session->privateSession->fakeReservation]);
+            if ($privateSession && !empty($privateSessionData)) {
+                $privateSession->update($privateSessionData);
+                $updated = true;
+            }
+
+            if ($updated && ($request->has('sessionStartTime') || $request->has('sessionEndTime') || $request->has('durationForEachReservation'))) {
+                FakeReservation::where('privateSessionID', $privateSession->id)->delete();
+                $this->createFakeReservations($session);
+            }
+
+            DB::commit();
+
+            if (request()->is('api/*')) {
+                return response()->json(['session' => $session, 'privateSession' => $privateSession, 'fakeReservations' => $session->privateSession->fakeReservations], 200);
+            }
+
+            return view('');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            if (request()->is('api/*')) {
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
+
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
 }
