@@ -4,14 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PrivateSession\PrivateSession1;
 use App\Http\Requests\PrivateSession\PrivateSession2;
+use App\Http\Requests\Session\Session1;
 use App\Models\AdvancedUser;
 use App\Models\AssignedService;
 use App\Models\PrivateSession;
 use App\Models\FakeReservation;
 use App\Models\Service;
 use App\Models\Session;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PrivateSessionController extends Controller
 {
@@ -30,8 +34,7 @@ class PrivateSessionController extends Controller
         return view('', compact('privateSession'));
     }
 
-
-    public function showAdvancedUsersInterviews(Service $service, AdvancedUser $user)
+    public function showAdvancedUsersInterviews(Service $service, User $user)
     {
         $privateSession = PrivateSession::with('session')
             ->whereHas('session', function ($query) use ($service, $user) {
@@ -45,39 +48,82 @@ class PrivateSessionController extends Controller
         return view('', compact('privateSession'));
     }
 
-
-
-    public function create(PrivateSession1 $request, Session $session)
+    public function create(Session1 $request, Service $service, PrivateSession1 $privateRequest)
     {
-        $privateSession = PrivateSession::create([
-            'sessionID' => $session->id,
-            'durationForEachReservation' => $request->input('durationForEachReservation')
-        ]);
-        $reservations = $this->createFakeReservations($session);
+        DB::beginTransaction();
+        try {
+            $userID = Auth::id();
+            $sessionData = array_merge($request->validated(), [
+                'userID' => $userID,
+                'serviceID' => $service->id,
 
-        if (request()->is('api/*')) {
-            return response()->json(['privateSession' => $privateSession, 'fakeReservations' => $reservations], 201);
+            ]);
+            $session = Session::create($sessionData);
+
+            $privateSessionData = array_merge($privateRequest->validated(), ['sessionID' => $session->id]);
+            $privateSession = PrivateSession::create($privateSessionData);
+            $reservations = $this->createFakeReservations($session);
+
+
+            DB::commit();
+
+            if (request()->is('api/*')) {
+                return response()->json(['session' => $session, 'privateSession' => $privateSession, 'fakeReservations' => $reservations], 200);
+            }
+
+            return view('', compact('session', 'privateSession', 'reservations'));
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            if (request()->is('api/*')) {
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
+
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-
-        return view('', compact('privateSession', 'reservations'));
     }
 
-
-
-    public function update(PrivateSession2 $request, PrivateSession $privateSession)
+    public function update(PrivateSession2 $request, Session $session)
     {
-        $privateSession->update([
-            'durationForEachReservation' => $request['durationForEachReservation'],
-        ]);
-        $session = $privateSession->session;
+        DB::beginTransaction();
+        try {
+            $sessionData = $request->only(['sessionName', 'sessionDescription', 'sessionDate', 'sessionStartTime', 'sessionEndTime']);
+            $privateSessionData = $request->only(['durationForEachReservation']);
 
-        FakeReservation::where('privateSessionID', $privateSession->id)->delete();
+            $updated = false;
 
-        $this->createFakeReservations($session);
+            if (!empty($sessionData)) {
+                $session->update($sessionData);
+                $updated = true;
+            }
+            $privateSession = $session->privateSession;
 
-        return response()->json(['session'=>$session,
-            'privateSession'=>$session->privateSession,
-            'fakeReservation'=>$session->privateSession->fakeReservation]);
+            if ($privateSession && !empty($privateSessionData)) {
+                $privateSession->update($privateSessionData);
+                $updated = true;
+            }
+
+            if ($updated && ($request->has('sessionStartTime') || $request->has('sessionEndTime') || $request->has('durationForEachReservation'))) {
+                FakeReservation::where('privateSessionID', $privateSession->id)->delete();
+                $this->createFakeReservations($session);
+            }
+
+            DB::commit();
+
+            if (request()->is('api/*')) {
+                return response()->json(['session' => $session, 'privateSession' => $privateSession, 'fakeReservations' => $session->privateSession->fakeReservations], 200);
+            }
+
+            return view('');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            if (request()->is('api/*')) {
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
+
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
 }

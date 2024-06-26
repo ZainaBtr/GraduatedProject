@@ -62,6 +62,11 @@ class NormalUser extends Model
     ];
 
     public function user(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'userID');
     }
+
+    public function teamMember(){
+        return $this->hasMany(TeamMember::class,'normalUserID');
+    }
+
 }

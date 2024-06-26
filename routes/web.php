@@ -1,11 +1,11 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ServiceManagerController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ServiceManagerController;
+use App\Http\Controllers\AdvancedUserController;
 use App\Http\Controllers\InterestedServiceController;
 use App\Http\Controllers\SavedAnnouncementController;
-use App\Http\Controllers\AdvancedUserController;
 use App\Http\Controllers\NormalUserController;
 use App\Http\Controllers\ServiceYearAndSpecializationController;
 use App\Http\Controllers\RoleController;
@@ -16,7 +16,6 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\AnnouncementController;
 
 //////////////////////////////////////// Common Methods ////////////////////////////////////////
-
 
 Route::post('/login',[AuthController::class,'login'])->name('login');
 
@@ -30,9 +29,9 @@ Route::middleware(['auth:api', 'check.role:1||serviceManager'])->group(function(
 
     Route::put('/changePassword',[AuthController::class,'changePassword'])->name('changePassword');
 
-    Route::put('/setNewPassword',[AuthController::class,'setNewPassword'])->name('setNewPassword');
+    //Route::put('/setNewPassword',[AuthController::class,'setNewPassword'])->name('setNewPassword');
 
-    Route::put('/updateEmail',[AuthController::class,'updateEmail'])->name('updateEmail');
+    Route::post('/updateEmail',[AuthController::class,'updateEmail'])->name('updateEmail');
 
     Route::delete('/deleteAccount/{user}',[AuthController::class,'deleteAccount'])->name('deleteAccount');
 
@@ -50,12 +49,32 @@ Route::get('/m', function () {
     return view('Common.ChangePasswordPageForChangePassword');
 });
 
+Route::get('/kk', function () {
+    return view('Common.EnterInformationPage');
+});
+Route::get('/dd', function () {
+    return view('Common.EnterEmailPage');
+});
+Route::get('/FF', function () {
+    return view('Common.ChangePasswordPageForChangePassword');
+});
+Route::get('/pp', function () {
+    return view('Common.EnterEmailPage');
+});
+
+
 Route::get('/d', function () {
     return view('Common.LoginPage');
 });
 
+Route::get('/xx', function () {
+    return view('pages.SignUpPageForServiceManager');
+});
 
-//////////////////////////////////// System Manager Methods ////////////////////////////////////
+Route::get('/z', function () {
+    return view('pages.AdvancedUserRolePageForServiceManager');
+});
+Route::view('/t', "page.ServiceManagersTablePageForSystemManager");
 
 
 Route::middleware(['auth:api', 'check.role:1'])->group(function() {
@@ -75,15 +94,15 @@ Route::middleware(['auth:api', 'check.role:1'])->group(function() {
 Route::middleware(['auth:api', 'check.role:serviceManager'])->group(function() {
 
     Route::prefix("serviceManager")->group(function () {
-        Route::get('/showProfile', [ServiceManagerController::class, 'showProfile'])->name('showServiceManagerProfile');
-        Route::post('/addAdvancedUsersFile', [ServiceManagerController::class, 'addAdvancedUsersFile'])->name('addAdvancedUsersFile');
-        Route::post('/addNormalUsersFile', [ServiceManagerController::class, 'addNormalUsersFile'])->name('addNormalUsersFile');
+        Route::get('/showProfile',[ServiceManagerController::class,'showProfile'])->name('showServiceManagerProfile');
+        Route::post('/addAdvancedUsersFile',[ServiceManagerController::class,'addAdvancedUsersFile'])->name('addAdvancedUsersFile');
+        Route::post('/addNormalUsersFile',[ServiceManagerController::class,'addNormalUsersFile'])->name('addNormalUsersFile');
     });
 
-    Route::prefix("advancedUser")->group(function () {
-        Route::get('/showAll', [AdvancedUserController::class, 'showAll'])->name('showAllAdvancedUsers');
-        Route::post('/createAccount', [AdvancedUserController::class, 'createAccount'])->name('createAdvancedUserAccount');
-        Route::delete('/deleteAllAccounts', [AdvancedUserController::class, 'deleteAllAccounts'])->name('deleteAllAdvancedUsersAccounts');
+    Route::prefix ("advancedUser")->group( function () {
+        Route::get('/showAll',[AdvancedUserController::class,'showAll'])->name('showAllAdvancedUsers');
+        Route::post('/createAccount',[AdvancedUserController::class,'createAccount'])->name('createAdvancedUserAccount');
+        Route::delete('/deleteAllAccounts',[AdvancedUserController::class,'deleteAllAccounts'])->name('deleteAllAdvancedUsersAccounts');
     });
 
     Route::prefix("normalUser")->group(function () {
@@ -105,12 +124,21 @@ Route::middleware(['auth:api', 'check.role:serviceManager'])->group(function() {
         Route::delete('/deleteAll', [RoleController::class, 'deleteAll'])->name('deleteAllRoles');
     });
 
+    Route::prefix("assignedService")->group(function () {
+        Route::get('/showAll/{advancedUser}', [AssignedServiceController::class, 'showAll'])->name('showAllAssignedServices');
+        Route::post('/assign/{advancedUser}', [AssignedServiceController::class, 'assign'])->name('assignService');
+        Route::delete('/delete/{assignedService}', [AssignedServiceController::class, 'delete'])->name('deleteAssignedService');
+        Route::delete('/deleteAll/{advancedUser}', [AssignedServiceController::class, 'deleteAll'])->name('deleteAllAssignedServices');
+    });
+
     Route::prefix("assignedRole")->group(function () {
+        Route::get('/showRoleForDynamicDropDown', [AssignedRoleController::class, 'showRoleForDynamicDropDown'])->name('showRoleForDynamicDropDown');
         Route::get('/showAll/{assignedService}', [AssignedRoleController::class, 'showAll'])->name('showAllAssignedRoles');
         Route::post('/assign/{assignedService}', [AssignedRoleController::class, 'assign'])->name('assignRole');
         Route::delete('/delete/{assignedRole}', [AssignedRoleController::class, 'delete'])->name('deleteAssignedRole');
         Route::delete('/deleteAll/{assignedService}', [AssignedRoleController::class, 'deleteAll'])->name('deleteAllAssignedRoles');
     });
+
 
     Route::prefix("assignedService")->group(function () {
         Route::get('/showAll/{user}', [AssignedServiceController::class, 'showAll'])->name('showAllAssignedServices');
@@ -158,5 +186,6 @@ Route::middleware(['auth:api', 'check.role:serviceManager'])->group(function() {
     });
 
     Route::post('/file/download/{file}', [FileController::class, 'download'])->name('downloadFile');
+
 
 });

@@ -150,7 +150,7 @@
     </form>
 </div>
 
-<a href="#" data-category="I Forget My Password?" class="pass">I Forget My Password?</a>
+<a href="/dd" data-category="I Forget My Password?" class="pass">I Forget My Password?</a>
 <p class="log">Login</p>
 <p class="logg">Enter your account to access more features</p>
 </body>

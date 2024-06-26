@@ -127,10 +127,9 @@ class Controller extends BaseController
         });
     }
 
-    public function createFakeReservations(Session $session): array
+    public function createFakeReservations($session): array
     {
         $privateSession = $session->privateSession;
-
         $sessionStartTime = Carbon::parse($session->sessionStartTime);
         $sessionEndTime = Carbon::parse($session->sessionEndTime);
         $durationForEachReservation = Carbon::parse($privateSession->durationForEachReservation);

@@ -138,21 +138,18 @@
 <body>
     <img src="assets/images/ne.png" alt="صورة" class="background-image">
     <div class="warrber">
-        <form class="container">
+        <form class="container" method="POST" action="{{ route('setEmail') }}">
+            @csrf
             <div class="inputbox">
-            <input type="password" name="email" placeholder="password ">
-                
+                <input type="password" name="password" placeholder="Password">
             </div>
             <div class="inputbox">
-            <input type="email" name="name" placeholder="email">
+                <input type="email" name="email" placeholder="Email">
             </div>
-          
+            <button type="submit" class="login-button">➙</button>
         </form>
     </div>
- 
-    <button class="login-button"> ➙ </button>
-    <p  class="log "> Sign Up </p>
-    <p  class="logg "> Enter you account to more futures  </p>
-    <div class="arrow-forward"></div>
+    <p class="log">Sign Up</p>
+    <p class="logg">Enter your account to access more features</p>
 </body>
 </html>

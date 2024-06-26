@@ -14,4 +14,21 @@ class Group extends Model
     public $fillable = [
         'serviceID'
     ];
+
+
+
+    public function sentSwapRequests()
+    {
+        return $this->hasMany(SwapRequest::class, 'senderGroupID');
+    }
+
+    public function receivedSwapRequests()
+    {
+        return $this->hasMany(SwapRequest::class, 'receiverGroupID');
+    }
+
+    public function teamMembers()
+    {
+        return $this->hasMany(TeamMember::class, 'groupID');
+    }
 }

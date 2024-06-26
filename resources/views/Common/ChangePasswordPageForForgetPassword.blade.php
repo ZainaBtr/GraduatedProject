@@ -164,22 +164,50 @@
 <div class="container">
   <img src="assets/images/emmm.png"  alt="Image Description" class="img">
   <div class="warrber">
-        <form class="container">
+  <form class="container" id="changePasswordForm" action="{{ route('setNewPassword') }}" method="POST">
+  @csrf
         <div class="inputbo">
-                <input type="password" name="name" placeholder=" New Password">
+                <input type="password" id="password" name="password" placeholder=" New Password">
             </div>
             <div class="inputbox">
-                <input type="password" name="name" placeholder="Configure Password">
+                <input type="password"id="password"  name="password" placeholder="Configure Password">
+                <span id="passwordMatch" style="display: none; color: green;">Passwords match</span>
+                <span id="passwordMismatch" style="display: none; color: red;">Passwords do not match</span>
             </div>
-            
+            <button class="btn">Change Password</button>
         </form>
 </div>
 <p  class="write" > Change Password  </p>
-<button class="btn">Change Password</button>
+
 <button class="login-button"> ⬅ </button>
- 
 <script>
-  // You can add JavaScript functionality here if needed
+document.getElementById('confirmPassword').addEventListener('keyup', function() {
+    var newPassword = document.getElementById('newPassword').value;
+    var confirmPassword = this.value;
+
+    var passwordMatch = document.getElementById('passwordMatch');
+    var passwordMismatch = document.getElementById('passwordMismatch');
+
+    if (newPassword === confirmPassword) {
+        passwordMatch.style.display = 'block';
+        passwordMismatch.style.display = 'none';
+    } else {
+        passwordMatch.style.display = 'none';
+        passwordMismatch.style.display = 'block';
+    }
+});
+
+document.getElementById('changeBtn').addEventListener('click', function() {
+    var newPassword = document.getElementById('newPassword').value;
+    var confirmPassword = document.getElementById('confirmPassword').value;
+
+    if (newPassword === confirmPassword) {
+        alert('تم تأكيد كلمة المرور بنجاح.');
+        document.getElementById('passwordForm').submit(); // إرسال النموذج
+    } else {
+        alert('كلمة المرور الجديدة وتأكيدها غير متطابقتين.');
+    }
+});
 </script>
 </body>
 </html>

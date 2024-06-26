@@ -12,7 +12,15 @@ class PublicReservation extends Model
     protected $primaryKey = "id";
     public $timestamp = true ;
     public $fillable = [
-        'normalUserID',
+        'userID',
         'publicSessionID'
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class, 'userID');
+    }
+
+    public function publicSession(){
+        return $this->belongsTo(PublicSession::class, 'publicSessionID');
+    }
 }
