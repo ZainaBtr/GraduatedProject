@@ -13,7 +13,7 @@ use App\Http\Controllers\JoiningRequestController;
 
 Route::post('normalUser/completeAccount1',[NormalUserController::class,'completeAccount1'])->middleware(['check.role:normalUser']);
 
-Route::middleware(['auth:api', 'check.role:normalUser'])->group(function() {
+Route::middleware(['auth:api', 'check.role:normalUser||advancedUser'])->group(function() {
 
     Route::prefix("normalUser")->group( function () {
         Route::get('/showProfile', [NormalUserController::class, 'showProfile']);
