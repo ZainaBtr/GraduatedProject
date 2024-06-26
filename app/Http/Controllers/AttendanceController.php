@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ShowAttendanceOfOneServiceExport;
 use App\Models\Attendance;
+use App\Models\NormalUser;
 use App\Models\Service;
 use App\Models\Session;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AttendanceController extends Controller
 {
@@ -52,17 +56,96 @@ class AttendanceController extends Controller
 
     public function showOfOneSession(Session $session)
     {
-        //
+        $allRecords = Attendance::where('sessionID', $session['id'])
+            ->with(['normalUser.user'])
+            ->get();
+
+        $allRecords = $allRecords->map(function ($attendance) {
+            $attendance->normalUserName = $attendance->normalUser->user->fullName;
+
+            unset($attendance->normalUser);
+
+            return $attendance->only(['id', 'sessionID', 'normalUserName', 'created_at', 'updated_at']);
+        });
+        return response()->json($allRecords, Response::HTTP_OK);
     }
 
     public function showOfOneService(Service $service)
     {
-        //
+        $sessions = Session::where('serviceID', $service['id'])->get();
+
+        $sessionCount = $sessions->count();
+
+        $attendanceData = [];
+
+        foreach ($sessions as $session) {
+
+            $attendances = Attendance::where('sessionID', $session['id'])
+                ->with(['normalUser.user'])
+                ->get();
+
+            foreach ($attendances as $attendance) {
+
+                $userID = $attendance->normalUser->user->id;
+
+                $userName = $attendance->normalUser->user->fullName;
+
+                if (!isset($attendanceData[$userID])) {
+
+                    $attendanceData[$userID] = [
+                        'userID' => $userID,
+                        'normalUserName' => $userName,
+                        'attendanceCount' => 0,
+                    ];
+                }
+                $attendanceData[$userID]['attendanceCount']++;
+            }
+        }
+        $allRecords = array_map(function ($data) use ($sessionCount) {
+            return [
+                'userID' => $data['userID'],
+                'normalUserName' => $data['normalUserName'],
+                'attendanceCount' => $data['attendanceCount'],
+                'sessionsCount' => $sessionCount,
+                'attendancePercentage' => ($data['attendanceCount'] / $sessionCount) * 100,
+            ];
+        }, $attendanceData);
+
+        return response()->json(array_values($allRecords), Response::HTTP_OK);
     }
 
     public function showMyAttendanceOfOneService(Service $service)
     {
-        //
+        $sessions = Session::where('serviceID', $service['id'])->get();
+
+        $sessionCount = $sessions->count();
+
+        $attendanceData = [];
+
+        $attendanceCount = 0;
+
+        foreach ($sessions as $session) {
+
+            $normalUser = NormalUser::where('userID', auth()->id())->first();
+
+            $attendances = Attendance::where('sessionID', $session['id'])
+                ->where('normalUserID', $normalUser['id'])
+                ->first();
+            if($attendances) {
+                $attendanceCount++;
+                $attendanceData[] = [
+                    'sessionID' => $session['id'],
+                    'sessionName' => $session['sessionName']
+                ];
+            }
+        }
+        $allRecords = [
+            'attendanceData' => $attendanceData,
+            'attendanceCount' => $attendanceCount,
+            'sessionsCount' => $sessionCount,
+            'attendancePercentage' => $attendanceCount / $sessionCount * 100,
+        ];
+        return response()->json($allRecords, Response::HTTP_OK);
     }
 
     public function scanQr(Request $request)
@@ -81,10 +164,13 @@ class AttendanceController extends Controller
         // Decode the password array from the session
         $passwords = json_decode($session->password, true) ?? [];
 
+        $normalUser = NormalUser::where('userID', auth()->id())->first();
+
         if (in_array($password, $passwords)
             && Carbon::now()->toDateString() == $dateNow
             && Carbon::now()->between($timeNow->copy()->addMinutes(300), $timeNow)) {
             Attendance::create([
+                'normalUserID' => $normalUser->id,
                 'sessionID' => $sessionId,
             ]);
 
@@ -106,6 +192,11 @@ class AttendanceController extends Controller
             'message' => 'Attendance is not recorded successfully.',
             'reasons' => $failureReason
         ], 400);
+    }
+
+    public function showAttendanceOfOneServiceInExcel(Service $service)
+    {
+        return Excel::download(new ShowAttendanceOfOneServiceExport($service), 'attendance.xlsx');
     }
 
 }

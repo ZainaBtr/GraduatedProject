@@ -15,4 +15,8 @@ class Attendance extends Model
         'normalUserID',
         'sessionID'
     ];
+
+    public function normalUser(){
+        return $this->belongsTo(NormalUser::class, 'normalUserID');
+    }
 }

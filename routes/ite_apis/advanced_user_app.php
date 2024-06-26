@@ -65,6 +65,7 @@ Route::middleware(['auth:api', 'check.role:advancedUser'])->group(function() {
         Route::get('/showSessionQr/{session}',[AttendanceController::class,'showSessionQr']);
         Route::get('/showAttendanceOfOneSession/{session}',[AttendanceController::class,'showOfOneSession']);
         Route::get('/showAttendanceOfOneService/{service}',[AttendanceController::class,'showOfOneService']);
+        Route::get('/showAttendanceOfOneServiceInExcel/{service}', [AttendanceController::class,'showAttendanceOfOneServiceInExcel']);
     });
 
 });
