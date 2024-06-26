@@ -112,6 +112,7 @@ class Controller extends BaseController
             return [
                 'id' => $record['id'],
                 'serviceManagerName' => $record->serviceManager->user->fullName,
+                'parentServiceID' =>$record['parentServiceID'],
                 'parentServiceName' => $record->parentService?->serviceName,
                 'serviceYearName' => $record->serviceYearAndSpecialization->serviceYear,
                 'serviceSpecializationName' => $record->serviceYearAndSpecialization->serviceSpecializationName,

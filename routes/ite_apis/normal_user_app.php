@@ -50,7 +50,7 @@ Route::middleware(['auth:api', 'check.role:normalUser||advancedUser'])->group(fu
 
     Route::prefix("attendance")->group( function () {
         Route::post('/scanQr',[AttendanceController::class,'scanQr']);
-        Route::get('/showMyAttendance/{service}',[AttendanceController::class,'showMyAttendanceOfOneService']);
+        Route::get('/showMyAttendanceOfOneService/{service}',[AttendanceController::class,'showMyAttendanceOfOneService']);
     });
 
     Route::prefix("group")->group( function () {
@@ -77,6 +77,4 @@ Route::middleware(['auth:api', 'check.role:normalUser||advancedUser'])->group(fu
         Route::delete('/decline/{joiningRequest}',[JoiningRequestController::class,'decline']);
     });
 
-
 });
-
