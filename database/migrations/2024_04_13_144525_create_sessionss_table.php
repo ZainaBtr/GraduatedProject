@@ -21,6 +21,7 @@ return new class extends Migration
             $table->time('sessionStartTime');
             $table->time('sessionEndTime');
             $table->string('status')->default('created');
+            $table->string('password')->nullable();
             $table->timestamps();
         });
     }

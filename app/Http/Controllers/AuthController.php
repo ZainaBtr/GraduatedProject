@@ -6,10 +6,7 @@ use App\Http\Requests\User\User5;
 use App\Http\Requests\User\User6;
 use App\Http\Requests\User\User7;
 use App\Http\Requests\User\User8;
-use App\Http\Requests\User\User7;
 use App\Mail\myEmail;
-use App\Http\Requests\User\User5;
-use App\Http\Requests\User\User6;
 use App\Models\AdvancedUser;
 use App\Models\ServiceManager;
 use App\Models\User;
@@ -120,16 +117,17 @@ class AuthController extends Controller
                 return response()->json(['message' => 'Account Not Found or Wrong Password'], 404);
             }
 
-        $this->sendEmail($request['email']);
+            $this->sendEmail($request['email']);
 
-        $user->update(['email' => $request['email']]);
+            $user->update(['email' => $request['email']]);
 
 
-        if(request()->is('api/*')) {
-            return  response()->json(['message' => 'We Sent 6 Digits Code To Your Email'],200);
+            if (request()->is('api/*')) {
+                return response()->json(['message' => 'We Sent 6 Digits Code To Your Email'], 200);
+            }
+
+            return view('');
         }
-
-        return view('');
     }
 
     /**

@@ -19,7 +19,8 @@ class Session extends Model
         'sessionDate',
         'sessionStartTime',
         'sessionEndTime',
-        'status'
+        'status',
+        'password'
     ];
 
     public function service(){
