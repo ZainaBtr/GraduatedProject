@@ -42,6 +42,9 @@ Route::middleware(['auth:api', 'check.role:advancedUser'])->group(function() {
         Route::get('/showMyActivity',[PublicSessionController::class,'showMyActivities']);
         Route::get('/showMyExams',[PublicSessionController::class,'showMyExams']);
         Route::post('/create/{service}',[PublicSessionController::class,'create']);
+        Route::put('/start/{publicSession}',[PublicSessionController::class,'start']);
+        Route::put('/close/{publicSession}',[PublicSessionController::class,'close']);
+        Route::delete('/cancel/{publicSession}',[PublicSessionController::class,'cancel']);
         Route::put('/update/{session}',[PublicSessionController::class,'update']);
     });
 
@@ -49,6 +52,9 @@ Route::middleware(['auth:api', 'check.role:advancedUser'])->group(function() {
         Route::get('/showMyProjectInterviews',[PrivateSessionController::class,'showMyProjectsInterviews']);
         Route::get('/showMyAdvancedUserInterviews',[PrivateSessionController::class,'showMyAdvancedUsersInterviews']);
         Route::post('/create/{service}',[PrivateSessionController::class,'create']);
+        Route::put('/start/{privateSession}',[PrivateSessionController::class,'start']);
+        Route::put('/close/{privateSession}',[PrivateSessionController::class,'close']);
+        Route::delete('/cancel/{privateSession}',[PrivateSessionController::class,'cancel']);
         Route::put('/update/{session}',[PrivateSessionController::class,'update']);
     });
 

@@ -31,7 +31,6 @@ class PublicSessionController extends Controller
         return view('', compact('publicSessions'));
     }
 
-
     public function create(Session1 $request, Service $service, PublicSession1 $publicSession1)
     {
         DB::beginTransaction();
@@ -65,18 +64,49 @@ class PublicSessionController extends Controller
         }
     }
 
+    public function start(PublicSession $publicSession)
+    {
+        $session = $publicSession->session;
+        $session->update(['status'=>'active']);
+        if(request()->is('api/*')) {
+            return response()->json($session, 200);
+        }
+
+        return view('');
+    }
+
+    public function close(PublicSession $publicSession)
+    {
+        $session=$publicSession->session;
+        $session->update(['status'=>'closed']);
+        if(request()->is('api/*')) {
+            return response()->json($session, 200);
+        }
+        return view('');
+    }
+
+
+    public function cancel(PublicSession $publicSession)
+    {
+        $session=$publicSession->session;
+        $session->delete();
+
+        if(request()->is('api/*')) {
+            return response()->json(['message'=>'session canceled successfully'], 200);
+        }
+
+        return view('');
+    }
+
     public function update(PublicSession2 $request, Session $session)
     {
         DB::beginTransaction();
         try {
-            // تحديث بيانات session
             $sessionData = $request->only(['sessionName', 'sessionDescription', 'sessionDate', 'sessionStartTime', 'sessionEndTime']);
 
             if (!empty($sessionData)) {
                 $session->update($sessionData);
             }
-
-            // تحديث بيانات public session
             $publicSessionData = $request->only(['MaximumNumberOfReservations']);
             $publicSession = $session->publicSession;
 

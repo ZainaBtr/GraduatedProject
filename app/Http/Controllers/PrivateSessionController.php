@@ -83,6 +83,41 @@ class PrivateSessionController extends Controller
         }
     }
 
+    public function start(PrivateSession $privateSession)
+    {
+        $session = $privateSession->session;
+        $session->update(['status'=>'active']);
+        if(request()->is('api/*')) {
+            return response()->json($session, 200);
+        }
+
+        return view('');
+    }
+
+
+    public function close(PrivateSession $privateSession)
+    {
+        $session=$privateSession->session;
+        $session->update(['status'=>'closed']);
+        if(request()->is('api/*')) {
+            return response()->json($session, 200);
+        }
+        return view('');
+    }
+
+
+    public function cancel(PrivateSession $privateSession)
+    {
+        $session=$privateSession->session;
+        $session->delete();
+
+        if(request()->is('api/*')) {
+            return response()->json(['message'=>'session canceled successfully'], 200);
+        }
+
+        return view('');
+    }
+
     public function update(PrivateSession2 $request, Session $session)
     {
         DB::beginTransaction();

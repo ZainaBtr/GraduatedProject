@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\Auth;
 class PublicReservationController extends Controller
 {
 
-    public function showAll(Session $session)
+    public function showAll(PublicSession $session)
     {
-        $reservations = $session->publicSession->reservations;
+        $reservations = $session->reservations;
         $userNames = $reservations->map(function ($reservation) {
             return $reservation->user->fullName;
         });
@@ -85,13 +85,15 @@ class PublicReservationController extends Controller
             return response()->json([
                 'message' => 'Sorry, the count has completed.'], 403);
         }
-         PublicReservation::create([
+         $publicReservation = PublicReservation::create([
             'userID' => $userID,
             'publicSessionID' => $publicSession->id
         ]);
 
         return response()->json([
-            'message' => 'Your reservation has been completed successfully.'], 200);
+            'message' => 'Your reservation has been completed successfully.',
+            'publicReservation'=>$publicReservation
+        ], 200);
     }
 
 
