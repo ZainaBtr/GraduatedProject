@@ -208,10 +208,10 @@ class PrivateReservationController extends Controller
             return response()->json(['message' => 'No assigned service found for this reservation.'], 404);
         }
 
-        $advancedUserID = $assignedService->advancedUserID;
+        $userID = $assignedService->userID;
 
-        $conflictingReservation = PrivateReservation::whereHas('privateSession.session.service.assignedService', function ($query) use ($advancedUserID) {
-            $query->where('advancedUserID', $advancedUserID);
+        $conflictingReservation = PrivateReservation::whereHas('privateSession.session.service.assignedService', function ($query) use ($userID) {
+            $query->where('userID', $userID);
         })
             ->whereDate('reservationDate', $newReservationDate)
             ->where(function ($query) use ($newReservationStartDateTime, $newReservationEndDateTime) {
