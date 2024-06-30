@@ -23,7 +23,6 @@ class ServiceManagerController extends Controller
             return response()->json($user,200);
         }
         return view('page.MyAccountPageForSystemManager',compact('user'));
-        
     }
 
     public function createAccount(ServiceManager1 $request)
@@ -81,7 +80,6 @@ class ServiceManagerController extends Controller
                     'password' => $serviceManager->user->password,
                     'position' => $serviceManager->position
                 ];
-            $usersData [] = $userData;
             }
             else {
                 $usersData[] = [
@@ -97,20 +95,14 @@ class ServiceManagerController extends Controller
         }
         return view('page.ServiceManagersTablePageForSystemManager', [
             'usersData' => $usersData,
-            'serviceManagers' => $serviceManagers,]);
-
-            
+            'serviceManagers' => $serviceManagers,
         ]);
-        
     }
 
     public function addAdvancedUsersFile(File1 $request)
     {
         return $this->importUsersFile($request, AdvancedUserDataImport::class);
         return redirect()->back();
-        
-        
-
     }
 
     public function addNormalUsersFile(File1 $request)

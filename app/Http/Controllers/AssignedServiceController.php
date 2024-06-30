@@ -14,17 +14,13 @@ class AssignedServiceController extends Controller
     public function showAll(User $user)
     {
         $allRecords = AssignedService::where('userID', $user['id'])->with('service')->get();
-        return view('pages.AdvancedUserServicePageForServiceManager', [
-            'allRecords' => $allRecords,
-            'advancedUser' => $advancedUser
-        ]);
-        
+
         if (request()->is('api/*')) {
             return response()->json($allRecords, Response::HTTP_OK);
         }
         return view('pages.AdvancedUserServicePageForServiceManager', [
             'allRecords' => $allRecords,
-            'advancedUser' => $advancedUser
+            'user' => $user
         ]);
     }
 
