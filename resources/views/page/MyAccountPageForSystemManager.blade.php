@@ -16,15 +16,18 @@
         position: absolute;
     }
 
-    .img {
-        width: 100%;
-        height: 100vh;
-        position: absolute;
-        background-size: cover;
-        top: 0;
-        left: 0;
-        z-index: -1;
-    }
+ .img {
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    background-image: url('assets/images/em.bmp'); /* تعيين الصورة كخلفية */
+    background-size: cover;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    /* يمكنك إزالة هذا الخط إذا لم تعد بحاجة له */
+    /* display: none; */
+}
 
     .write {
         position: relative;
@@ -120,6 +123,22 @@
             font-weight:lighter;
             font-size: 21px;
         }
+        .pasa {
+            position: absolute;
+            width: 400px;
+            height: 30px;
+            top: 90%;
+            left:50%;
+            color :#717F8A;
+            margin-bottom: 20px;
+            text-decoration-line: none;
+            text-decoration-thickness: initial;
+            text-decoration-style: initial;
+            text-decoration-color: initial;
+            font-weight:lighter;
+            font-size: 21px;
+        }
+
 
 
     .form-inpu {
@@ -156,21 +175,24 @@
 </head>
 <body>
 
-<img src="assets/images/em.png" alt="Image Description" class="img">
+<img src="\assets\images\b.png" alt="Image Description" class="img">
 <p class="write">My Account</p>
 <button class="login-button">⬅</button>
 
-<!-- Email Subscription Form -->
+
 <div class="form-container">
     <div class="form-input">
-        <span class="full-name">Full Name</span>
+        <span class="full-name">{{ $user->fullName }}</span>
     </div>
     <div class="form-inpu">
-        <span class="full-name">Email</span>
+        <span class="full-name">{{ $user->email }}</span>
     </div>
 </div>
-<a href="#" data-category="Change your email!" class="pass">Change your email !</a>
-<a href="#" data-category="Change your password !" class="pas">Change your password !</a>
+
+
+<a href="/kk" data-category="Change your email!" class="pass">Change your email !</a>
+<a href="/FF" data-category="Change your password !" class="pas">Change your password !</a>
+<a href="/pp" data-category="Change your password !" class="pasa">forget password !</a>
 
 </body>
 </html>

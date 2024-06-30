@@ -34,25 +34,30 @@ class ServiceController extends Controller
 
     public function showAllParent()
     {
-        $allRecords = Service::with(['serviceManager.user', 'parentService', 'serviceYearAndSpecialization', 'assignedService.advancedUser.user', 'assignedService.assignedRole.role'])
+        $allRecords = Service::with(['serviceManager.user', 'parentService', 'serviceYearAndSpecialization', 'assignedService.advancedUser.user', 'assignedService.assignedRole.role', 'interestedService'])
             ->whereNull('parentServiceID')
             ->orderByDesc('status')
             ->get();
 
         $allRecords = $this->getServiceData($allRecords);
+        return view('pages.PublicServicesInHomePageForServiceManager',compact('allRecords'));
 
         return response()->json($allRecords, Response::HTTP_OK);
     }
 
     public function showChild(Service $service)
     {
-        $allRecords = Service::with(['serviceManager.user', 'parentService', 'serviceYearAndSpecialization', 'assignedService.advancedUser.user', 'assignedService.assignedRole.role'])
+        $allRecords = Service::with(['serviceManager.user', 'parentService', 'serviceYearAndSpecialization', 'assignedService.advancedUser.user', 'assignedService.assignedRole.role', 'interestedService'])
             ->where('parentServiceID', $service['id'])
             ->orderByDesc('status')
             ->get();
 
         $allRecords = $this->getServiceData($allRecords);
-
+        return view('pages.PrivateServicesInHomePageForServiceManager', [
+            'allRecords' => $allRecords,
+            'parentService' => $service
+        ]);
+       
         return response()->json($allRecords, Response::HTTP_OK);
     }
 
@@ -66,6 +71,7 @@ class ServiceController extends Controller
             ->get();
 
         $allRecords = $this->getServiceData($allRecords);
+        return view('pages.MyPublicServicesInHomePageForServiceManager',compact('allRecords'));
 
         return response()->json($allRecords, Response::HTTP_OK);
     }
@@ -80,6 +86,11 @@ class ServiceController extends Controller
             ->get();
 
         $allRecords = $this->getServiceData($allRecords);
+
+        return view('pages.MyPrivateServicesInHomePageForServiceManager', [
+            'allRecords' => $allRecords,
+            'parentService' => $service
+        ]);
 
         return response()->json($allRecords, Response::HTTP_OK);
     }
@@ -167,8 +178,9 @@ class ServiceController extends Controller
             $data['parentServiceID'] = $parentService['id'];
         }
         $recordStored = Service::create($data);
-
-        return response()->json($recordStored, Response::HTTP_OK);
+       
+        return redirect()->back();
+      
     }
 
     public function update(Service2 $request, Service $service)
@@ -204,7 +216,7 @@ class ServiceController extends Controller
             ->get();
 
         $allRecords = $this->getServiceData($allRecords);
-
+        return view('pages.PublicServicesInHomePageForServiceManager', compact('allRecords'));
         return response()->json($allRecords, Response::HTTP_OK);
     }
 

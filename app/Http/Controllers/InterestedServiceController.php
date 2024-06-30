@@ -22,7 +22,11 @@ class InterestedServiceController extends Controller
             $record['children'] = Service::where('parentServiceID', $record['id'])
             ->where('status', 1)
             ->get();
-        }
+        }    
+        return view('pages.PublicServicesInHomePageForServiceManager', [
+            'allRecords' => $allRecords,
+            'interestedService' => $allRecords->InterestedService
+        ]);
         return response()->json($allRecords, Response::HTTP_OK);
     }
 
@@ -38,6 +42,11 @@ class InterestedServiceController extends Controller
 
         $allRecords = $this->getServiceData($allRecords);
 
+          return view('pages.FavoritePublicServicesPageForServiceManager',[
+            'allRecords' => $allRecords,
+            
+          ]
+        );
         return response()->json($allRecords, Response::HTTP_OK);
     }
 
@@ -49,6 +58,11 @@ class InterestedServiceController extends Controller
             ->get();
 
         $allRecords = $this->getServiceData($allRecords);
+     
+        return view('pages.FavoritePrivateServicesPageForServiceManager', [
+            'allRecords' => $allRecords,
+            'parentService' => $service
+        ]);
 
         return response()->json($allRecords, Response::HTTP_OK);
     }
@@ -63,6 +77,7 @@ class InterestedServiceController extends Controller
         return response()->json($recordStored, Response::HTTP_OK);
     }
 
+   
     public function unInterestIn(InterestedService $interestedService)
     {
         $interestedService->delete();
@@ -70,4 +85,7 @@ class InterestedServiceController extends Controller
         return response()->json(['message' => 'this service uninterested successfully']);
     }
 
+
+  
+    
 }

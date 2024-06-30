@@ -30,6 +30,7 @@ class AdvancedUserController extends Controller
         foreach ($users as $user) {
             if ($user->advancedUser->isAccountCompleted == 0) {
                 $usersData[] = [
+                    'id' => $user->advancedUser->id,
                     'fullName' => $user->fullName,
                     'email' => $user->email,
                     'password' => $user->password,
@@ -38,6 +39,7 @@ class AdvancedUserController extends Controller
             }
             else {
                 $usersData[] = [
+                    'id' => $user->id,
                     'fullName' => $user->fullName,
                     'email' => $user->email,
                     'isAccountCompleted'=>$user->advancedUser->isAccountCompleted
@@ -47,7 +49,8 @@ class AdvancedUserController extends Controller
         if(request()->is('api/*')) {
             return response()->json($usersData, 200);
         }
-        return view('');
+        
+        return view('pages.AdvancedUsersTablePageForServiceManager',compact('usersData'));
     }
 
     public function createAccount(AdvancedUser1 $request)
@@ -62,7 +65,8 @@ class AdvancedUserController extends Controller
         if(request()->is('api/*')) {
             return response()->json($user);
         }
-        return view('');
+        return redirect()->back();
+       // return view('');
     }
 
     // complete account = set email in AuthController
@@ -76,7 +80,7 @@ class AdvancedUserController extends Controller
             if(request()->is('api/*')) {
                 return response()->json(['message' => 'All Accounts have been Deleted Successfully']);
             }
-            return view('');
+            return redirect()->back();
         }
         return response()->json(['message' => 'you dont have the permission to delete all records in this table']);
     }

@@ -13,22 +13,27 @@ class AssignedServiceController extends Controller
 
     public function showAll(AdvancedUser $advancedUser)
     {
-        $allRecords = AssignedService::where('advancedUserID', $advancedUser['id'])->with('service')->get();
-
-        return response()->json($allRecords, Response::HTTP_OK);
+        $allRecords = AssignedService::where('advancedUserID', $advancedUser->id)->with('service')->get();
+        return view('pages.AdvancedUserServicePageForServiceManager', [
+            'allRecords' => $allRecords,
+            'advancedUser' => $advancedUser
+        ]);
+        
     }
 
     public function assign(AssignedService1 $request, AdvancedUser $advancedUser)
     {
         $data = $request->validated();
 
-        $data['advancedUserID'] = $advancedUser['id'];
+        $allData['serviceID'] = $data['id'];
 
-        $recordStored = AssignedService::create($data);
+        $allData['advancedUserID'] = $advancedUser['id'];
+
+        $recordStored = AssignedService::create($allData);
+        return redirect()->back();
 
         return response()->json($recordStored, Response::HTTP_OK);
     }
-
     public function delete(AssignedService $assignedService)
     {
         $assignedService->delete();
@@ -41,6 +46,7 @@ class AssignedServiceController extends Controller
         if (ServiceManager::where('userID', auth()->id())->where('position', 'provost')->exists()) {
 
             AssignedService::where('advancedUserID', $advancedUser['id'])->delete();
+            return redirect()->back();
 
             return response()->json(['message' => 'all records deleted successfully']);
         }

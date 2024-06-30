@@ -7,8 +7,13 @@ use App\Http\Requests\Announcement\Announcement2;
 use App\Http\Requests\File\File1;
 use App\Http\Requests\User\User3;
 use App\Mail\VerifyEmail;
+use App\Models\FakeReservation;
+use App\Models\Session;
+use App\Models\User;
+use Carbon\Carbon;
 use App\Models\Announcement;
 use App\Models\File;
+use App\Models\InterestedService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
@@ -19,7 +24,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use PharIo\Manifest\Email;
 use App\Http\Requests\User\User4;
-use App\Models\User;
 use Maatwebsite\Excel\Facades\Excel;
 
 class Controller extends BaseController
@@ -69,11 +73,24 @@ class Controller extends BaseController
         if ($request['file']->isValid()) {
             Excel::import(new $importClass(), $request['file']);
 
-            return response()->json(['message' => 'File imported successfully'], 200);
+            if(request()->is('api/*')) {
+                return response()->json(['message' => 'File imported successfully'], 200);
+            }
         }
         else {
-            return response()->json(['message' => 'Failed to upload file'], 500);
+            if(request()->is('api/*')) {
+                return response()->json(['message' => 'Failed to upload file'], 500);
+            }
         }
+    }
+
+    function checkIsInterested($serviceId, $userId)
+    {
+        $exists = InterestedService::where('serviceID', $serviceId)
+            ->where('userID', $userId)
+            ->exists();
+
+        return $exists ? 1 : 0;
     }
 
     protected function getServiceData($allRecords)
@@ -85,6 +102,19 @@ class Controller extends BaseController
                     'roles' => $assignedService->assignedRole->pluck('role.roleName')
                 ];
             });
+
+            $interestedServices = $record->interestedService;
+
+            $isInterested = $interestedServices->contains(function ($interestedService) use ($record) {
+                return $this->checkIsInterested($record['id'], $interestedService->userID);
+            });
+
+            if($isInterested){
+                $interestedService= $interestedServices->firstWhere('userID', auth()->id());
+            }else{
+                $interestedService=null;
+            }
+
 
             return [
                 'id' => $record['id'],
@@ -98,9 +128,40 @@ class Controller extends BaseController
                 'minimumNumberOfGroupMembers' => $record->minimumNumberOfGroupMembers,
                 'maximumNumberOfGroupMembers' => $record->maximumNumberOfGroupMembers,
                 'statusName' => $record->status == 1 ? 'Effective' : 'Not Effective',
-                'advancedUsersWithRoles' => $advancedUserRoles
+                'advancedUsersWithRoles' => $advancedUserRoles,
+                'isInterested' => $isInterested ? 1 : 0,
+                'interestedService' => $interestedService
             ];
         });
+    }
+
+    public function createFakeReservations($session): array
+    {
+        $privateSession = $session->privateSession;
+        $sessionStartTime = Carbon::parse($session->sessionStartTime);
+        $sessionEndTime = Carbon::parse($session->sessionEndTime);
+        $durationForEachReservation = Carbon::parse($privateSession->durationForEachReservation);
+
+        $totalSessionDurationMinutes = $sessionEndTime->diffInMinutes($sessionStartTime);
+        $reservationDurationMinutes = $durationForEachReservation->hour * 60 + $durationForEachReservation->minute;
+        $numberOfReservations = intval($totalSessionDurationMinutes / $reservationDurationMinutes);
+
+        $reservations = [];
+        for ($i = 0; $i < $numberOfReservations; $i++) {
+            $reservationStartTime = $sessionStartTime->copy()->addMinutes($i * $reservationDurationMinutes);
+            $reservationEndTime = $reservationStartTime->copy()->addMinutes($reservationDurationMinutes);
+
+            $reservationStartTimeFormatted = $reservationStartTime->format('H:i');
+            $reservationEndTimeFormatted = $reservationEndTime->format('H:i');
+
+            $reservations[] = FakeReservation::create([
+                'privateSessionID' => $privateSession->id,
+                'reservationStartTime' => $reservationStartTimeFormatted,
+                'reservationEndTime' => $reservationEndTimeFormatted
+            ]);
+        }
+
+        return $reservations;
     }
 
     private function storeFile($request, $announcement)
@@ -131,3 +192,4 @@ class Controller extends BaseController
     }
 
 }
+   

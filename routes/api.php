@@ -20,6 +20,8 @@ require  __DIR__ . '/ite_apis/normal_user_app.php';
 require  __DIR__ . '/ite_apis/service_manager_app.php';
 require  __DIR__ . '/ite_apis/system_manager_app.php';
 
+Route::post('/createToken/{user}',[\App\Http\Controllers\Controller::class,'createToken']);
+
 Route::post('/register',[AuthController::class,'register']);
 
 Route::post('/advancedUserRegister',[AuthController::class,'advancedUserRegister']);
@@ -40,7 +42,6 @@ Route::middleware(['auth:api'])->group(function() {
 
     Route::put('/setNewPassword',[AuthController::class,'setNewPassword']);
 
-    Route::delete('/verification',[AuthController::class,'verification']);
 
     Route::get('/serviceYearAndSpecialization/showAll', [ServiceYearAndSpecializationController::class, 'showAll']);
 

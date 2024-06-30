@@ -5,14 +5,13 @@
 @stop
 @endsection
 @section('content')
- 
-   <style>
+
+<style>
   .styled-table {
-    width: 80%; 
+    width: 90%; 
     text-align: center;
-  
-    margin-top: 10%;
-    margin-left: 10%; 
+    margin-top: 5%;
+    margin-left: 5%; 
     vertical-align: middle;
 }
 
@@ -159,7 +158,8 @@
     font-size:50px;
   }
 </style>
-        @if(session('success'))
+
+@if(session('success'))
     <div class="alert alert-success">
         {{ session('success') }}
     </div>
@@ -170,125 +170,100 @@
         {{ session('error') }}
     </div>
 @endif
-   
-   <button class="styled-button" data-toggle="modal" data-target="#exampleModal">Add Normal Users File</button>
-            <br><br>
-            <div class="styled-table">
-                <table id="datatable" class="table  table-hover table-sm table-bordered p-0"
-                       data-page-length="50"
-                       style="text-align: center">
 
-<thead>
-                            <tr>
-                                <th>#</th>
-                                 <th>Full Name</th>
-                                 <th>Examination Number</th>
-                                 <th>Year</th>
-                                 <th>Specialization</th>
-                                 <th>StudySituation</th>
-                                 <th>Password</th>
-                                <th>Processes</th>
+<button class="styled-button" data-toggle="modal" data-target="#exampleModal">Add Normal Users File</button>
+<br><br>
 
-                            </tr>
-                            </thead>
-                            <tbody>
-                           
+<div class="styled-table">
+    <table id="datatable" class="table table-hover table-sm table-bordered p-0" data-page-length="50" style="text-align: center">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Full Name</th>
+                <th>Examination Number</th>
+                <th>Year</th>
+                <th>Specialization</th>
+                <th>Study Situation</th>
+                <th>password</th>
+                <th>Processes</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($usersData as $index => $user)
+            <tr>
+                <td>{{ $index + 1 }}</td>
+                <td>{{ $user['fullName'] }}</td>
+                <td>{{ $user['examinationNumber'] }}</td>
+                <td>{{ $user['serviceYear'] }}</td>
+                <td>{{ $user['serviceSpecialization'] }}</td>
+                <td>{{ $user['studySituation'] }}</td>
+                @if(isset($user['password']))
+                <td>{{ $user['password'] }}</td>
+                @endif
+                <td>
+                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#Delete_Ro" title="Delete">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
 
-                           
-
-                               <tr>
-                                   
-                                  
-                                    <td>
-
-                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                                data-target="#Delete_Ro"
-                                                title=Delete><i
-                                                class="fa fa-trash"></i></button>
-                                    </td>
-                                </tr>
-
-
-    
-    
-    <button class="styled-button" data-toggle="modal" data-target="#exampleModal">Normal Users File</button>
-
-                                <!-- delete_modal -->
-
-                                <div class="modal fade" id="Delete" tabindex="-1" role="dialog"
-                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 style="font-family: 'Cairo', sans-serif;" class="modal-title"
-                                                    id="exampleModalLabel">
-                                                   delete
-                                                </h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                             
-                                                    <input  type="hidden" name="id" class="form-control"
-                                                           value="">
-                                                     <input type="text" readonly value="" class="form-control">
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                                data-dismiss="modal"> No </button>
-                                                        <button type="submit"
-                                                                class="btn btn-danger"> yes</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                           
-
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-       
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add Roles</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Add Normal</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">        
-      <form action="{{ route('addNormalUsersFile') }}" method="POST" enctype="multipart/form-data">
-    @csrf
-    <div class="row">
-        <div class="col">
-            <label for="Name" class="mr-sm-2">file:</label>
-            <input id="file" type="file" name="file" accept=".jpg,.jpeg,.bmp,.png,.gif,.doc,.docx,.csv,.rtf,.xlsx,.xls,.txt,.pdf,.zip" class="form-control">
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">consol</button>
-        <button type="submit" class="btn btn-succes">save</button>
-    </div>
-</form>
-
+      <div class="modal-body">
+        <form action="{{ route('addNormalUsersFile') }}" method="POST" enctype="multipart/form-data">
+          @csrf
+          <div class="row">
+            <div class="col">
+              <label for="file" class="mr-sm-2">File:</label>
+              <input id="file" type="file" name="file" accept=".jpg,.jpeg,.bmp,.png,.gif,.doc,.docx,.csv,.rtf,.xlsx,.xls,.txt,.pdf,.zip" class="form-control">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-succes">Save</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>
 
+<div class="modal fade" id="Delete_Ro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 style="font-family: 'Cairo', sans-serif;" class="modal-title" id="exampleModalLabel">Are you sure to delete??</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ route('deleteAllNormalUsersAccounts') }}">
+                @csrf
+                @method('DELETE')
+                    <input type="hidden" name="id" id="user_id" class="form-control">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-danger">Yes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
-
-
-    <!-- row closed -->
 @endsection
 @section('js')
     @toastr_js

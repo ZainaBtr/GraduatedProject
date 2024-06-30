@@ -16,6 +16,7 @@ class AnnouncementController extends Controller
     {
         $allRecords = Announcement::with('service', 'file')->get();
 
+        return view('pages.AdvertismentPageFromServiceForServiceManage',compact('allRecords'));
         return response()->json($allRecords, Response::HTTP_OK);
     }
 
@@ -43,6 +44,7 @@ class AnnouncementController extends Controller
 
         if($request['file'])
             $announcement['fileStored'] = $this->addFileInAnnouncement($request,  $announcement);
+            return redirect()->back();
 
         return response()->json($announcement, Response::HTTP_OK);
     }

@@ -13,14 +13,14 @@ class ServiceYearAndSpecializationController extends Controller
     {
         $allRecords = ServiceYearAndSpecialization::all();
 
-        //return view('pages.YearAndSpecializationPageForServiceManager',compact('allRecords'));
+        return view('pages.YearAndSpecializationPageForServiceManager',compact('allRecords'));
         return response()->json($allRecords, Response::HTTP_OK);
     }
 
     public function add(ServiceYearAndSpecialization1 $request)
     {
         $recordStored = ServiceYearAndSpecialization::create($request->validated());
-
+        return redirect()->back();
         return response()->json($recordStored, Response::HTTP_OK);
     }
 

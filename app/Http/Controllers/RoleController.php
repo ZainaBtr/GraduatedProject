@@ -14,15 +14,16 @@ class RoleController extends Controller
     {
         $allRecords = Role::all();
 
-        //return view('pages.RolePageForServiceManager',compact('allRecords'));
-        return response()->json($allRecords, Response::HTTP_OK);
+        return view('pages.RolePageForServiceManager',compact('allRecords'));
+       // return response()->json($allRecords, Response::HTTP_OK);
     }
 
     public function add(Role1 $request)
     {
         $recordStored = Role::create($request->validated());
 
-        return response()->json($recordStored, Response::HTTP_OK);
+       // return response()->json($recordStored, Response::HTTP_OK);
+         return redirect()->back();
     }
 
     public function delete(Role $role)

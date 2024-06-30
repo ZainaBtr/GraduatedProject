@@ -38,7 +38,7 @@ class NormalUserController extends Controller
         if(request()->is('api/*')){
             return response()->json($responseData,200);
         }
-        return view('');
+       
     }
 
     public function showAll()
@@ -51,37 +51,40 @@ class NormalUserController extends Controller
 
             $normalUser = $user->normalUser;
 
+            $serviceYearAndSpecialization = ServiceYearAndSpecialization::find($normalUser->serviceYearAndSpecializationID);
+
             if ($normalUser->isAccountCompleted == 0) {
-                $userData[] = [
+                $usersData[] = [
                     'fullName' => $user->fullName,
                     'email' => $user->email,
                     'password' => $user->password,
-                    'isAccountCompleted'=>$normalUser->isAccountCompleted
+                    'isAccountCompleted'=>$normalUser->isAccountCompleted,
+                    'serviceYear' => $serviceYearAndSpecialization->serviceYear,
+                    'serviceSpecialization' => $serviceYearAndSpecialization->serviceSpecializationName,
+                    'examinationNumber' => $normalUser->examinationNumber,
+                    'studySituation' => $normalUser->studySituation,
+                    'skills' => $normalUser->skills,
+                    'birthDate' => $normalUser->birthDate,
                 ];
             }
             else {
-                $userData[] = [
+                $usersData[] = [
                     'fullName' => $user->fullName,
                     'email' => $user->email,
-                    'isAccountCompleted'=>$normalUser->isAccountCompleted
+                    'isAccountCompleted'=>$normalUser->isAccountCompleted,
+                    'serviceYear' => $serviceYearAndSpecialization->serviceYear,
+                    'serviceSpecialization' => $serviceYearAndSpecialization->serviceSpecializationName,
+                    'examinationNumber' => $normalUser->examinationNumber,
+                    'studySituation' => $normalUser->studySituation,
+                    'skills' => $normalUser->skills,
+                    'birthDate' => $normalUser->birthDate,
                 ];
             }
-            $serviceYearAndSpecialization = ServiceYearAndSpecialization::find($normalUser->serviceYearAndSpecializationID);
-
-            $additionalData = [
-                'serviceYear' => $serviceYearAndSpecialization->serviceYear,
-                'serviceSpecialization' => $serviceYearAndSpecialization->serviceSpecializationName,
-                'examinationNumber' => $normalUser->examinationNumber,
-                'studySituation' => $normalUser->studySituation,
-                'skills' => $normalUser->skills,
-                'birthDate' => $normalUser->birthDate,
-            ];
-            $usersData[] = array_merge($userData, $additionalData);
         }
         if (request()->is('api/*')) {
             return response()->json($usersData, 200);
         }
-        return view('');
+        return view('pages.NormalUsersTablePageForServiceManager',compact('usersData'));
     }
 
     public function completeAccount1(NormalUser1 $request)
@@ -125,7 +128,7 @@ class NormalUserController extends Controller
             if (request()->is('api/*')) {
                 return response()->json(['message' => ' Normal Users Deleted Successfully']);
             }
-            return view('');
+            return redirect()->back();
         }
         return response()->json(['message' => 'you dont have the permission to delete all records in this table']);
     }

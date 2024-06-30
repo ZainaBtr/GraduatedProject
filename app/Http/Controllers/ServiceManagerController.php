@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\File\File1;
 use App\Http\Requests\ServiceManager\ServiceManager1;
 use App\Imports\AdvancedUserDataImport;
@@ -20,7 +21,8 @@ class ServiceManagerController extends Controller
         if(request()->is('api/*')){
             return response()->json($user,200);
         }
-        return view('');
+        return view('page.MyAccountPageForSystemManager',compact('user'));
+        
     }
 
     public function createAccount(ServiceManager1 $request)
@@ -38,7 +40,7 @@ class ServiceManagerController extends Controller
         if(request()->is('api/*')){
             return response()->json($user,200);
         }
-        return view('');
+         return redirect()->back();
     }
 
     public function showProfile()
@@ -56,7 +58,7 @@ class ServiceManagerController extends Controller
         if(request()->is('api/*')){
             return response()->json($responseData);
         }
-        return view('');
+        return view('pages.MyAccountPageForServiceManager',compact('user','position'));
     }
 
     public function showAll()
@@ -66,27 +68,40 @@ class ServiceManagerController extends Controller
         $usersData = [];
 
         foreach ($serviceManagers as $serviceManager) {
-            $usersData = [
+            $userData = [
+                'id' => $serviceManager->user->id,
                 'fullName' => $serviceManager->user->fullName,
                 'email' => $serviceManager->user->email,
                 'password' => $serviceManager->user->password,
                 'position' => $serviceManager->position
             ];
+            $usersData [] = $userData;
         }
         if(request()->is('api/*')) {
             return response()->json($usersData);
         }
-        return view('');
+        return view('page.ServiceManagersTablePageForSystemManager', [
+            'usersData' => $usersData,
+            'serviceManagers' => $serviceManagers,
+
+            
+        ]);
+        
     }
 
     public function addAdvancedUsersFile(File1 $request)
     {
         return $this->importUsersFile($request, AdvancedUserDataImport::class);
+        return redirect()->back();
+        
+        
+
     }
 
     public function addNormalUsersFile(File1 $request)
     {
         return $this->importUsersFile($request, NormalUserDataImport::class);
+        return redirect()->back();
     }
 
 }

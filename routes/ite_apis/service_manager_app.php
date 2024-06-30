@@ -14,7 +14,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\AnnouncementController;
 
-Route::middleware(['auth:api'])->group(function() {
+Route::middleware(['auth'])->group(function() {
 
   Route::prefix("serviceManager")->group(function () {
         Route::get('/showProfile',[ServiceManagerController::class,'showProfile'])->name('showServiceManagerProfile');
@@ -48,18 +48,19 @@ Route::middleware(['auth:api'])->group(function() {
     });
 
     Route::prefix("assignedRole")->group(function () {
+        Route::get('/showRoleForDynamicDropDown', [AssignedRoleController::class, 'showRoleForDynamicDropDown'])->name('showRoleForDynamicDropDown');
         Route::get('/showAll/{assignedService}', [AssignedRoleController::class, 'showAll'])->name('showAllAssignedRoles');
         Route::post('/assign/{assignedService}', [AssignedRoleController::class, 'assign'])->name('assignRole');
         Route::delete('/delete/{assignedRole}', [AssignedRoleController::class, 'delete'])->name('deleteAssignedRole');
         Route::delete('/deleteAll/{assignedService}', [AssignedRoleController::class, 'deleteAll'])->name('deleteAllAssignedRoles');
     });
 
-    Route::prefix("assignedService")->group(function () {
-        Route::get('/showAll/{advancedUser}', [AssignedServiceController::class, 'showAll'])->name('showAllAssignedServices');
-        Route::post('/assign/{advancedUser}', [AssignedServiceController::class, 'assign'])->name('assignService');
-        Route::delete('/delete/{assignedService}', [AssignedServiceController::class, 'delete'])->name('deleteAssignedService');
-        Route::delete('/deleteAll/{advancedUser}', [AssignedServiceController::class, 'deleteAll'])->name('deleteAllAssignedServices');
-    });
+    // Route::prefix("assignedService")->group(function () {
+    //     Route::get('/showAll/{advancedUser}', [AssignedServiceController::class, 'showAll'])->name('showAllAssignedServices');
+    //     Route::post('/assign/{advancedUser}', [AssignedServiceController::class, 'assign'])->name('assignService');
+    //     Route::delete('/delete/{assignedService}', [AssignedServiceController::class, 'delete'])->name('deleteAssignedService');
+    //     Route::delete('/deleteAll/{advancedUser}', [AssignedServiceController::class, 'deleteAll'])->name('deleteAllAssignedServices');
+    // });
 
     Route::prefix("service")->group(function () {
         Route::get('/showServiceNameForDynamicDropDown', [ServiceController::class, 'showServiceNameForDynamicDropDown'])->name('showServiceNameForDynamicDropDown');
@@ -68,7 +69,7 @@ Route::middleware(['auth:api'])->group(function() {
         Route::get('/showChild/{service}', [ServiceController::class, 'showChild'])->name('showChildServices');
         Route::get('/showMyAllParentFromServiceManager', [ServiceController::class, 'showMyAllParentFromServiceManager'])->name('showMyAllParentServices');
         Route::get('/showMyChildFromServiceManager/{service}', [ServiceController::class, 'showMyChildFromServiceManager'])->name('showMyChildServices');
-        Route::post('/add/{parentService?}', [ServiceController::class, 'add'])->name('addService');
+        Route::post('/add/{parentService}', [ServiceController::class, 'add'])->name('addService');
         Route::put('/update/{service}', [ServiceController::class, 'update'])->name('updateService');
         Route::delete('/delete/{service}', [ServiceController::class, 'delete'])->name('deleteService');
         Route::delete('/deleteAll', [ServiceController::class, 'deleteAll'])->name('deleteAllServices');

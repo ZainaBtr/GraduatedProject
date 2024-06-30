@@ -27,7 +27,7 @@ class AssignedService1 extends FormRequest
         $advancedUser = $this->route('advancedUser');
 
         return [
-            'serviceID' => ['required', 'numeric',
+            'id' => ['required', 'numeric',
                 Rule::unique('assigned_services')
                     ->where('advancedUserID', $advancedUser['id'])
             ]

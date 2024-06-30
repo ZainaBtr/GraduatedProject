@@ -27,7 +27,7 @@ class AssignedRole1 extends FormRequest
         $assignedService = $this->route('assignedService');
 
         return [
-            'roleID' => ['required', 'numeric',
+            'id' => ['required', 'numeric',
                 Rule::unique('assigned_roles')
                     ->where('assignedServiceID', $assignedService['id'])
             ]
