@@ -154,7 +154,7 @@ body {
     <img src="assets/images/gr.png" alt="Image Description" class="img">
     <div class="verification-code">Verification Code</div>
     <div class="email-message">
-        <p>We sent a message to <strong>salam.kwm@gmail.com</strong>. Please check your email and get the verification code. If you don’t receive the message, click "Resend Verification Code".</p>
+        <p>We sent a message to Please check your email and get the verification code. If you don’t receive the message, click "Resend Verification Code".</p>
     </div>
     
     <form action="{{ route('verification') }}" method="POST" id="verificationForm">

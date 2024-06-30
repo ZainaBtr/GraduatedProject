@@ -50,8 +50,34 @@
         .styled-button:hover {
             background-color: #ff983d;
         }
+        .styled-account {
+    position: absolute;
+    width: 50px;
+    height: 60px;
+    margin-left: 1200px;
+    margin-top:40%;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 25px;
+    line-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align:center;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    background-color: #292D3D; 
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 0px 0px 30px 30px;
+    border: none;
+    cursor: pointer;
+    font-size:large;
+  }
     </style>
-
+   <button type="button" class="styled-account" data-toggle="modal" data-target="#exampleMod" title="DeleteAll">
+                                    <i class="fa fa-trash"></i>
+                                        </button>
     <table class="styled-table">
         <thead>
             <tr>
@@ -133,6 +159,33 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="exampleMod" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                       <div class="modal-dialog" role="document">
+                                             <div class="modal-content">
+                                               <div class="modal-header">
+                                              <h5 class="modal-title" id="exampleModalLabel">  Are you sure you want to delete all item?</h5>
+                                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                           <span aria-hidden="true">&times;</span>
+                                             </button>
+                                               </div>
+                                               <div class="modal-body">     
+                                               <form action="{{ route('deleteAllAssignedRoles', ['assignedService' => $assignedService->id]) }}" method="post">
+
+                                               @csrf
+                                          @method('DELETE')
+                                       <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                              <button type="submit" class="btn btn-danger">yes</button>
+                                              </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>

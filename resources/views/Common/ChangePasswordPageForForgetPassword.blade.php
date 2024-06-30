@@ -167,10 +167,10 @@
   <form class="container" id="changePasswordForm" action="{{ route('setNewPassword') }}" method="POST">
   @csrf
         <div class="inputbo">
-                <input type="password" id="password" name="password" placeholder=" New Password">
+                <input type="password" id="newPassword" name="password" placeholder=" New Password">
             </div>
             <div class="inputbox">
-                <input type="password"id="password"  name="password" placeholder="Configure Password">
+                <input type="password"id="confirmPassword"  name="password" placeholder="Configure Password">
                 <span id="passwordMatch" style="display: none; color: green;">Passwords match</span>
                 <span id="passwordMismatch" style="display: none; color: red;">Passwords do not match</span>
             </div>

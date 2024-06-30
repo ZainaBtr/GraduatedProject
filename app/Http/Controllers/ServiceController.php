@@ -40,6 +40,7 @@ class ServiceController extends Controller
             ->get();
 
         $allRecords = $this->getServiceData($allRecords);
+        return view('pages.PublicServicesInHomePageForServiceManager',compact('allRecords'));
 
 
         if (request()->is('api/*')) {
@@ -59,7 +60,11 @@ class ServiceController extends Controller
             ->get();
 
         $allRecords = $this->getServiceData($allRecords);
-
+        return view('pages.PrivateServicesInHomePageForServiceManager', [
+            'allRecords' => $allRecords,
+            'parentService' => $service
+        ]);
+       
         if (request()->is('api/*')) {
             return response()->json($allRecords, Response::HTTP_OK);
 
@@ -82,6 +87,7 @@ class ServiceController extends Controller
             ->get();
 
         $allRecords = $this->getServiceData($allRecords);
+        return view('pages.MyPublicServicesInHomePageForServiceManager',compact('allRecords'));
 
         if (request()->is('api/*')) {
             return response()->json($allRecords, Response::HTTP_OK);
@@ -196,8 +202,9 @@ class ServiceController extends Controller
             $data['parentServiceID'] = $parentService['id'];
         }
         $recordStored = Service::create($data);
-
-        return response()->json( $recordStored, Response::HTTP_OK);
+       
+        return redirect()->back();
+      
     }
 
     public function update(Service2 $request, Service $service)
@@ -233,7 +240,7 @@ class ServiceController extends Controller
             ->get();
 
         $allRecords = $this->getServiceData($allRecords);
-
+        return view('pages.PublicServicesInHomePageForServiceManager', compact('allRecords'));
         if (request()->is('api/*')) {
             return response()->json($allRecords, Response::HTTP_OK);
         }

@@ -27,7 +27,7 @@ class RoleController extends Controller
         if (request()->is('api/*')) {
             return response()->json($recordStored, Response::HTTP_OK);
         }
-        return view('');
+        return redirect()->back();
     }
 
     public function delete(Role $role)

@@ -202,7 +202,7 @@
         <span class="full-name">{{ $user->email }}</span>
     </div>
     <div class="form-inp">
-        <span class="full-name">{{ $user->position }}</span>
+        <span class="full-name">{{$user->serviceManager->position }}</span>
     </div>
 </div>
 

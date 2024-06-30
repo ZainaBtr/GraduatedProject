@@ -14,11 +14,18 @@ class AssignedServiceController extends Controller
     public function showAll(User $user)
     {
         $allRecords = AssignedService::where('userID', $user['id'])->with('service')->get();
-
+        return view('pages.AdvancedUserServicePageForServiceManager', [
+            'allRecords' => $allRecords,
+            'advancedUser' => $advancedUser
+        ]);
+        
         if (request()->is('api/*')) {
             return response()->json($allRecords, Response::HTTP_OK);
         }
-        return view('');
+        return view('pages.AdvancedUserServicePageForServiceManager', [
+            'allRecords' => $allRecords,
+            'advancedUser' => $advancedUser
+        ]);
     }
 
     public function assign(AssignedService1 $request, User $user)
@@ -30,13 +37,13 @@ class AssignedServiceController extends Controller
         $allData['userID'] = $user['id'];
 
         $recordStored = AssignedService::create($allData);
+        return redirect()->back();
 
         if (request()->is('api/*')) {
             return response()->json($recordStored, Response::HTTP_OK);
         }
         return view('');
     }
-
     public function delete(AssignedService $assignedService)
     {
         $assignedService->delete();
@@ -52,6 +59,7 @@ class AssignedServiceController extends Controller
         if (ServiceManager::where('userID', auth()->id())->where('position', 'provost')->exists()) {
 
             AssignedService::where('userID', $user['id'])->delete();
+            return redirect()->back();
 
             if (request()->is('api/*')) {
                 return response()->json(['message' => 'all records deleted successfully']);

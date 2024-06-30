@@ -131,7 +131,7 @@
                 <tr>
                 <td>{{ $key + 1 }}</td>
                     <td><a href="/assignedService/showAll/{{$all['id']}}">{{ $all['fullName'] }}</a></td>
-                    <td>{{ $all['password'] ?? 'N/A' }}</td>
+                    <td>{{ $all['password'] ?? '******' }}</td>
                     <td>
                         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#Delete_Ro" title="Delete"><i class="fa fa-trash"></i></button>
                     </td>
@@ -142,7 +142,7 @@
 </div>
 
 <!-- Add User Modal -->
-<div class="modal fade" id="exampleModa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">

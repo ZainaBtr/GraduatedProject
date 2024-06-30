@@ -19,7 +19,7 @@ class AnnouncementController extends Controller
         if (request()->is('api/*')) {
             return response()->json($allRecords, Response::HTTP_OK);
         }
-        return view('');
+        return view('pages.AdvertismentPageFromServiceForServiceManage',compact('allRecords'));
     }
 
     public function showAllFromService(Service $service)
@@ -52,6 +52,7 @@ class AnnouncementController extends Controller
 
         if($request['file'])
             $announcement['fileStored'] = $this->addFileInAnnouncement($request,  $announcement);
+            return redirect()->back();
 
         if (request()->is('api/*')) {
             return response()->json($announcement, Response::HTTP_OK);

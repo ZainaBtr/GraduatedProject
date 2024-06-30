@@ -159,9 +159,11 @@ Meal
                 <div>{{ $user['fullName'] }} - Roles: {{ implode(', ', $user['roles']->toArray()) }}</div>
             @endforeach
         </div>
-        <div class="heart-icon" data-service-id="{{ $record['id'] }}">
-            <i class="fa fa-heart {{ $record['isInterested'] ? 'red' : '' }}"></i>
-        </div>
+        <div class="heart-icon" 
+     data-service-id="{{ $record['id'] }}" 
+     data-interested-service-id="{{ isset($record['interestedService']) ? $record['interestedService']['id'] : '' }}">
+    <i class="fa fa-heart {{ $record['isInterested'] ? 'red' : '' }}"></i>
+</div>
     </div>
     @endforeach
 </div>
@@ -233,11 +235,12 @@ Meal
 
 <script>
     $(document).ready(function() {
+        // Load options for the dropdown
         $.ajax({
             method: "GET",
             url: "http://127.0.0.1:8000/api/service/showServiceYearAndSpecForDynamicDropDown",
             dataType: "json",
-            success: function(data, status) {
+            success: function(data) {
                 $.each(data, function(k, v) {
                     $('#serviceYearAndSpecializationID').append(`<option value="${v.id}">${v.serviceSpecializationName} - ${v.serviceYear}</option>`);
                 });
@@ -249,15 +252,22 @@ Meal
             }
         });
 
+        // Handle heart icon click
         $('.heart-icon').click(function() {
-            var serviceId = $(this).data('service-id');
+            var interestedServiceId = $(this).data('interested-service-id');
             var icon = $(this).find('i');
 
             if (icon.hasClass('red')) {
-                unInterestInService(serviceId, icon);
+                unInterestInService(interestedServiceId, icon);
             } else {
+                var serviceId = $(this).data('service-id');
                 interestInService(serviceId, icon);
             }
+        });
+
+        // Handle delete all services click
+        $('#delete-all-icon').click(function() {
+            deleteAllServices();
         });
     });
 
@@ -272,6 +282,7 @@ Meal
             success: function(response) {
                 console.log('Interest recorded successfully');
                 icon.addClass('red');
+                icon.closest('.heart-icon').data('interested-service-id', response.id);
             },
             error: function(xhr, status, error) {
                 console.error('Error recording interest:', error);
@@ -279,10 +290,10 @@ Meal
         });
     }
 
-    function unInterestInService(serviceId, icon) {
+    function unInterestInService(interestedServiceId, icon) {
         $.ajax({
             method: 'DELETE',
-            url: '/interestedService/unInterestInService/' + serviceId,
+            url: '/interestedService/unInterestInService/' + interestedServiceId,
             data: {
                 _token: '{{ csrf_token() }}'
             },
@@ -290,13 +301,18 @@ Meal
             success: function(response) {
                 console.log('Interest removed successfully');
                 icon.removeClass('red');
+                icon.closest('.heart-icon').removeData('interested-service-id');
             },
             error: function(xhr, status, error) {
                 console.error('Error removing interest:', error);
             }
         });
     }
+
+  
+    
 </script>
+
 @endsection
 
 @section('js')

@@ -62,7 +62,7 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="Normal users" class="collapse" data-parent="#sidebarnav">
-                            <li><a href="{{route('showAllNormalUsers')}}">">listNormalusers</a></li>
+                            <li><a href="{{route('showAllNormalUsers')}}">listNormalusers</a></li>
 
                         </ul>
                     </li>
@@ -86,9 +86,22 @@
                                     class="right-nav-text">FavoriteServices</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
-                        </a>
+                        </a> 
                         <ul id="Favoriteservices" class="collapse" data-parent="#sidebarnav">
-                            <li><a href="">listFavoriteservices</a></li>
+                            <li><a href="{{route('showAllParentInterestedServices')}}">listFavoriteservices</a></li>
+
+                        </ul>
+                    </li>
+                    
+                    <li>
+                        <a href="javascript:void(0);" data-toggle="collapse" data-target="#myservices">
+                            <div class="pull-left"><i class="ti-comments"></i><span
+                                    class="right-nav-text">myservices</span></div>
+                            <div class="pull-right"><i class="ti-plus"></i></div>
+                            <div class="clearfix"></div>
+                        </a> 
+                        <ul id="myservices" class="collapse" data-parent="#sidebarnav">
+                            <li><a href="{{route('showMyAllParentFromServiceManager')}}">listmyservices</a></li>
 
                         </ul>
                     </li>
@@ -101,7 +114,7 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="Advertisements" class="collapse" data-parent="#sidebarnav">
-                            <li><a href="">listAdvertisements</a></li>
+                            <li><a href="{{route('showAnnouncements')}}">listAdvertisements</a></li>
 
                         </ul>
                     </li>

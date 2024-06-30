@@ -10,7 +10,12 @@ Meal
 
 @section('content')
 <style>
-    /* Component 8 */
+    .component-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
     .component {
         position: relative;
         width: 300px;
@@ -24,7 +29,8 @@ Meal
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-top: 40px;
+        margin-top: 80px;
+        margin-left: 30px;
     }
 
     .component-title {
@@ -58,7 +64,22 @@ Meal
         cursor: pointer;
     }
 
-    /* Modal Style */
+    .heart-icon {
+        position: absolute;
+        bottom: 10px;
+        right: 20px;
+        cursor: pointer;
+    }
+
+    .heart-icon i {
+        font-size: 15px;
+        transition: color 0.2s;
+    }
+
+    .heart-icon i.red {
+        color: red;
+    }
+
     .modal-dialog {
         max-width: 800px;
     }
@@ -84,15 +105,85 @@ Meal
 
     .modal-footer {
         border-top: none;
+        left: 20%;
+       top: 1%;
+    }
+
+    .modal-content {
+        border-radius: 10px;
+        width: 400px;
+    }
+
+    .modal-header {
+        background-color: #77B8A1;
+        border-radius: 10px 10px 0 0;
+    }
+
+        font-weight: bold;
+    }
+    .delete-container {
+        position: absolute;
+       
+        
+        top:1%;
+        left :2%;
+       
+    }
+
+    #delete-all-icon {
+        font-size: 25px;
+        cursor: pointer;
+        color: red;
+        top: 1px;
+        transform: translate(-50%, -50%);
+        
+    }
+
+    #delete-all-icon:hover {
+        color: darkred;
     }
 </style>
 
 <button class="styled-button" data-toggle="modal" data-target="#exampleModal">ADD services</button>
 
+<div class="delete-container">
+    <i class="fa fa-trash" id="delete-all-icon" title="Delete All"></i>
+</div>
+<!-- Search form -->
+<form id="searchForm" action="{{ route('searchForServiceByServiceName') }}" method="GET">
+    <div class="search-container">
+        <input type="text" name="serviceName" id="search-input" placeholder="Search" class="form-control">
+        <i class="fa fa-search" onclick="document.getElementById('searchForm').submit();"></i>
+       
+    </div>
+</form>
 
-@foreach($allRecords as $record)
-<div class="component">
-    <div class="component-title">Service Details</div>
+<div class="component-container" id="serviceRecords">
+    @foreach($allRecords as $record)
+    <div class="component">
+        <div class="component-title">Service Details</div>
+        <div class="component-item"><a href="/service/showChild/{{$record['id']}}">Service Name: {{ $record['serviceName'] }}</a></div>
+        <div class="component-item">Service Type: {{ $record['serviceType'] }}</div>
+        <div class="component-item">Service Description: {{ $record['serviceDescription'] }}</div>
+        <div class="component-item">Service Year: {{ $record['serviceYearName'] }}</div>
+        <div class="component-item">Specialization: {{ $record['serviceSpecializationName'] }}</div>
+        <div class="component-item">Minimum Group Members: {{ $record['minimumNumberOfGroupMembers'] }}</div>
+        <div class="component-item">Maximum Group Members: {{ $record['maximumNumberOfGroupMembers'] }}</div>
+        <div class="component-item">Status: {{ $record['statusName'] }}</div>
+        <div class="component-item">
+            <strong>Advanced Users with Roles:</strong>
+            @foreach($record['advancedUsersWithRoles'] as $user)
+                <div>{{ $user['fullName'] }} - Roles: {{ implode(', ', $user['roles']->toArray()) }}</div>
+            @endforeach
+        </div>
+  <div class="heart-icon" 
+     data-service-id="{{ $record['id'] }}" 
+     data-interested-service-id="{{ isset($record['interestedService']) ? $record['interestedService']['id'] : '' }}">
+    <i class="fa fa-heart {{ $record['isInterested'] ? 'red' : '' }}"></i>
+
+    </div>
+    @endforeach
+</div>
     <div class="component-item">Service Name: {{ $record['serviceName'] }}</div>
     <div class="component-item">Service Type: {{ $record['serviceType'] }}</div>
     <div class="component-item">Service Description: {{ $record['serviceDescription'] }}</div>
@@ -138,7 +229,7 @@ Meal
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="serviceDescription">service Description</label>
+                        <label for="serviceDescription">Service Description:</label>
                         <input id="serviceDescription" type="text" name="serviceDescription" class="form-control">
                     </div>
                     <div class="form-group">
@@ -162,7 +253,7 @@ Meal
                             <option value="0">Inactive</option>
                         </select>
                     </div>
-                    <input type="hidden" name="serviceManagerID" >
+                    <input type="hidden" name="serviceManagerID">
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-success">Save</button>
@@ -176,11 +267,12 @@ Meal
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     $(document).ready(function() {
+        // Load options for the dropdown
         $.ajax({
             method: "GET",
             url: "http://127.0.0.1:8000/api/service/showServiceYearAndSpecForDynamicDropDown",
             dataType: "json",
-            success: function(data, status) {
+            success: function(data) {
                 $.each(data, function(k, v) {
                     $('#serviceYearAndSpecializationID').append(`<option value="${v.id}">${v.serviceSpecializationName} - ${v.serviceYear}</option>`);
                 });
@@ -192,18 +284,23 @@ Meal
             }
         });
 
-        $('#addServiceForm').submit(function(e) {
-           
+        // Handle heart icon click
+        $('.heart-icon').click(function() {
+            var interestedServiceId = $(this).data('interested-service-id');
+            var icon = $(this).find('i');
 
-            var form = $(this);
-            var url = form.attr('action');
-            var method = form.attr('method');
-            var data = form.serialize();
+            if (icon.hasClass('red')) {
+                unInterestInService(interestedServiceId, icon);
+            } else {
+                var serviceId = $(this).data('service-id');
+                interestInService(serviceId, icon);
+            }
+        });
 
-            $.ajax({
-                method: method,
-                url: url,
-                data: data,
+        // Handle delete all services click
+        $('#delete-all-icon').click(function() {
+            deleteAllServices();
+        });
                 dataType: "json",
                 success: function(response) {
     var newRecord = response;
@@ -234,7 +331,64 @@ Meal
             });
         });
     });
+
+    function interestInService(serviceId, icon) {
+        $.ajax({
+            method: 'POST',
+            url: '/interestedService/interestInService/' + serviceId,
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            dataType: 'json',
+            success: function(response) {
+                console.log('Interest recorded successfully');
+                icon.addClass('red');
+                icon.closest('.heart-icon').data('interested-service-id', response.id);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error recording interest:', error);
+            }
+        });
+    }
+
+    function unInterestInService(interestedServiceId, icon) {
+        $.ajax({
+            method: 'DELETE',
+            url: '/interestedService/unInterestInService/' + interestedServiceId,
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            dataType: 'json',
+            success: function(response) {
+                console.log('Interest removed successfully');
+                icon.removeClass('red');
+                icon.closest('.heart-icon').removeData('interested-service-id');
+            },
+            error: function(xhr, status, error) {
+                console.error('Error removing interest:', error);
+            }
+        });
+    }
+
+    function deleteAllServices() {
+        $.ajax({
+            method: 'DELETE',
+            url: "{{ route('deleteAllServices') }}",
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            dataType: 'json',
+            success: function(response) {
+                console.log(response.message);
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                console.error('Error deleting all services:', error);
+            }
+        });
+    }
 </script>
+
 
 @endsection
 
@@ -242,3 +396,4 @@ Meal
 @toastr_js
 @toastr_render
 @endsection
+

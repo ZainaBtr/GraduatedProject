@@ -32,7 +32,7 @@ Route::middleware(['auth'])->group(function() {
 
     Route::delete('/deleteAccount/{user}',[AuthController::class,'deleteAccount'])->name('deleteAccount');
 
-});
+ });
 
 Route::get('/', function () {
     return view('pages.FirstPageForServiceManager');
@@ -138,7 +138,7 @@ Route::middleware(['auth'])->group(function() {
         Route::delete('/deleteAll/{assignedService}', [AssignedRoleController::class, 'deleteAll'])->name('deleteAllAssignedRoles');
     });
 
-
+  
 
     Route::prefix("service")->group(function () {
         Route::get('/showServiceNameForDynamicDropDown', [ServiceController::class, 'showServiceNameForDynamicDropDown'])->name('showServiceNameForDynamicDropDown');
@@ -160,8 +160,10 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/showChild/{service}', [InterestedServiceController::class, 'showChild'])->name('showChildInterestedServices');
         Route::post('/interestInService/{service}', [InterestedServiceController::class, 'interestIn'])->name('interestInService');
         Route::delete('/unInterestInService/{interestedService}', [InterestedServiceController::class, 'unInterestIn'])->name('unInterestInService');
-    });
+        
 
+    });
+    
     Route::prefix("announcement")->group(function () {
         Route::get('/showAll', [AnnouncementController::class, 'showAll'])->name('showAnnouncements');
         Route::get('/showAllFromService/{service}', [AnnouncementController::class, 'showAllFromService'])->name('showAllAnnouncementsFromService');
@@ -178,7 +180,7 @@ Route::middleware(['auth'])->group(function() {
         Route::delete('/unSave/{savedAnnouncement}', [SavedAnnouncementController::class, 'unSave'])->name('unSaveAnnouncement');
     });
 
-    Route::post('/file/download/{file}', [FileController::class, 'download'])->name('downloadFile');
+    Route::get('/file/download/{file}', [FileController::class, 'download'])->name('downloadFile');
 
 
 });

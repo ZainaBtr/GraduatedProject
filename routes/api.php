@@ -24,6 +24,8 @@ require  __DIR__ . '/ite_apis/advanced_user_app.php';
 require  __DIR__ . '/ite_apis/normal_user_app.php';
 
 
+Route::post('/createToken/{user}',[\App\Http\Controllers\Controller::class,'createToken']);
+
 Route::post('/register', [AuthController::class, 'register']);
 
 Route::post('/advancedUserRegister', [AuthController::class, 'advancedUserRegister']);

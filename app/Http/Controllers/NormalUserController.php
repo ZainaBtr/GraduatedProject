@@ -128,7 +128,7 @@ class NormalUserController extends Controller
             if (request()->is('api/*')) {
                 return response()->json(['message' => ' Normal Users Deleted Successfully']);
             }
-            return view('');
+            return redirect()->back();
         }
         return response()->json(['message' => 'you dont have the permission to delete all records in this table']);
     }

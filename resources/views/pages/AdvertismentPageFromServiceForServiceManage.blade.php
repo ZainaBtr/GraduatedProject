@@ -15,6 +15,7 @@ Advertisements
         flex-wrap: wrap;
         justify-content: center;
         gap: 20px;
+        max-width: 100%; /* Ensure the container utilizes the full width */
     }
 
     .component {
@@ -29,7 +30,7 @@ Advertisements
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-top: 20px;
+        margin-top: 70px;
     }
 
     .component-title {
@@ -43,21 +44,57 @@ Advertisements
     }
 
     .styled-button {
-        width: 300px;
+        position: absolute;
+        width: 400px;
         height: 60px;
+        left: 800px;
+        top: 0px;
         font-family: 'Inter';
+        font-style: normal;
         font-weight: 800;
-        font-size: 20px;
-        line-height: 60px;
+        font-size: 25px;
+        line-height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         text-align: center;
         text-transform: uppercase;
         color: #FFFFFF;
         background-color: #FF7B1C;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-        border-radius: 30px;
+        border-radius: 0px 0px 30px 30px;
         border: none;
         cursor: pointer;
-        margin-top: 20px;
+        font-size: large;
+    }
+
+    .styled-button:hover {
+        background-color: #FF983D;
+    }
+
+    .styled-account {
+        position: absolute;
+        width: 300px;
+        height: 60px;
+        left: 540px;
+        top: 0px;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 800;
+        font-size: 25px;
+        line-height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        text-transform: uppercase;
+        color: #FFFFFF;
+        background-color: #292D3D;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        border-radius: 0px 0px 30px 30px;
+        border: none;
+        cursor: pointer;
+        font-size: large;
     }
 
     .heart-icon {
@@ -146,10 +183,21 @@ Advertisements
     #delete-all-icon:hover {
         color: darkred;
     }
+
+    .download-icon {
+        font-size: 20px;
+        color: white;
+        cursor: pointer;
+    }
+
+    .download-icon i {
+        transition: color 0.2s;
+    }
+
+    .download-icon i:hover {
+        color: #FF7B1C;
+    }
 </style>
-
-
-
 
 <button class="styled-button" data-toggle="modal" data-target="#exampleModal">Add Advertisement</button>
 
@@ -157,10 +205,18 @@ Advertisements
     @foreach($allRecords as $record)
     <div class="component">
         <div class="component-title">Advertisement Details</div>
-        <div class="component-item">title: {{ $record['title'] }}</div>
-        <div class="component-item"> Description: {{ $record['description'] }}</div>
-        <div class="component-item">file: {{ $record['file'] }}</div>
-       
+        <div class="component-item">Title: {{ $record['title'] }}</div>
+        <div class="component-item">Description: {{ $record['description'] }}</div>
+        <div class="component-item">
+            File:
+            @if($record['file'])
+            <a href="{{ route('downloadFile', $record['id']) }}" class="download-icon">
+                <i class="fa fa-download"></i>
+            </a>
+            @else
+            No file
+            @endif
+        </div>
     </div>
     @endforeach
 </div>
@@ -175,7 +231,7 @@ Advertisements
                 </button>
             </div>
             <div class="modal-body">
-                <form id="addServiceForm" action="{{ route('addAnnouncement') }}"method="POST" enctype="multipart/form-data">
+                <form id="addServiceForm" action="{{ route('addAnnouncement') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label for="title">Title:</label>

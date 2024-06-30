@@ -22,7 +22,7 @@ class ServiceYearAndSpecializationController extends Controller
     public function add(ServiceYearAndSpecialization1 $request)
     {
         $recordStored = ServiceYearAndSpecialization::create($request->validated());
-
+        return redirect()->back();
         if (request()->is('api/*')) {
             return response()->json($recordStored, Response::HTTP_OK);
         }
