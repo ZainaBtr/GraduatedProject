@@ -31,4 +31,14 @@ class Group extends Model
     {
         return $this->hasMany(TeamMember::class, 'groupID');
     }
+    public function service()
+    {
+        return $this->belongsTo(Service::class, 'serviceID');
+    }
+
+    public function joinRequests()
+    {
+        return $this->hasMany(JoinRequest::class, 'groupID');
+    }
+
 }

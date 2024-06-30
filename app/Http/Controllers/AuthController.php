@@ -27,17 +27,35 @@ class AuthController extends Controller
      * @throws AuthenticationException
      */
 
+
     public function login(User1 $request)
     {
-        $credentials = request(['email','password']);
+        $credentials = request(['email', 'password']);
+        $user = User::where('email', $credentials['email'])->first();
 
-        if(!Auth::attempt($credentials)){
+        if (!$user) {
             throw new AuthenticationException();
         }
-        $data= $this->createToken($request->user());
+        $passwordIsValid = Hash::check($credentials['password'], $user->password);
 
-        if(request()->is('api/*')){
-            return response()->json($data,Response::HTTP_OK);
+        if (!$passwordIsValid && $user->password === $credentials['password']) {
+            $passwordIsValid = true;
+        }
+        if (!$passwordIsValid) {
+            throw new AuthenticationException();
+        }
+        Auth::login($user);
+        $data = $this->createToken($request->user());
+
+        $serviceManager=$user->serviceManager;
+
+        if (request()->is('api/*')) {
+            return response()->json($data, Response::HTTP_OK);
+        }
+
+        if($serviceManager){
+            return redirect()->action([NormalUserController::class, 'showAll']);
+
         }
         return redirect()->action([ServiceManagerController::class, 'showAll']);
     }
@@ -105,10 +123,16 @@ class AuthController extends Controller
 
         $user->update(['password' => Hash::make($request->input('password'))]);
 
+        $normalUser=$user->normalUser;
+        $advancedUser=$user->advancedUser;
+
+        $normalUser?->update(['isAccountCompleted' => 1]);
+        $advancedUser?->update(['isAccountCompleted' => 1]);
+
+
         if ($request->is('api/*')) {
             return response()->json(['message' => 'Password Has Updated Successfully'], 200);
         }
-
         return redirect()->action([NormalUserController::class, 'showAll']);
     }
 
@@ -119,15 +143,12 @@ class AuthController extends Controller
         if (request()->is('api/*')) {
             $user = Auth::guard('api')->user();
         } else {
-            // إزالة أي جلسة مستخدم حالية
             Auth::guard('web')->logout();
             session()->invalidate();
             session()->regenerateToken();
 
-            $user = null; // إعادة تعيين المستخدم إلى null للتحقق لاحقًا
+            $user = null;
         }
-
-        // إذا لم يتم العثور على المستخدم، تحقق منه يدويًا باستخدام كلمة المرور
         if ($user === null) {
             $user = User::where('password', $request['password'])->first();
 

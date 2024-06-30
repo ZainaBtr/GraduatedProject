@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('joining_requests', function (Blueprint $table) {
+        Schema::create('join_requests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('normalUserID')->constrained('normal_users')->cascadeOnDelete();
+            $table->foreignId('senderID')->constrained('users')->cascadeOnDelete();
             $table->foreignId('groupID')->constrained('groups')->cascadeOnDelete();
             $table->date('requestDate');
-            $table->boolean('joiningRequestStatus');
+            $table->string('joiningRequestStatus');
             $table->timestamps();
         });
     }

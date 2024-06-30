@@ -38,7 +38,9 @@ Route::delete('/verification', [AuthController::class, 'verification']);
 
 Route::post('/setEmail', [AuthController::class, 'setEmail']);
 
-Route::middleware(['auth:api', 'check.role:advancedUser||normalUser'])->group(function() {
+Route::middleware(['auth:api',
+    //'check.role:advancedUser||normalUser'
+])->group(function() {
 
     Route::put('/changePassword',[AuthController::class,'changePassword']);
 
@@ -92,7 +94,7 @@ Route::middleware(['auth:api', 'check.role:advancedUser||normalUser'])->group(fu
         Route::get('/showAdvancedUsersInterviews/{service}/{user}', [PrivateSessionController::class, 'showAdvancedUsersInterviews']);
     });
 
-    Route::get('privateReservation/showAll/{session}', [PrivateReservationController::class, 'showAll']);
+    Route::get('privateReservation/showAll/{privateSession}', [PrivateReservationController::class, 'showAll']);
 
     Route::get('/showFakeReservations/{privateSession}', [FakeReservationController::class, 'showALl']);
 
@@ -159,7 +161,8 @@ Route::middleware(['auth:api', 'check.role:1'])->group(function() {
 /////////////////////////////////// Services Managers Methods //////////////////////////////////
 
 
-Route::middleware(['auth:api', 'check.role:serviceManager'])->group(function() {
+Route::middleware(['auth:api', //'check.role:serviceManager'
+])->group(function() {
 
     Route::prefix("serviceManager")->group(function () {
         Route::get('/showProfile', [ServiceManagerController::class, 'showProfile'])->name('showServiceManagerProfile');

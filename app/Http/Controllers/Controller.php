@@ -109,6 +109,12 @@ class Controller extends BaseController
                 return $this->checkIsInterested($record['id'], $interestedService->userID);
             });
 
+            if($isInterested){
+                $interestedService= $interestedServices->firstWhere('userID', auth()->id());
+            }else{
+                $interestedService=null;
+            }
+
             return [
                 'id' => $record['id'],
                 'serviceManagerName' => $record->serviceManager->user->fullName,
@@ -122,7 +128,8 @@ class Controller extends BaseController
                 'maximumNumberOfGroupMembers' => $record->maximumNumberOfGroupMembers,
                 'statusName' => $record->status == 1 ? 'Effective' : 'Not Effective',
                 'advancedUsersWithRoles' => $advancedUserRoles,
-                'isInterested' => $isInterested ? 1 : 0
+                'isInterested' => $isInterested ? 1 : 0,
+                'interestedService' => $interestedService
             ];
         });
     }

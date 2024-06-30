@@ -68,5 +68,4 @@ class NormalUser extends Model
     public function teamMember(){
         return $this->hasMany(TeamMember::class,'normalUserID');
     }
-
 }

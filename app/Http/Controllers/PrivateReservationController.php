@@ -20,14 +20,8 @@ use Illuminate\Support\Facades\DB;
 class PrivateReservationController extends Controller
 {
 
-    public function showAll(Session $session)
+    public function showAll(PrivateSession $privateSession)
     {
-        $privateSession = $session->privateSession;
-
-        if (!$privateSession) {
-            return response()->json(['message' => 'No private session found for the given session.'], 404);
-        }
-
         $privateReservations = PrivateReservation::where('privateSessionID', $privateSession->id)->get();
 
         $reservationsDetails = $privateReservations->map(function ($reservation) {
@@ -36,7 +30,7 @@ class PrivateReservationController extends Controller
                 return $member->normalUser->user->fullName; });
 
             return [
-                'reservationID' => $reservation->id,
+                'privateReservationID' => $reservation->id,
                 'groupID' => $reservation->groupID,
                 'groupMembers' => $memberNames,
                 'reservationDate' => $reservation->reservationDate,
@@ -48,7 +42,6 @@ class PrivateReservationController extends Controller
 
         return response()->json($reservationsDetails, 200);
     }
-
 
     public function showAttendance(PrivateSession $privateSession)
     {

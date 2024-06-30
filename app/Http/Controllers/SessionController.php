@@ -36,7 +36,6 @@ class SessionController extends Controller
         return view('', compact('modifiedSessions'));
     }
 
-
     public function showActivePractical()
     {
 
@@ -60,6 +59,15 @@ class SessionController extends Controller
         return view('', compact('modifiedSessions'));
     }
 
+    public function getSessionDetails($sessionID){
+
+        $session = Session::where('id',$sessionID)->first();
+
+        if (request()->is('api/*')) {
+            return response()->json($session, 200);
+        }
+        return view('');
+    }
 
     public function showAll(Service $service)
     {
@@ -137,7 +145,6 @@ class SessionController extends Controller
 
     public function close(Session $session)
     {
-        $session = Session::query()->where('id',$session['id'])->get()->first();
         $session->update(['status'=>'closed']);
         if(request()->is('api/*')) {
             return response()->json($session, 200);

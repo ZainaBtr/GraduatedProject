@@ -84,7 +84,7 @@ class NormalUserController extends Controller
         if (request()->is('api/*')) {
             return response()->json($usersData, 200);
         }
-        return view('');
+        return view('pages.NormalUsersTablePageForServiceManager',compact('usersData'));
     }
 
     public function completeAccount1(NormalUser1 $request)

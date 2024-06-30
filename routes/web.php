@@ -14,9 +14,6 @@ use App\Http\Controllers\AssignedServiceController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\AnnouncementController;
-
-//////////////////////////////////////// Common Methods ////////////////////////////////////////
-
 Route::post('/login',[AuthController::class,'login'])->name('login');
 
 Route::post('/forgetPassword',[AuthController::class,'forgetPassword'])->name('forgetPassword');
@@ -25,18 +22,17 @@ Route::delete('/verification',[AuthController::class,'verification'])->name('ver
 
 Route::post('/setEmail',[AuthController::class,'setEmail'])->name('setEmail');
 
-Route::middleware(['auth:api', 'check.role:1||serviceManager'])->group(function() {
+Route::middleware(['auth'])->group(function() {
 
     Route::put('/changePassword',[AuthController::class,'changePassword'])->name('changePassword');
 
-    //Route::put('/setNewPassword',[AuthController::class,'setNewPassword'])->name('setNewPassword');
+    Route::post('/setNewPassword',[AuthController::class,'setNewPassword'])->name('setNewPassword');
 
     Route::post('/updateEmail',[AuthController::class,'updateEmail'])->name('updateEmail');
 
     Route::delete('/deleteAccount/{user}',[AuthController::class,'deleteAccount'])->name('deleteAccount');
 
 });
-
 
 Route::get('/', function () {
     return view('pages.FirstPageForServiceManager');
@@ -66,7 +62,6 @@ Route::get('/pp', function () {
 Route::get('/d', function () {
     return view('Common.LoginPage');
 });
-
 Route::get('/xx', function () {
     return view('pages.SignUpPageForServiceManager');
 });
@@ -74,10 +69,14 @@ Route::get('/xx', function () {
 Route::get('/z', function () {
     return view('pages.AdvancedUserRolePageForServiceManager');
 });
+
+Route::get('/nx', function () {
+    return view('pages.MyPublicServicesInHomePageForServiceManager');
+});
 Route::view('/t', "page.ServiceManagersTablePageForSystemManager");
 
 
-Route::middleware(['auth:api', 'check.role:1'])->group(function() {
+Route::middleware(['auth'])->group(function() {
 
     Route::prefix ("systemManager")->group( function () {
         Route::get('/showProfile',[ServiceManagerController::class,'showSystemManagerProfile'])->name('showSystemManagerProfile');
@@ -88,10 +87,10 @@ Route::middleware(['auth:api', 'check.role:1'])->group(function() {
 });
 
 
-/////////////////////////////////// Services Managers Methods //////////////////////////////////
 
 
-Route::middleware(['auth:api', 'check.role:serviceManager'])->group(function() {
+
+Route::middleware(['auth'])->group(function() {
 
     Route::prefix("serviceManager")->group(function () {
         Route::get('/showProfile',[ServiceManagerController::class,'showProfile'])->name('showServiceManagerProfile');
@@ -140,19 +139,13 @@ Route::middleware(['auth:api', 'check.role:serviceManager'])->group(function() {
     });
 
 
-    Route::prefix("assignedService")->group(function () {
-        Route::get('/showAll/{user}', [AssignedServiceController::class, 'showAll'])->name('showAllAssignedServices');
-        Route::post('/assign/{user}', [AssignedServiceController::class, 'assign'])->name('assignService');
-        Route::delete('/delete/{assignedService}', [AssignedServiceController::class, 'delete'])->name('deleteAssignedService');
-        Route::delete('/deleteAll/{user}', [AssignedServiceController::class, 'deleteAll'])->name('deleteAllAssignedServices');
-    });
 
     Route::prefix("service")->group(function () {
         Route::get('/showServiceNameForDynamicDropDown', [ServiceController::class, 'showServiceNameForDynamicDropDown'])->name('showServiceNameForDynamicDropDown');
         Route::get('/showServiceYearAndSpecForDynamicDropDown', [ServiceController::class, 'showServiceYearAndSpecForDynamicDropDown'])->name('showServiceYearAndSpecForDynamicDropDown');
         Route::get('/showAllParent', [ServiceController::class, 'showAllParent'])->name('showAllParentServices');
         Route::get('/showChild/{service}', [ServiceController::class, 'showChild'])->name('showChildServices');
-        Route::get('/showMyAllParentFromServiceManager', [ServiceController::class, 'showMyAllParentFromServiceManager'])->name('showMyAllParentServices');
+        Route::get('/showMyAllParentFromServiceManager', [ServiceController::class, 'showMyAllParentFromServiceManager'])->name('showMyAllParentFromServiceManager');
         Route::get('/showMyChildFromServiceManager/{service}', [ServiceController::class, 'showMyChildFromServiceManager'])->name('showMyChildServices');
         Route::post('/add/{parentService?}', [ServiceController::class, 'add'])->name('addService');
         Route::put('/update/{service}', [ServiceController::class, 'update'])->name('updateService');

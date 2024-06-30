@@ -29,7 +29,8 @@ class TeamMemberController extends Controller
 
     public function delete(TeamMember $teamMember)
     {
-        //
+        $teamMember->delete();
+        return response()->json(['message'=>'team member removed successfully'],200);
     }
 
 }
