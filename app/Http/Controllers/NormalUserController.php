@@ -77,7 +77,7 @@ class NormalUserController extends Controller
                     'examinationNumber' => $normalUser->examinationNumber,
                     'studySituation' => $normalUser->studySituation,
                     'skills' => $normalUser->skills,
-                    'birthDate' => $normalUser->birthDate,
+                    'birthDate' => $normalUser->birthDate
                 ];
             }
         }

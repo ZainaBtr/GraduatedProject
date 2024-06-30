@@ -29,7 +29,7 @@ class InterestedServiceController extends Controller
 
     public function showAllParent()
     {
-        $allRecords = Service::with(['interestedService', 'serviceManager.user', 'parentService', 'serviceYearAndSpecialization', 'assignedService.advancedUser.user', 'assignedService.assignedRole.role'])
+        $allRecords = Service::with(['interestedService', 'serviceManager.user', 'parentService', 'serviceYearAndSpecialization', 'assignedService.user', 'assignedService.assignedRole.role'])
             ->whereHas('interestedService', function ($query) {
                 $query->where('userID', auth()->id());
             })
@@ -50,7 +50,7 @@ class InterestedServiceController extends Controller
 
     public function showChild(Service $service)
     {
-        $allRecords = Service::with(['interestedService', 'serviceManager.user', 'parentService', 'serviceYearAndSpecialization', 'assignedService.advancedUser.user', 'assignedService.assignedRole.role'])
+        $allRecords = Service::with(['interestedService', 'serviceManager.user', 'parentService', 'serviceYearAndSpecialization', 'assignedService.user', 'assignedService.assignedRole.role'])
             ->where('parentServiceID', $service['id'])
             ->orderByDesc('status')
             ->get();

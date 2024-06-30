@@ -127,8 +127,6 @@ Route::middleware(['auth', 'check.role:serviceManager'])->group(function() {
         Route::delete('/deleteAll', [RoleController::class, 'deleteAll'])->name('deleteAllRoles');
     });
 
-  
-
     Route::prefix("assignedRole")->group(function () {
         Route::get('/showRoleForDynamicDropDown', [AssignedRoleController::class, 'showRoleForDynamicDropDown'])->name('showRoleForDynamicDropDown');
         Route::get('/showAll/{assignedService}', [AssignedRoleController::class, 'showAll'])->name('showAllAssignedRoles');
@@ -136,7 +134,6 @@ Route::middleware(['auth', 'check.role:serviceManager'])->group(function() {
         Route::delete('/delete/{assignedRole}', [AssignedRoleController::class, 'delete'])->name('deleteAssignedRole');
         Route::delete('/deleteAll/{assignedService}', [AssignedRoleController::class, 'deleteAll'])->name('deleteAllAssignedRoles');
     });
-
 
     Route::prefix("assignedService")->group(function () {
         Route::get('/showAll/{user}', [AssignedServiceController::class, 'showAll'])->name('showAllAssignedServices');
