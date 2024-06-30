@@ -173,7 +173,6 @@
 
 <button class="styled-button" data-toggle="modal" data-target="#exampleModal">Add Normal Users File</button>
 <br><br>
-
 <div class="styled-table">
     <table id="datatable" class="table table-hover table-sm table-bordered p-0" data-page-length="50" style="text-align: center">
         <thead>

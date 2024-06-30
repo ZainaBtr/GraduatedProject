@@ -25,7 +25,7 @@ class ServiceYearAndSpecialization1 extends FormRequest
     public function rules(): array
     {
         return [
-            'serviceYear' => ['required', 'numeric'],
+            'serviceYear' => ['required', 'string'],
             'serviceSpecializationName' => ['required', 'string',
                 Rule::unique('service_year_and_specializations')
                     ->where('serviceYear', $this->input('serviceYear'))

@@ -5,30 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TeamMember extends Model
+class JoinRequest extends Model
 {
     use HasFactory;
-    protected $table = "team_members";
+    protected $table = "join_requests";
     protected $primaryKey = "id";
     public $timestamp = true ;
     public $fillable = [
-        'normalUserID',
-        'groupID'
+        'senderID',
+        'groupID',
+        'requestDate',
+        'joiningRequestStatus'
     ];
-
-    public function normalUser()
-    {
-        return $this->belongsTo(NormalUser::class, 'normalUserID');
-    }
-
     public function group()
     {
         return $this->belongsTo(Group::class, 'groupID');
     }
 
-    public function service()
+    public function sender()
     {
-        return $this->group->belongsTo(Service::class, 'serviceID');
+        return $this->belongsTo(User::class, 'senderID');
     }
-
 }

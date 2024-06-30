@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 use App\Http\Requests\User\User4;
-use App\Http\Requests\User\User7;
-use App\Mail\myEmail;
 use App\Http\Requests\User\User5;
 use App\Http\Requests\User\User6;
+use App\Http\Requests\User\User7;
+use App\Http\Requests\User\User8;
+use App\Mail\myEmail;
 use App\Models\AdvancedUser;
 use App\Models\ServiceManager;
 use App\Models\User;
@@ -28,36 +29,37 @@ class AuthController extends Controller
      * @throws AuthenticationException
      */
 
+
      public function login(User1 $request)
      {
-         $credentials = request(['email', 'password']);
-         $user = User::where('email', $credentials['email'])->first();
+        $credentials = request(['email', 'password']);
+        $user = User::where('email', $credentials['email'])->first();
  
-         if (!$user) {
+        if (!$user) {
+            throw new AuthenticationException();
+        }
+        $passwordIsValid = Hash::check($credentials['password'], $user->password);
+
+        if (!$passwordIsValid && $user->password === $credentials['password']) {
+            $passwordIsValid = true;
+        }
+        if (!$passwordIsValid) {
              throw new AuthenticationException();
          }
-         $passwordIsValid = Hash::check($credentials['password'], $user->password);
+        Auth::login($user);
+        $data = $this->createToken($request->user());
  
-         if (!$passwordIsValid && $user->password === $credentials['password']) {
-             $passwordIsValid = true;
-         }
-         if (!$passwordIsValid) {
-             throw new AuthenticationException();
-         }
-         Auth::login($user);
-         $data = $this->createToken($request->user());
- 
-         $serviceManager=$user->serviceManager;
- 
+        $serviceManager=$user->serviceManager;
+
          if (request()->is('api/*')) {
              return response()->json($data, Response::HTTP_OK);
          }
- 
-         if($serviceManager){
-             return redirect()->action([NormalUserController::class, 'showAll']);
- 
-         }
-         return redirect()->action([ServiceManagerController::class, 'showAll']);
+
+        if($serviceManager){
+            return redirect()->action([NormalUserController::class, 'showAll']);
+
+        }
+        return redirect()->action([ServiceManagerController::class, 'showAll']);
      }
     
       
@@ -112,25 +114,44 @@ class AuthController extends Controller
         return redirect()->action([NormalUserController::class, 'showAll']);
     }
 
-    public function setNewPassword(User8 $request){
-        $user=Auth::user();
-        $user->update(['password' => Hash::make($request['password'])]);
-        if(request()->is('api/*')){
-            return response()->json(['message' => 'Password Has Updated Successfully'],200);
+
+    public function setNewPassword(Request $request)
+        if ($request->is('api/*')) {
+            $user = Auth::guard('api')->user();
+        } else {
+            $user = Auth::guard('web')->user();
+        }
+        if (!$user) {
+            return response()->json(['message' => 'Unauthenticated'], 401);
+        }
+        $user->update(['password' => Hash::make($request->input('password'))]);
+
+        $normalUser=$user->normalUser;
+        $advancedUser=$user->advancedUser;
+
+        $normalUser?->update(['isAccountCompleted' => 1]);
+        $advancedUser?->update(['isAccountCompleted' => 1]);
+
+
+        if ($request->is('api/*')) {
+            return response()->json(['message' => 'Password Has Updated Successfully'], 200);
         }
         return redirect()->action([NormalUserController::class, 'showAll']);
     }
 
-    
+
+
     public function setEmail(User6 $request)
     {
         if (request()->is('api/*')) {
             $user = Auth::guard('api')->user();
         } else {
-            $user = null; // إعادة تعيين المستخدم إلى null للتحقق لاحقًا
-        }
+            Auth::guard('web')->logout();
+            session()->invalidate();
+            session()->regenerateToken();
 
-        // إذا لم يتم العثور على المستخدم، تحقق منه يدويًا باستخدام كلمة المرور
+            $user = null;
+        }
         if ($user === null) {
             $user = User::where('password', $request['password'])->first();
 
@@ -138,7 +159,7 @@ class AuthController extends Controller
                 return response()->json(['message' => 'Account Not Found or Wrong Password'], 404);
             }
         }
-
+        
         $this->sendEmail($request['email']);
         $user->update(['email' => $request['email']]);
 
@@ -160,14 +181,16 @@ class AuthController extends Controller
      {
          $user = Auth::user();
          if (!Hash::check($request['password'], $user->password)) {
-             return response()->json(['message' => 'Wrong password'], 400);
-         }
+        if (!Hash::check($request['password'], $user->password)) {
+            return response()->json(['message' => 'Wrong password'], 400);
+        }
+
          $user->update(['email' => $request['email']]);
          $this->sendEmail($request['email']);
          if(request()->is('api/*')){
              return  response()->json(['message' => 'We Sent 6 Digits Code To Your Email'],200);
          }
-         return view('Common.VerificationCodePage');
+        return view('Common.VerificationCodePage');    }
      
      }
     public function deleteAccount(User $user)

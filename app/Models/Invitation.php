@@ -5,18 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Attendance extends Model
+class Invitation extends Model
 {
     use HasFactory;
-    protected $table = "attendances";
+    protected $table = "invitations";
     protected $primaryKey = "id";
-    public $timestamp = true ;
+    public $timestamps = true;
     public $fillable = [
+        'groupID',
         'normalUserID',
-        'sessionID'
+        'requestDate',
+        'status'
     ];
 
-    public function normalUser(){
+    public function group()
+    {
+        return $this->belongsTo(Group::class, 'groupID');
+    }
+
+    public function normalUser()
+    {
         return $this->belongsTo(NormalUser::class, 'normalUserID');
     }
 }

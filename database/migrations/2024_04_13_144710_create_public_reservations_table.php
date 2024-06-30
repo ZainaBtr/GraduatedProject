@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('public_reservations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('normalUserID')->constrained('normal_users')->cascadeOnDelete();
+            $table->foreignId('userID')->constrained('users')->cascadeOnDelete();
             $table->foreignId('publicSessionID')->constrained('public_sessions')->cascadeOnDelete();
             $table->timestamps();
         });

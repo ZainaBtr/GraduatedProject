@@ -42,7 +42,14 @@ class ServiceController extends Controller
         $allRecords = $this->getServiceData($allRecords);
         return view('pages.PublicServicesInHomePageForServiceManager',compact('allRecords'));
 
-        return response()->json($allRecords, Response::HTTP_OK);
+
+        if (request()->is('api/*')) {
+            return response()->json($allRecords, Response::HTTP_OK);
+
+        }
+
+        return view('pages.PublicServicesInHomePageForServiceManager',compact('allRecords'));
+
     }
 
     public function showChild(Service $service)
@@ -58,7 +65,16 @@ class ServiceController extends Controller
             'parentService' => $service
         ]);
        
-        return response()->json($allRecords, Response::HTTP_OK);
+        if (request()->is('api/*')) {
+            return response()->json($allRecords, Response::HTTP_OK);
+
+        }
+
+        return view('pages.PrivateServicesInHomePageForServiceManager', [
+            'allRecords' => $allRecords,
+            'parentService' => $service
+        ]);
+
     }
 
     public function showMyAllParentFromServiceManager()
@@ -73,7 +89,12 @@ class ServiceController extends Controller
         $allRecords = $this->getServiceData($allRecords);
         return view('pages.MyPublicServicesInHomePageForServiceManager',compact('allRecords'));
 
-        return response()->json($allRecords, Response::HTTP_OK);
+        if (request()->is('api/*')) {
+            return response()->json($allRecords, Response::HTTP_OK);
+        }
+
+        return view('pages.MyPublicServicesInHomePageForServiceManager',compact('allRecords'));
+
     }
 
     public function showMyChildFromServiceManager(Service $service)
@@ -87,12 +108,15 @@ class ServiceController extends Controller
 
         $allRecords = $this->getServiceData($allRecords);
 
+        if (request()->is('api/*')) {
+            return response()->json($allRecords, Response::HTTP_OK);
+        }
+
         return view('pages.MyPrivateServicesInHomePageForServiceManager', [
             'allRecords' => $allRecords,
             'parentService' => $service
         ]);
 
-        return response()->json($allRecords, Response::HTTP_OK);
     }
 
     public function showByYearAndSpecialization(ServiceYearAndSpecialization $serviceYearAndSpecialization)
@@ -217,7 +241,10 @@ class ServiceController extends Controller
 
         $allRecords = $this->getServiceData($allRecords);
         return view('pages.PublicServicesInHomePageForServiceManager', compact('allRecords'));
-        return response()->json($allRecords, Response::HTTP_OK);
+        if (request()->is('api/*')) {
+            return response()->json($allRecords, Response::HTTP_OK);
+        }
+        return view('pages.PublicServicesInHomePageForServiceManager', compact('allRecords'));
     }
 
     public function searchForAdvancedUser(Service3 $request)

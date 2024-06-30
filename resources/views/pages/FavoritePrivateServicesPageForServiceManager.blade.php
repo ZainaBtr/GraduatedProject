@@ -73,13 +73,13 @@ Meal
     }
 
     .heart-icon i {
-        font-size: 15px; /* حجم الأيقونة */
-        color: white; /* اللون الافتراضي */
-        transition: color 0.2s; /* تأثير الانتقال عند تغيير اللون */
+        font-size: 15px; /* Ø­Ø¬Ù… Ø§Ù„Ø£ÙŠÙ‚ÙˆÙ†Ø© */
+        color: white; /* Ø§Ù„Ù„ÙˆÙ† Ø§Ù„Ø§ÙØªØ±Ø§Ø¶ÙŠ */
+        transition: color 0.2s; /* ØªØ£Ø«ÙŠØ± Ø§Ù„Ø§Ù†ØªÙ‚Ø§Ù„ Ø¹Ù†Ø¯ ØªØºÙŠÙŠØ± Ø§Ù„Ù„ÙˆÙ† */
     }
 
     .heart-icon i.black {
-        color: black; /* اللون عند إزالة الإعجاب */
+        color: black; /* Ø§Ù„Ù„ÙˆÙ† Ø¹Ù†Ø¯ Ø¥Ø²Ø§Ù„Ø© Ø§Ù„Ø¥Ø¹Ø¬Ø§Ø¨ */
     }
 
     /* Modal Style */
@@ -119,8 +119,8 @@ Meal
     }
 
     #search-input {
-        border-radius: 10px; /* زيادة نصف قطر البوردر لتباين الشكل */
-        border: 1px solid #ccc; /* تغيير عرض البوردر */
+        border-radius: 10px; /* Ø²ÙŠØ§Ø¯Ø© Ù†ØµÙ Ù‚Ø·Ø± Ø§Ù„Ø¨ÙˆØ±Ø¯Ø± Ù„ØªØ¨Ø§ÙŠÙ† Ø§Ù„Ø´ÙƒÙ„ */
+        border: 1px solid #ccc; /* ØªØºÙŠÙŠØ± Ø¹Ø±Ø¶ Ø§Ù„Ø¨ÙˆØ±Ø¯Ø± */
         width: 400px;
         height: 40px;
     }
@@ -130,14 +130,14 @@ Meal
     }
 
     .fa-search {
-        position: absolute; /* جعل الأيقونة متحكمة في الموقع داخل الزر */
+        position: absolute; /* Ø¬Ø¹Ù„ Ø§Ù„Ø£ÙŠÙ‚ÙˆÙ†Ø© Ù…ØªØ­ÙƒÙ…Ø© ÙÙŠ Ø§Ù„Ù…ÙˆÙ‚Ø¹ Ø¯Ø§Ø®Ù„ Ø§Ù„Ø²Ø± */
         top: 50%;
         left: 95%;
         transform: translate(-50%, -50%);
         cursor: pointer;
     }
 
-    /* تحديد حجم الأيقونة */
+    /* ØªØ­Ø¯ÙŠØ¯ Ø­Ø¬Ù… Ø§Ù„Ø£ÙŠÙ‚ÙˆÙ†Ø© */
     .fa-search {
         font-size: 20px;
     }

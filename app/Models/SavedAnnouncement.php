@@ -15,4 +15,9 @@ class SavedAnnouncement extends Model
         'userID',
         'announcementID'
     ];
+
+    public function announcement()
+    {
+        return $this->belongsTo(Announcement::class, 'announcementID');
+    }
 }

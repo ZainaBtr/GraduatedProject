@@ -24,11 +24,12 @@ class User6 extends FormRequest
                 $rules['password'] = ['required', 'string', 'min:8'];
             }
         } else {
-            if (Auth::guard('web')) {
+            if (Auth::guard('web')->guest()) {
                 $rules['password'] = ['required', 'string', 'min:8'];
             }
         }
 
         return $rules;
+    }
     }
 }

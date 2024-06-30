@@ -21,12 +21,19 @@ class PrivateSession2 extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
+
     public function rules(): array
     {
         return [
-            'durationForEachReservations' => ['time']
+            'sessionName' => ['string', 'nullable'],
+            'sessionDescription' => ['string', 'nullable'],
+            'sessionDate' => ['date', 'nullable'],
+            'sessionStartTime' => ['date_format:H:i', 'nullable'],
+            'sessionEndTime' => ['date_format:H:i', 'nullable'],
+            'durationForEachReservation' => ['regex:/^\d{1,2}:\d{1,2}$/', 'nullable']
         ];
     }
+
 
     /**
      * Handle a failed validation attempt.

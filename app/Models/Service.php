@@ -47,4 +47,8 @@ class Service extends Model
     {
         return $this->hasMany(InterestedService::class, 'serviceID');
     }
+
+    public function session(){
+        return $this->hasMany(Session::class,'serviceID');
+    }
 }

@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('public_sessions', function (Blueprint $table) {
+        Schema::create('invitations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('sessionID')->constrained('sessionss')->cascadeOnDelete();
-            $table->integer('MaximumNumberOfReservations')->nullable();
+            $table->foreignId('groupID')->constrained('groups')->cascadeOnDelete();
+            $table->foreignId('normalUserID')->constrained('normal_users')->cascadeOnDelete();
+            $table->date('requestDate');
+            $table->string('status');
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('public_sessions');
+        Schema::dropIfExists('invitations');
     }
 };

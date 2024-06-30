@@ -15,6 +15,33 @@ class PrivateReservation extends Model
         'groupID',
         'privateSessionID',
         'reservationDate',
+        'reservationStartTime',
+        'reservationEndTime',
         'privateReservationStatus'
     ];
+
+    public function senderGroup()
+    {
+        return $this->belongsTo(Group::class, 'senderGroupID');
+    }
+
+    public function receiverGroup()
+    {
+        return $this->belongsTo(Group::class, 'receiverGroupID');
+    }
+
+    public function Reservation()
+    {
+        return $this->belongsTo(PrivateReservation::class, 'privateReservationID');
+    }
+
+    public function privateSession()
+    {
+        return $this->belongsTo(PrivateSession::class, 'privateSessionID');
+    }
+    public function group()
+    {
+        return $this->belongsTo(Group::class, 'groupID');
+    }
+
 }

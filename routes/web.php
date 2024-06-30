@@ -76,15 +76,15 @@ Route::get('/nx', function () {
 Route::view('/t', "page.ServiceManagersTablePageForSystemManager");
 
 
- Route::middleware(['auth'])->group(function() {
+Route::middleware(['auth'])->group(function() {
 
     Route::prefix ("systemManager")->group( function () {
         Route::get('/showProfile',[ServiceManagerController::class,'showSystemManagerProfile'])->name('showSystemManagerProfile');
         Route::post('/createServiceManagerAccount',[ServiceManagerController::class,'createAccount'])->name('createServiceManagerAccount');
         Route::get('/showAll',[ServiceManagerController::class,'showAll'])->name('showAllServicesManagers');
     });
- 
-   });
+
+});
 
 
 
@@ -92,7 +92,7 @@ Route::view('/t', "page.ServiceManagersTablePageForSystemManager");
 
 Route::middleware(['auth'])->group(function() {
 
-  Route::prefix("serviceManager")->group(function () {
+    Route::prefix("serviceManager")->group(function () {
         Route::get('/showProfile',[ServiceManagerController::class,'showProfile'])->name('showServiceManagerProfile');
         Route::post('/addAdvancedUsersFile',[ServiceManagerController::class,'addAdvancedUsersFile'])->name('addAdvancedUsersFile');
         Route::post('/addNormalUsersFile',[ServiceManagerController::class,'addNormalUsersFile'])->name('addNormalUsersFile');

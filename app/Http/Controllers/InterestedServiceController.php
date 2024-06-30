@@ -12,7 +12,7 @@ class InterestedServiceController extends Controller
     public function showAll()
     {
         $allRecords = Service::whereHas('interestedService', function ($query) {
-                $query->where('userID', auth()->id());
+            $query->where('userID', auth()->id());
         })
             ->whereNull('parentServiceID')
             ->where('status', 1)
@@ -20,14 +20,21 @@ class InterestedServiceController extends Controller
 
         foreach ($allRecords as $record) {
             $record['children'] = Service::where('parentServiceID', $record['id'])
-            ->where('status', 1)
-            ->get();
+                ->where('status', 1)
+                ->get();
         }    
+
+        if (request()->is('api/*')) {
+             return response()->json($allRecords, Response::HTTP_OK);
+        ]);
         return view('pages.PublicServicesInHomePageForServiceManager', [
             'allRecords' => $allRecords,
             'interestedService' => $allRecords->InterestedService
         ]);
-        return response()->json($allRecords, Response::HTTP_OK);
+
+        }
+
+        return view('pages.PublicServicesInHomePageForServiceManager', compact($allRecords));
     }
 
     public function showAllParent()
@@ -42,12 +49,15 @@ class InterestedServiceController extends Controller
 
         $allRecords = $this->getServiceData($allRecords);
 
-          return view('pages.FavoritePublicServicesPageForServiceManager',[
-            'allRecords' => $allRecords,
-            
-          ]
+
+        if (request()->is('api/*')) {
+            return response()->json($allRecords, Response::HTTP_OK);
+        }
+        return view('pages.FavoritePublicServicesPageForServiceManager',[
+                'allRecords' => $allRecords,
+                'interestedService' => $allRecords->InterestedService
+            ]
         );
-        return response()->json($allRecords, Response::HTTP_OK);
     }
 
     public function showChild(Service $service)
@@ -59,12 +69,16 @@ class InterestedServiceController extends Controller
 
         $allRecords = $this->getServiceData($allRecords);
      
+
+        if (request()->is('api/*')) {
+            return response()->json($allRecords, Response::HTTP_OK);
+        }
+
         return view('pages.FavoritePrivateServicesPageForServiceManager', [
             'allRecords' => $allRecords,
             'parentService' => $service
         ]);
 
-        return response()->json($allRecords, Response::HTTP_OK);
     }
 
     public function interestIn(Service $service)

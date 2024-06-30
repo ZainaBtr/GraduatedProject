@@ -35,10 +35,7 @@ class NormalUserController extends Controller
         ];
         $responseData = array_merge($userData, $additionalData);
 
-        if(request()->is('api/*')){
-            return response()->json($responseData,200);
-        }
-       
+        return response()->json($responseData,200);
     }
 
     public function showAll()
@@ -54,7 +51,9 @@ class NormalUserController extends Controller
             $serviceYearAndSpecialization = ServiceYearAndSpecialization::find($normalUser->serviceYearAndSpecializationID);
 
             if ($normalUser->isAccountCompleted == 0) {
+
                 $usersData[] = [
+                    'id' => $normalUser->id,
                     'fullName' => $user->fullName,
                     'email' => $user->email,
                     'password' => $user->password,
@@ -64,11 +63,12 @@ class NormalUserController extends Controller
                     'examinationNumber' => $normalUser->examinationNumber,
                     'studySituation' => $normalUser->studySituation,
                     'skills' => $normalUser->skills,
-                    'birthDate' => $normalUser->birthDate,
+                    'birthDate' => $normalUser->birthDate
                 ];
             }
             else {
                 $usersData[] = [
+                    'id' => $normalUser->id,
                     'fullName' => $user->fullName,
                     'email' => $user->email,
                     'isAccountCompleted'=>$normalUser->isAccountCompleted,
@@ -96,7 +96,7 @@ class NormalUserController extends Controller
         }
         $data=$this->createToken($user);
 
-        response()->json($data,Response::HTTP_OK);
+        return  response()->json($data,Response::HTTP_OK);
     }
 
    public function completeAccount2(NormalUser2 $request)

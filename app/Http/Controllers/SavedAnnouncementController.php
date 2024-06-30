@@ -11,12 +11,13 @@ class SavedAnnouncementController extends Controller
 
     public function showAll()
     {
-        $allRecords = Announcement::whereHas('savedAnnouncement', function ($query) {
-            $query->where('userID', auth()->id());
-        })
-            ->with('service', 'file')->get();
+        $allRecords = SavedAnnouncement::where('userID', auth()->id())
+            ->with('announcement', 'announcement.service', 'announcement.file')->get();
 
-        return response()->json($allRecords, Response::HTTP_OK);
+        if (request()->is('api/*')) {
+            return response()->json($allRecords, Response::HTTP_OK);
+        }
+        return view('');
     }
 
     public function save(Announcement $announcement)
@@ -26,14 +27,20 @@ class SavedAnnouncementController extends Controller
 
         $recordStored = SavedAnnouncement::create($data);
 
-        return response()->json($recordStored, Response::HTTP_OK);
+        if (request()->is('api/*')) {
+            return response()->json($recordStored, Response::HTTP_OK);
+        }
+        return view('');
     }
 
     public function unSave(SavedAnnouncement $savedAnnouncement)
     {
         $savedAnnouncement->delete();
 
-        return response()->json(['message' => 'this announcement unsaved successfully']);
+        if (request()->is('api/*')) {
+            return response()->json(['message' => 'this announcement unsaved successfully']);
+        }
+        return view('');
     }
 
 }

@@ -24,7 +24,9 @@ class PrivateReservation1 extends FormRequest
     public function rules(): array
     {
         return [
-            'reservationDate' => ['required','datetime']
+            'reservationDate' => ['required','date'],
+            'reservationStartTime' => ['required','date_format:H:i'],
+            'reservationEndTime' => ['required','date_format:H:i'],
         ];
     }
 

@@ -13,6 +13,19 @@ class PrivateSession extends Model
     public $timestamp = true ;
     public $fillable = [
         'sessionID',
-        'DurationForEachReservation'
+        'durationForEachReservation'
     ];
+
+    public function session(){
+        return $this->belongsTo(Session::class,'sessionID');
+    }
+
+    public function fakeReservation(){
+        return $this->hasMany(FakeReservation::class,'privateSessionID');
+    }
+
+    public function privateReservation(){
+        return $this->hasMany(PrivateReservation::class,'privateSessionID');
+    }
+
 }

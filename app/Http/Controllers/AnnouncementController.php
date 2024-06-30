@@ -16,22 +16,30 @@ class AnnouncementController extends Controller
     {
         $allRecords = Announcement::with('service', 'file')->get();
 
+        if (request()->is('api/*')) {
+            return response()->json($allRecords, Response::HTTP_OK);
+        }
         return view('pages.AdvertismentPageFromServiceForServiceManage',compact('allRecords'));
-        return response()->json($allRecords, Response::HTTP_OK);
     }
 
     public function showAllFromService(Service $service)
     {
         $allRecords = Announcement::where('serviceID', $service['id'])->with('service', 'file')->get();
 
-        return response()->json($allRecords, Response::HTTP_OK);
+        if (request()->is('api/*')) {
+            return response()->json($allRecords, Response::HTTP_OK);
+        }
+        return view('');
     }
 
     public function showMy()
     {
         $allRecords = Announcement::where('userID', auth()->id())->with('service', 'file')->get();
 
-        return response()->json($allRecords, Response::HTTP_OK);
+        if (request()->is('api/*')) {
+            return response()->json($allRecords, Response::HTTP_OK);
+        }
+        return view('');
     }
 
     public function add(Announcement1 $request)
@@ -46,7 +54,10 @@ class AnnouncementController extends Controller
             $announcement['fileStored'] = $this->addFileInAnnouncement($request,  $announcement);
             return redirect()->back();
 
-        return response()->json($announcement, Response::HTTP_OK);
+        if (request()->is('api/*')) {
+            return response()->json($announcement, Response::HTTP_OK);
+        }
+        return view('');
     }
 
     public function addFromService(Announcement2 $request, Service $service)
@@ -62,14 +73,20 @@ class AnnouncementController extends Controller
         if($request['file'])
             $announcement['fileStored'] = $this->addFileFromServiceInAnnouncement($request,  $announcement);
 
-        return response()->json($announcement, Response::HTTP_OK);
+        if (request()->is('api/*')) {
+            return response()->json($announcement, Response::HTTP_OK);
+        }
+        return view('');
     }
 
     public function update(Announcement1 $request, Announcement $announcement)
     {
         $recordUpdated = $announcement->update($request->validated());
 
-        return response()->json($recordUpdated, Response::HTTP_OK);
+        if (request()->is('api/*')) {
+            return response()->json($recordUpdated, Response::HTTP_OK);
+        }
+        return view('');
     }
 
     public function filterByType(Service4 $request)
@@ -91,7 +108,10 @@ class AnnouncementController extends Controller
         }
         $filteredServices = $query->with('service', 'file')->get();
 
-        return response()->json($filteredServices, Response::HTTP_OK);
+        if (request()->is('api/*')) {
+            return response()->json($filteredServices, Response::HTTP_OK);
+        }
+        return view('');
     }
 
 }
