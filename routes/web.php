@@ -14,6 +14,9 @@ use App\Http\Controllers\AssignedServiceController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\AnnouncementController;
+
+//////////////////////////////////////// Common Methods ////////////////////////////////////////
+
 Route::post('/login',[AuthController::class,'login'])->name('login');
 
 Route::post('/forgetPassword',[AuthController::class,'forgetPassword'])->name('forgetPassword');
@@ -22,7 +25,7 @@ Route::delete('/verification',[AuthController::class,'verification'])->name('ver
 
 Route::post('/setEmail',[AuthController::class,'setEmail'])->name('setEmail');
 
-Route::middleware(['auth'])->group(function() {
+Route::middleware(['auth:api', 'check.role:1||serviceManager'])->group(function() {
 
     Route::put('/changePassword',[AuthController::class,'changePassword'])->name('changePassword');
 
@@ -32,7 +35,8 @@ Route::middleware(['auth'])->group(function() {
 
     Route::delete('/deleteAccount/{user}',[AuthController::class,'deleteAccount'])->name('deleteAccount');
 
- });
+});
+
 
 Route::get('/', function () {
     return view('pages.FirstPageForServiceManager');
@@ -58,10 +62,10 @@ Route::get('/pp', function () {
     return view('Common.EnterEmailPage');
 });
 
-
 Route::get('/d', function () {
     return view('Common.LoginPage');
 });
+
 Route::get('/xx', function () {
     return view('pages.SignUpPageForServiceManager');
 });
@@ -73,10 +77,10 @@ Route::get('/z', function () {
 Route::get('/nx', function () {
     return view('pages.MyPublicServicesInHomePageForServiceManager');
 });
+
 Route::view('/t', "page.ServiceManagersTablePageForSystemManager");
 
-
-Route::middleware(['auth'])->group(function() {
+Route::middleware(['auth:api', 'check.role:1'])->group(function() {
 
     Route::prefix ("systemManager")->group( function () {
         Route::get('/showProfile',[ServiceManagerController::class,'showSystemManagerProfile'])->name('showSystemManagerProfile');
@@ -87,10 +91,10 @@ Route::middleware(['auth'])->group(function() {
 });
 
 
+/////////////////////////////////// Services Managers Methods //////////////////////////////////
 
 
-
-Route::middleware(['auth'])->group(function() {
+Route::middleware(['auth:api', 'check.role:serviceManager'])->group(function() {
 
     Route::prefix("serviceManager")->group(function () {
         Route::get('/showProfile',[ServiceManagerController::class,'showProfile'])->name('showServiceManagerProfile');
@@ -138,7 +142,13 @@ Route::middleware(['auth'])->group(function() {
         Route::delete('/deleteAll/{assignedService}', [AssignedRoleController::class, 'deleteAll'])->name('deleteAllAssignedRoles');
     });
 
-  
+
+    Route::prefix("assignedService")->group(function () {
+        Route::get('/showAll/{user}', [AssignedServiceController::class, 'showAll'])->name('showAllAssignedServices');
+        Route::post('/assign/{user}', [AssignedServiceController::class, 'assign'])->name('assignService');
+        Route::delete('/delete/{assignedService}', [AssignedServiceController::class, 'delete'])->name('deleteAssignedService');
+        Route::delete('/deleteAll/{user}', [AssignedServiceController::class, 'deleteAll'])->name('deleteAllAssignedServices');
+    });
 
     Route::prefix("service")->group(function () {
         Route::get('/showServiceNameForDynamicDropDown', [ServiceController::class, 'showServiceNameForDynamicDropDown'])->name('showServiceNameForDynamicDropDown');
@@ -160,10 +170,8 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/showChild/{service}', [InterestedServiceController::class, 'showChild'])->name('showChildInterestedServices');
         Route::post('/interestInService/{service}', [InterestedServiceController::class, 'interestIn'])->name('interestInService');
         Route::delete('/unInterestInService/{interestedService}', [InterestedServiceController::class, 'unInterestIn'])->name('unInterestInService');
-        
-
     });
-    
+
     Route::prefix("announcement")->group(function () {
         Route::get('/showAll', [AnnouncementController::class, 'showAll'])->name('showAnnouncements');
         Route::get('/showAllFromService/{service}', [AnnouncementController::class, 'showAllFromService'])->name('showAllAnnouncementsFromService');
@@ -180,7 +188,6 @@ Route::middleware(['auth'])->group(function() {
         Route::delete('/unSave/{savedAnnouncement}', [SavedAnnouncementController::class, 'unSave'])->name('unSaveAnnouncement');
     });
 
-    Route::get('/file/download/{file}', [FileController::class, 'download'])->name('downloadFile');
-
+    Route::post('/file/download/{file}', [FileController::class, 'download'])->name('downloadFile');
 
 });

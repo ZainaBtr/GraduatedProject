@@ -11,30 +11,20 @@ class InterestedServiceController extends Controller
 
     public function showAll()
     {
-        $allRecords = Service::whereHas('interestedService', function ($query) {
-            $query->where('userID', auth()->id());
+        $allRecords = InterestedService::whereHas('service', function ($query) {
+            $query->whereNull('parentServiceID')
+                ->where('status', 1);
         })
-            ->whereNull('parentServiceID')
-            ->where('status', 1)
+            ->where('userID', auth()->id())
+            ->with('service')
             ->get();
 
         foreach ($allRecords as $record) {
-            $record['children'] = Service::where('parentServiceID', $record['id'])
+            $record->service['children'] = Service::where('parentServiceID', $record->service['id'])
                 ->where('status', 1)
                 ->get();
-        }    
-
-        if (request()->is('api/*')) {
-             return response()->json($allRecords, Response::HTTP_OK);
-        ]);
-        return view('pages.PublicServicesInHomePageForServiceManager', [
-            'allRecords' => $allRecords,
-            'interestedService' => $allRecords->InterestedService
-        ]);
-
         }
-
-        return view('pages.PublicServicesInHomePageForServiceManager', compact($allRecords));
+        return response()->json($allRecords, Response::HTTP_OK);
     }
 
     public function showAllParent()
@@ -49,15 +39,13 @@ class InterestedServiceController extends Controller
 
         $allRecords = $this->getServiceData($allRecords);
 
-
         if (request()->is('api/*')) {
             return response()->json($allRecords, Response::HTTP_OK);
         }
         return view('pages.FavoritePublicServicesPageForServiceManager',[
                 'allRecords' => $allRecords,
                 'interestedService' => $allRecords->InterestedService
-            ]
-        );
+        ]);
     }
 
     public function showChild(Service $service)
@@ -68,17 +56,14 @@ class InterestedServiceController extends Controller
             ->get();
 
         $allRecords = $this->getServiceData($allRecords);
-     
 
         if (request()->is('api/*')) {
             return response()->json($allRecords, Response::HTTP_OK);
         }
-
         return view('pages.FavoritePrivateServicesPageForServiceManager', [
             'allRecords' => $allRecords,
             'parentService' => $service
         ]);
-
     }
 
     public function interestIn(Service $service)
@@ -88,18 +73,20 @@ class InterestedServiceController extends Controller
 
         $recordStored = InterestedService::create($data);
 
-        return response()->json($recordStored, Response::HTTP_OK);
+        if (request()->is('api/*')) {
+            return response()->json($recordStored, Response::HTTP_OK);
+        }
+        return view('');
     }
 
-   
     public function unInterestIn(InterestedService $interestedService)
     {
         $interestedService->delete();
 
-        return response()->json(['message' => 'this service uninterested successfully']);
+        if (request()->is('api/*')) {
+            return response()->json(['message' => 'this service uninterested successfully']);
+        }
+        return view('');
     }
 
-
-  
-    
 }
