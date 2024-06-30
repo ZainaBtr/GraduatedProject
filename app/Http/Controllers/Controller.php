@@ -165,35 +165,6 @@ class Controller extends BaseController
         return $reservations;
     }
 
-    public function createFakeReservations($session): array
-    {
-        $privateSession = $session->privateSession;
-        $sessionStartTime = Carbon::parse($session->sessionStartTime);
-        $sessionEndTime = Carbon::parse($session->sessionEndTime);
-        $durationForEachReservation = Carbon::parse($privateSession->durationForEachReservation);
-
-        $totalSessionDurationMinutes = $sessionEndTime->diffInMinutes($sessionStartTime);
-        $reservationDurationMinutes = $durationForEachReservation->hour * 60 + $durationForEachReservation->minute;
-        $numberOfReservations = intval($totalSessionDurationMinutes / $reservationDurationMinutes);
-
-        $reservations = [];
-        for ($i = 0; $i < $numberOfReservations; $i++) {
-            $reservationStartTime = $sessionStartTime->copy()->addMinutes($i * $reservationDurationMinutes);
-            $reservationEndTime = $reservationStartTime->copy()->addMinutes($reservationDurationMinutes);
-
-            $reservationStartTimeFormatted = $reservationStartTime->format('H:i');
-            $reservationEndTimeFormatted = $reservationEndTime->format('H:i');
-
-            $reservations[] = FakeReservation::create([
-                'privateSessionID' => $privateSession->id,
-                'reservationStartTime' => $reservationStartTimeFormatted,
-                'reservationEndTime' => $reservationEndTimeFormatted
-            ]);
-        }
-
-        return $reservations;
-    }
-
     private function storeFile($request, $announcement)
     {
         $newFile = $request->file('file');
@@ -222,4 +193,4 @@ class Controller extends BaseController
     }
 
 }
-   
+
