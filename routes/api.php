@@ -75,7 +75,7 @@ Route::middleware(['auth:api', 'check.role:advancedUser||normalUser'])->group(fu
         Route::delete('/unSave/{savedAnnouncement}', [SavedAnnouncementController::class, 'unSave']);
     });
 
-    Route::post('/file/download/{file}', [FileController::class, 'download'])->name('downloadFile');
+    Route::get('/file/download/{file}', [FileController::class, 'download'])->name('downloadFile');
 
     Route::prefix("session")->group(function () {
         Route::get('/showAll/{service}', [SessionController::class, 'showAll']);
