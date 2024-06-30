@@ -188,6 +188,6 @@ Route::middleware(['auth:api', 'check.role:serviceManager'])->group(function() {
         Route::delete('/unSave/{savedAnnouncement}', [SavedAnnouncementController::class, 'unSave'])->name('unSaveAnnouncement');
     });
 
-    Route::post('/file/download/{file}', [FileController::class, 'download'])->name('downloadFile');
+    Route::get('/file/download/{file}', [FileController::class, 'download'])->name('downloadFile');
 
 });
