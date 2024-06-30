@@ -73,6 +73,7 @@ Meal
 
     .heart-icon i {
         font-size: 15px;
+        color: white;
         transition: color 0.2s;
     }
 
@@ -105,27 +106,42 @@ Meal
 
     .modal-footer {
         border-top: none;
+    }
+
+    .search-container {
+        position: absolute;
         left: 20%;
-       top: 1%;
+      
+        transform: translate(-50%, -50%);
+        align-items: center;
     }
 
-    .modal-content {
+    #search-input {
         border-radius: 10px;
+        border: 1px solid #ccc;
         width: 400px;
+        height: 40px;
     }
 
-    .modal-header {
-        background-color: #77B8A1;
-        border-radius: 10px 10px 0 0;
+    .fa-search {
+        color: black;
     }
 
-        font-weight: bold;
+    .fa-search {
+        position: absolute;
+        top: 50%;
+        left: 95%;
+        transform: translate(-50%, -50%);
+        cursor: pointer;
+    }
+
+    .fa-search {
+        font-size: 20px;
     }
     .delete-container {
         position: absolute;
        
-        
-        top:1%;
+  
         left :2%;
        
     }
@@ -180,26 +196,12 @@ Meal
      data-service-id="{{ $record['id'] }}" 
      data-interested-service-id="{{ isset($record['interestedService']) ? $record['interestedService']['id'] : '' }}">
     <i class="fa fa-heart {{ $record['isInterested'] ? 'red' : '' }}"></i>
+</div>
+
 
     </div>
     @endforeach
 </div>
-    <div class="component-item">Service Name: {{ $record['serviceName'] }}</div>
-    <div class="component-item">Service Type: {{ $record['serviceType'] }}</div>
-    <div class="component-item">Service Description: {{ $record['serviceDescription'] }}</div>
-    <div class="component-item">Service Year: {{ $record['serviceYearName'] }}</div>
-    <div class="component-item">Specialization: {{ $record['serviceSpecializationName'] }}</div>
-    <div class="component-item">Minimum Group Members: {{ $record['minimumNumberOfGroupMembers'] }}</div>
-    <div class="component-item">Maximum Group Members: {{ $record['maximumNumberOfGroupMembers'] }}</div>
-    <div class="component-item">Status: {{ $record['statusName'] }}</div>
-    <div class="component-item">
-        <strong>Advanced Users with Roles:</strong>
-        @foreach($record['advancedUsersWithRoles'] as $user)
-            <div>{{ $user['fullName'] }} - Roles: {{ implode(', ', $user['roles']->toArray()) }}</div>
-        @endforeach
-    </div>
-</div>
-@endforeach
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -265,6 +267,7 @@ Meal
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <script>
     $(document).ready(function() {
         // Load options for the dropdown
@@ -300,35 +303,6 @@ Meal
         // Handle delete all services click
         $('#delete-all-icon').click(function() {
             deleteAllServices();
-        });
-                dataType: "json",
-                success: function(response) {
-    var newRecord = response;
-
-    var newComponent = `
-        <div class="component">
-            <div class="component-title">Service Details</div>
-            <div class="component-item">Service Name: ${newRecord.serviceName}</div>
-            <div class="component-item">Service Type: ${newRecord.serviceType}</div>
-            <div class="component-item">Service Description: ${newRecord.serviceDescription}</div>
-            <div class="component-item">Minimum Number Of Group: ${newRecord.minimumNumberOfGroupMembers}</div>
-            <div class="component-item">Maximum Number Of Group: ${newRecord.maximumNumberOfGroupMembers}</div>
-        </div>
-    `;
-
-    // إضافة العنصر الجديد إلى #serviceRecords
-    $('#serviceRecords').append(newComponent);
-
-    // إعادة تعيين النموذج وإخفاء النافذة المنبثقة
-    $('#addServiceForm')[0].reset();
-    $('#exampleModal').modal('hide');
-    $('.styled-button').after(newComponent);
-},
-
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
-            });
         });
     });
 
@@ -388,6 +362,7 @@ Meal
         });
     }
 </script>
+
 
 
 @endsection

@@ -44,7 +44,7 @@ class InterestedServiceController extends Controller
         }
         return view('pages.FavoritePublicServicesPageForServiceManager',[
                 'allRecords' => $allRecords,
-                'interestedService' => $allRecords->InterestedService
+                
         ]);
     }
 

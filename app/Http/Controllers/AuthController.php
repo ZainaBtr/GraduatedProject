@@ -112,7 +112,8 @@ class AuthController extends Controller
     }
 
 
-    public function setNewPassword(Request $request){
+    public function setNewPassword(Request $request)
+    {
         if ($request->is('api/*')) {
             $user = Auth::guard('api')->user();
         } else {

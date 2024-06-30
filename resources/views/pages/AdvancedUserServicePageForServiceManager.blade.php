@@ -238,7 +238,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('assignService', $advancedUser->id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('assignService', $user->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label for="serviceName">Service Name:</label>
@@ -267,7 +267,7 @@
                                              </button>
                                                </div>
                                                <div class="modal-body">     
-                                               <form action="{{ route('deleteAllAssignedServices', ['advancedUser' => $advancedUser->id]) }}" method="post">
+                                               <form action="{{ route('deleteAllAssignedServices', ['user' => $user->id]) }}" method="post">
 
                                                @csrf
                                           @method('DELETE')
