@@ -43,8 +43,8 @@ Route::middleware(['auth:api', 'check.role:normalUser||advancedUser'])->group(fu
         Route::post('/book/{id}',[PrivateReservationController::class,'book']);
         Route::delete('/delete/{privateReservation}',[PrivateReservationController::class,'delete']);
         Route::post('/switch/{receiverReservationID}',[PrivateReservationController::class,'switch']);
-        Route::put('/acceptSwapRequest/{swapRequestID}',[PrivateReservationController::class,'accept']);
-        Route::put('/declineSwapRequest/{swapRequestID}',[PrivateReservationController::class,'decline']);
+        Route::delete('/acceptSwapRequest/{swapRequestID}',[PrivateReservationController::class,'accept']);
+        Route::delete('/declineSwapRequest/{swapRequestID}',[PrivateReservationController::class,'decline']);
         Route::delete('/cancelSwapRequest/{swapRequestID}',[PrivateReservationController::class,'cancelSwapReservation']);
     });
 
