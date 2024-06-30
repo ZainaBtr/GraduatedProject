@@ -369,9 +369,7 @@ class PrivateReservationController extends Controller
 
             $senderReservation->save();
             $receiverReservation->save();
-
-            $swapRequest->status = 'accepted';
-            $swapRequest->save();
+            $swapRequest->delete();
         });
 
         return response()->json(['message' => 'Swap request accepted successfully.'], 200);
@@ -389,8 +387,7 @@ class PrivateReservationController extends Controller
             return response()->json(['message' => 'Only pending swap requests can be rejected.'], 400);
         }
 
-        $swapRequest->status = 'rejected';
-        $swapRequest->save();
+        $swapRequest->delete();
 
         return response()->json(['message' => 'Swap request rejected successfully.'], 200);
     }
