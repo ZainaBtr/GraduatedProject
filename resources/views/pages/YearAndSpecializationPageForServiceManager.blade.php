@@ -295,7 +295,7 @@ body {
     <div class="row">
         <div class="col">
             <label for="Name" class="mr-sm-2">serviceYear:</label>
-            <input id="serviceYear" type="number" name="serviceYear" accept=".jpg,.jpeg,.bmp,.png,.gif,.doc,.docx,.csv,.rtf,.xlsx,.xls,.txt,.pdf,.zip" class="form-control">
+            <input id="serviceYear" type="text" name="serviceYear" accept=".jpg,.jpeg,.bmp,.png,.gif,.doc,.docx,.csv,.rtf,.xlsx,.xls,.txt,.pdf,.zip" class="form-control">
         </div>
     </div>
 

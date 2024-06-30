@@ -81,7 +81,7 @@ class ServiceManagerController extends Controller
                     'password' => $serviceManager->user->password,
                     'position' => $serviceManager->position
                 ];
-            $usersData [] = $userData;
+           
             }
             else {
                 $usersData[] = [
@@ -100,7 +100,7 @@ class ServiceManagerController extends Controller
             'serviceManagers' => $serviceManagers,]);
 
             
-        ]);
+     
         
     }
 
