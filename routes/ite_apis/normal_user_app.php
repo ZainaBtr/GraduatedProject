@@ -14,7 +14,7 @@ use App\Http\Controllers\JoinRequestController;
 
 Route::post('normalUser/completeAccount1',[NormalUserController::class,'completeAccount1'])->middleware(['check.role:normalUser']);
 
-Route::middleware(['auth:api', 'check.role:normalUser'])->group(function() {
+Route::middleware(['auth:api', 'check.role:normalUser||advancedUser'])->group(function() {
 
     Route::prefix("normalUser")->group( function () {
         Route::get('/showProfile', [NormalUserController::class, 'showProfile']);
@@ -52,7 +52,7 @@ Route::middleware(['auth:api', 'check.role:normalUser'])->group(function() {
 
     Route::prefix("attendance")->group( function () {
         Route::post('/scanQr',[AttendanceController::class,'scanQr']);
-        Route::get('/showMyAttendance/{service}',[AttendanceController::class,'showMyAttendanceOfOneService']);
+        Route::get('/showMyAttendanceOfOneService/{service}',[AttendanceController::class,'showMyAttendanceOfOneService']);
     });
 
     Route::prefix("group")->group( function () {
@@ -86,6 +86,4 @@ Route::middleware(['auth:api', 'check.role:normalUser'])->group(function() {
         Route::put('/declineInvitation/{invitation}',[InvitationController::class,'declineInvitation']);
         Route::delete('/cancelInvitation/{invitation}',[InvitationController::class,'cancelInvitation']);
         });
-
 });
-
