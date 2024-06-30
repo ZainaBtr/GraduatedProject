@@ -161,7 +161,6 @@ class AttendanceController extends Controller
             return response()->json(['message' => 'Session not found.'], 404);
         }
 
-        // Decode the password array from the session
         $passwords = json_decode($session->password, true) ?? [];
 
         $normalUser = NormalUser::where('userID', auth()->id())->first();

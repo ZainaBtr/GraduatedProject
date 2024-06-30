@@ -26,7 +26,7 @@ class Announcement2 extends FormRequest
         return [
             'title' => ['string'],
             'description' => ['string'],
-            'file' => ['mimes:xlsx,xls']
+            'file' => []
         ];
     }
 

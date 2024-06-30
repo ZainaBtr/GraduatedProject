@@ -49,6 +49,7 @@ Route::middleware(['auth:api', 'check.role:advancedUser||normalUser'])->group(fu
     Route::get('/serviceYearAndSpecialization/showAll', [ServiceYearAndSpecializationController::class, 'showAll']);
 
     Route::prefix("service")->group(function () {
+        Route::get('/showServiceNameForDynamicDropDown', [ServiceController::class, 'showServiceNameForDynamicDropDown']);
         Route::get('/showByYearAndSpecialization/{serviceYearAndSpecialization}', [ServiceController::class, 'showByYearAndSpecialization']);
         Route::get('/showByType/{type}', [ServiceController::class, 'showByType']);
         Route::get('/showAdvancedUsersOfService/{service}', [ServiceController::class, 'showAdvancedUsersOfService']);
@@ -98,6 +99,9 @@ Route::middleware(['auth:api', 'check.role:advancedUser||normalUser'])->group(fu
 
 });
 
+Route::get('/test-online', function(){
+    dd('i am online');
+});
 
 /////////////////////////////////////////////////// Route In Web /////////////////////////////////////////////////
 //
