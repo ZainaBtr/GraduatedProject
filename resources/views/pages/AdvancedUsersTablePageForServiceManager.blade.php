@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
- 
+
 <style>
     .styled-table {
         width: 80%;
@@ -185,12 +185,6 @@
                         <div class="col">
                             <label for="Name" class="mr-sm-2">fullName:</label>
                             <input id="fullName" type="text" name="fullName" class="form-control">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <label for="Name" class="mr-sm-2">password:</label>
-                            <input id="password" type="password" name="password" class="form-control">
                         </div>
                     </div>
                     <div class="modal-footer">

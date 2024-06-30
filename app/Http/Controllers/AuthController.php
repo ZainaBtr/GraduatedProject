@@ -60,7 +60,7 @@ class AuthController extends Controller
         }
         return redirect()->action([ServiceManagerController::class, 'showAll']);
      }
-     
+
 
     public function changePassword(User2 $request)
     {

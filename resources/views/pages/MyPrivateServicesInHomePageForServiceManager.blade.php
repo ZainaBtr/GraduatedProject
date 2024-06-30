@@ -179,12 +179,12 @@ Meal
             <div class="modal-body">
             <form id="addServiceForm" action="{{  route('addService', ['parentService' => $parentService->id]) }}" method="POST">
                     @csrf
-                    
+
                     <div class="form-group">
                         <label for="serviceName">Service Name:</label>
                         <input id="serviceName" type="text" name="serviceName" class="form-control">
                     </div>
-                
+
                     <input type="hidden" id="parentServiceID" name="parentServiceID" value="{{ $parentService->id }}">
                     <div class="form-group">
                         <label for="serviceType">Service Type:</label>
@@ -304,7 +304,7 @@ Meal
         // Fetch dropdown options for add form
         $.ajax({
             method: "GET",
-            url: "http://127.0.0.1:8000/api/service/showServiceYearAndSpecForDynamicDropDown",
+            url: "http://127.0.0.1:8000/service/showServiceYearAndSpecForDynamicDropDown",
             dataType: "json",
             success: function(data) {
                 $.each(data, function(k, v) {
@@ -318,7 +318,7 @@ Meal
 
         // Handle add form submission
         $('#addServiceForm').submit(function(e) {
-          
+
             var form = $(this);
             var url = form.attr('action');
             var method = form.attr('method');

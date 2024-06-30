@@ -143,13 +143,13 @@
             </tr>
         </thead>
         <tbody>
-          
+
                 @foreach($usersData as $user)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $user['fullName'] }}</td>
                         <td>{{ $user['email'] }}</td>
-                        <td>{{ $user['password'] }}</td>
+                        <td>{{ $user['password']??'********'}}</td>
                         <td>{{ $user['position'] }}</td>
                         <td>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal{{ $user['id'] }}" title="Delete">
@@ -181,7 +181,7 @@
                         </div>
                     </div>
                 @endforeach
-          
+
         </tbody>
     </table>
 </div>

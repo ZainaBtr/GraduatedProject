@@ -157,7 +157,7 @@
     text-align:center;
     text-transform: uppercase;
     color: #FFFFFF;
-    background-color: #292D3D; 
+    background-color: #292D3D;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     border-radius: 0px 0px 30px 30px;
     border: none;
@@ -238,7 +238,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('assignService', $advancedUser->id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('assignService', $user->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label for="serviceName">Service Name:</label>
@@ -266,8 +266,8 @@
                                            <span aria-hidden="true">&times;</span>
                                              </button>
                                                </div>
-                                               <div class="modal-body">     
-                                               <form action="{{ route('deleteAllAssignedServices', ['advancedUser' => $advancedUser->id]) }}" method="post">
+                                               <div class="modal-body">
+                                               <form action="{{ route('deleteAllAssignedServices', ['user' => $user->id]) }}" method="post">
 
                                                @csrf
                                           @method('DELETE')
@@ -289,7 +289,7 @@
         $(document).ready(function() {
             $.ajax({
                 method: "Get",
-                url: "http://127.0.0.1:8000/api/service/showServiceNameForDynamicDropDown",
+                url: "http://127.0.0.1:8000/service/showServiceNameForDynamicDropDown",
                 dataType: "json",
                 success: function(data, status) {
                     $.each(data, function(k, v) {

@@ -20,10 +20,10 @@ class ServiceController extends Controller
             ->unique()
             ->values();
 
-        if (request()->is('api/*')) {
+//        if (request()->is('api/*')) {
             return response()->json($allRecords, Response::HTTP_OK);
-        }
-        return view('');
+//        }
+//        return view('');
     }
 
     public function showServiceYearAndSpecForDynamicDropDown()
@@ -32,10 +32,10 @@ class ServiceController extends Controller
             ->unique()
             ->values();
 
-        if (request()->is('api/*')) {
+//        if (request()->is('api/*')) {
             return response()->json($allRecords, Response::HTTP_OK);
-        }
-        return view('');
+//        }
+//        return view('');
     }
 
     public function showAllParent()

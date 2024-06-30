@@ -148,7 +148,7 @@ Meal
         font-size: 50px;
         font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         margin-left: 33%;
-    
+
     }
     .styled-button {
         position: absolute;
@@ -196,7 +196,7 @@ Meal
                 <div>{{ $user['fullName'] }} - Roles: {{ implode(', ', $user['roles']->toArray()) }}</div>
                 @endforeach
         </div>
-        
+
     </div>
     @endforeach
 </div>
@@ -207,7 +207,7 @@ Meal
     $(document).ready(function() {
         $.ajax({
             method: "GET",
-            url: "http://127.0.0.1:8000/api/service/showServiceYearAndSpecForDynamicDropDown",
+            url: "http://127.0.0.1:8000/service/showServiceYearAndSpecForDynamicDropDown",
             dataType: "json",
             success: function(data, status) {
                 $.each(data, function(k, v) {
