@@ -27,7 +27,7 @@ class Announcement1 extends FormRequest
             'serviceID' => ['numeric'],
             'title' => ['string'],
             'description' => ['string'],
-            'file' => ['mimes:xlsx,xls']
+            'file' => []
         ];
     }
 
