@@ -20,7 +20,7 @@ use App\Http\Requests\User\User2;
 use App\Http\Requests\User\User3;
 use Illuminate\Auth\AuthenticationException;
 use Symfony\Component\HttpFoundation\Response;
-use App\Http\Requests\User\User8;
+
 
 class AuthController extends Controller
 {
@@ -116,6 +116,7 @@ class AuthController extends Controller
 
 
     public function setNewPassword(Request $request)
+    {
         if ($request->is('api/*')) {
             $user = Auth::guard('api')->user();
         } else {
