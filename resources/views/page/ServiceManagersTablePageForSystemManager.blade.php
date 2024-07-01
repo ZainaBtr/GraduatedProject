@@ -203,10 +203,6 @@
                         <label for="fullName">Full Name:</label>
                         <input id="fullName" type="text" name="fullName" class="form-control">
                     <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input id="email" type="email" name="email" class="form-control">
-                    </div>
-                    <div class="form-group">
                         <label for="position">Position:</label>
                         <input id="position" type="text" name="position" class="form-control">
                     </div>

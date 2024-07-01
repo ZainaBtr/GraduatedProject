@@ -73,7 +73,7 @@
 
         .heart-icon i {
             font-size: 15px;
-            color: white;
+        color: white;
             transition: color 0.2s;
         }
 
@@ -106,43 +106,42 @@
 
         .modal-footer {
             border-top: none;
-        }
+    }
 
-        .search-container {
-            position: absolute;
+    .search-container {
+        position: absolute;
             left: 20%;
-            top: 1%;
-            transform: translate(-50%, -50%);
-            align-items: center;
+      
+        transform: translate(-50%, -50%);
+        align-items: center;
         }
 
-        #search-input {
+    #search-input {
             border-radius: 10px;
-            border: 1px solid #ccc;
+        border: 1px solid #ccc;
             width: 400px;
-            height: 40px;
+        height: 40px;
         }
 
-        .fa-search {
-            color: black;
+    .fa-search {
+        color: black;
         }
 
-        .fa-search {
-            position: absolute;
-            top: 50%;
-            left: 95%;
-            transform: translate(-50%, -50%);
-            cursor: pointer;
-        }
+    .fa-search {
+        position: absolute;
+        top: 50%;
+        left: 95%;
+        transform: translate(-50%, -50%);
+        cursor: pointer;
+    }
 
-        .fa-search {
-            font-size: 20px;
+    .fa-search {
+        font-size: 20px;
         }
         .delete-container {
             position: absolute;
 
-
-            top:1%;
+  
             left :2%;
 
         }
@@ -197,12 +196,12 @@
                      data-service-id="{{ $record['id'] }}"
                      data-interested-service-id="{{ isset($record['interestedService']) ? $record['interestedService']['id'] : '' }}">
                     <i class="fa fa-heart {{ $record['isInterested'] ? 'red' : '' }}"></i>
+</div>
+
                 </div>
 
 
             </div>
-        @endforeach
-    </div>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -363,6 +362,7 @@
             });
         }
     </script>
+
 
 
 
