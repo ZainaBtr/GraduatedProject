@@ -59,13 +59,13 @@ class PublicReservationController extends Controller
 
     public function showMyActivities()
     {
-        return $this->showMyReservationsByType('Activity');
+        return $this->showMyReservationsByType('activities');
     }
 
 
     public function showMyExams()
     {
-        return $this->showMyReservationsByType('Exam');
+        return $this->showMyReservationsByType('exams');
     }
 
 

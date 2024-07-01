@@ -50,9 +50,9 @@ class AuthController extends Controller
 
         $serviceManager=$user->serviceManager;
 
-         if (request()->is('api/*')) {
-             return response()->json($data, Response::HTTP_OK);
-         }
+//         if (request()->is('api/*')) {
+//             return response()->json($data, Response::HTTP_OK);
+//         }
 
         if($serviceManager){
             return redirect()->action([NormalUserController::class, 'showAll']);
@@ -69,10 +69,10 @@ class AuthController extends Controller
         if (Hash::check($request['oldPassword'], $user['password'])){
             $user->update(['password' => Hash::make($request['newPassword'])]);
 
-            if(request()->is('api/*')){
+//            if(request()->is('api/*')){
                 return response()->json(['message' => 'Password has changed successfully'],200);
-            }
-            return view('');
+//            }
+//            return view('');
         }
         return response()->json(['Incorrect Password'],405);
     }
@@ -85,10 +85,10 @@ class AuthController extends Controller
         }
         $this->sendEmail($request['email']);
 
-        if(request()->is('api/*')) {
+//        if(request()->is('api/*')) {
             return response()->json(['message' => 'we send new code to your email'],200);
-        }
-        return view('Common.VerificationCodePage');
+//        }
+//        return view('Common.VerificationCodePage');
     }
 
 
@@ -105,9 +105,9 @@ class AuthController extends Controller
 
         $data = $this->createToken($user);
 
-        if(request()->is('api/*')){
-            return  response()->json($data,200,['success' => true, 'message' => 'your Email Is Verified']);
-        }
+//        if(request()->is('api/*')){
+//            return  response()->json($data,200,['success' => true, 'message' => 'your Email Is Verified']);
+//        }
         return redirect()->action([NormalUserController::class, 'showAll']);
     }
 
@@ -131,9 +131,9 @@ class AuthController extends Controller
         $advancedUser?->update(['isAccountCompleted' => 1]);
 
 
-        if ($request->is('api/*')) {
-            return response()->json(['message' => 'Password Has Updated Successfully'], 200);
-        }
+//        if ($request->is('api/*')) {
+//            return response()->json(['message' => 'Password Has Updated Successfully'], 200);
+//        }
         return redirect()->action([NormalUserController::class, 'showAll']);
     }
 
@@ -161,9 +161,9 @@ class AuthController extends Controller
         $this->sendEmail($request['email']);
         $user->update(['email' => $request['email']]);
 
-        if (request()->is('api/*')) {
-            return response()->json(['message' => 'We Sent 6 Digits Code To Your Email'], 200);
-        }
+//        if (request()->is('api/*')) {
+//            return response()->json(['message' => 'We Sent 6 Digits Code To Your Email'], 200);
+//        }
 
         return view('Common.VerificationCodePage');
     }
@@ -185,9 +185,9 @@ class AuthController extends Controller
 
          $user->update(['email' => $request['email']]);
          $this->sendEmail($request['email']);
-         if(request()->is('api/*')){
-             return  response()->json(['message' => 'We Sent 6 Digits Code To Your Email'],200);
-         }
+//         if(request()->is('api/*')){
+//             return  response()->json(['message' => 'We Sent 6 Digits Code To Your Email'],200);
+//         }
         return view('Common.VerificationCodePage');    }
 
      }
@@ -195,9 +195,9 @@ class AuthController extends Controller
     {
         $user->delete();
 
-        if(request()->is('api/*')){
-            return response()->json(['message' => 'Account Deleted Successfully']);
-        }
+//        if(request()->is('api/*')){
+//            return response()->json(['message' => 'Account Deleted Successfully']);
+//        }
         return redirect()->back();
     }
 

@@ -210,11 +210,14 @@ Advertisements
         <div class="component-item">
             File:
             @if($record['file'])
-            <a href="{{ route('downloadFile', $record['id']) }}" class="download-icon">
-                <i class="fa fa-download"></i>
-            </a>
+                @foreach($record['file'] as $file)
+                    <a href="{{ route('downloadFile', $file['id']) }}" class="download-icon">
+                        <i class="fa fa-download"></i>
+                        {{ $file['fileName'] }}
+                    </a><br>
+                @endforeach
             @else
-            No file
+                No file
             @endif
         </div>
     </div>

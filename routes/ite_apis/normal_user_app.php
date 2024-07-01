@@ -12,7 +12,7 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\TeamMemberController;
 use App\Http\Controllers\JoinRequestController;
 
-Route::post('normalUser/completeAccount1',[NormalUserController::class,'completeAccount1'])->middleware(['check.role:normalUser']);
+Route::post('normalUser/completeAccount1',[NormalUserController::class,'completeAccount1']);
 
 Route::middleware(['auth:api', 'check.role:normalUser||advancedUser'])->group(function() {
 

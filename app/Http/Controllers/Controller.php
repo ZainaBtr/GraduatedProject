@@ -73,14 +73,14 @@ class Controller extends BaseController
         if ($request['file']->isValid()) {
             Excel::import(new $importClass(), $request['file']);
 
-            if(request()->is('api/*')) {
+//            if(request()->is('api/*')) {
                 return response()->json(['message' => 'File imported successfully'], 200);
-            }
+//            }
         }
         else {
-            if(request()->is('api/*')) {
+//            if(request()->is('api/*')) {
                 return response()->json(['message' => 'Failed to upload file'], 500);
-            }
+//            }
         }
     }
 
