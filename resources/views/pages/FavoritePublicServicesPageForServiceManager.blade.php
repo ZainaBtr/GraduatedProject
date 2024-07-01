@@ -159,8 +159,8 @@ Meal
                 <div>{{ $user['fullName'] }} - Roles: {{ implode(', ', $user['roles']->toArray()) }}</div>
             @endforeach
         </div>
-        <div class="heart-icon" 
-     data-service-id="{{ $record['id'] }}" 
+        <div class="heart-icon"
+     data-service-id="{{ $record['id'] }}"
      data-interested-service-id="{{ isset($record['interestedService']) ? $record['interestedService']['id'] : '' }}">
     <i class="fa fa-heart {{ $record['isInterested'] ? 'red' : '' }}"></i>
 </div>
@@ -238,7 +238,7 @@ Meal
         // Load options for the dropdown
         $.ajax({
             method: "GET",
-            url: "http://127.0.0.1:8000/api/service/showServiceYearAndSpecForDynamicDropDown",
+            url: "http://127.0.0.1:8000/service/showServiceYearAndSpecForDynamicDropDown",
             dataType: "json",
             success: function(data) {
                 $.each(data, function(k, v) {
@@ -309,8 +309,8 @@ Meal
         });
     }
 
-  
-    
+
+
 </script>
 
 @endsection

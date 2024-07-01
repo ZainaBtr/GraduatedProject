@@ -43,8 +43,7 @@ class InterestedServiceController extends Controller
             return response()->json($allRecords, Response::HTTP_OK);
         }
         return view('pages.FavoritePublicServicesPageForServiceManager',[
-                'allRecords' => $allRecords,
-                
+                'allRecords' => $allRecords
         ]);
     }
 

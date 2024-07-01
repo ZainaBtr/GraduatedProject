@@ -5,37 +5,37 @@
 @stop
 @endsection
 @section('content')
- 
+
 <style>
 body {
     overflow: hidden;
 }
 
 .styled-table {
-    width: 80%; 
+    width: 80%;
     text-align: center;
     margin-top: 10%;
-    margin-left: 10%; 
+    margin-left: 10%;
     vertical-align: middle;}
 .styled-table th,
 .styled-table td {
-    border: none; 
+    border: none;
     padding: 10px;
     text-align: center;
-    width: auto; 
+    width: auto;
 }
 
 .styled-table tr th {
-    border-right-color: transparent; 
+    border-right-color: transparent;
 }
 
 
 .styled-table th {
     background-color: #292D3D;
     color: #FFFFFF;
-    text-align: center;  
+    text-align: center;
     padding-left: 20px;
-    vertical-align: middle; 
+    vertical-align: middle;
 }
 .styled-table tr th,
 .styled-table tr td {
@@ -117,24 +117,24 @@ body {
   .styled-table tr th {
     border-right-color: transparent;
   }
- 
+
   .styled-account:hover {
-    background-color: #39465E; 
+    background-color: #39465E;
   }
   .child-column {
     color: transparent;
   }
   .btn-succes {
-  background-color: #FF7B1C; 
+  background-color: #FF7B1C;
   color:white;
 }
 
 .btn-succes:hover {
-  background-color: #FF7B1C; 
+  background-color: #FF7B1C;
 }
 
 .btn-succes:active {
-  background-color: orange; 
+  background-color: orange;
 }
 
 .styled-account {
@@ -154,7 +154,7 @@ body {
     text-align:center;
     text-transform: uppercase;
     color: #FFFFFF;
-    background-color: #292D3D; 
+    background-color: #292D3D;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     border-radius: 0px 0px 30px 30px;
     border: none;
@@ -177,7 +177,7 @@ body {
 @endif
 
 
-         
+
     <button class="styled-button" data-toggle="modal" data-target="#exampleModal">Add Years & Specialization</button>
 
     <button type="button" class="styled-account" data-toggle="modal" data-target="#exampleMod" title="DeleteAll">
@@ -228,7 +228,7 @@ body {
                                            <span aria-hidden="true">&times;</span>
                                              </button>
                                                </div>
-                                               <div class="modal-body">     
+                                               <div class="modal-body">
                                              <form action="{{ route('deleteServiceYearAndSpecialization', ['serviceYearAndSpecialization' => $record->id]) }}" method="post">
                                                @csrf
                                           @method('DELETE')
@@ -262,7 +262,7 @@ body {
                                            <span aria-hidden="true">&times;</span>
                                              </button>
                                                </div>
-                                               <div class="modal-body">     
+                                               <div class="modal-body">
                                              <form action="{{ route('deleteAllServicesYearsAndSpecializations') }}" method="post">
                                                @csrf
                                           @method('DELETE')
@@ -279,7 +279,7 @@ body {
 
 
 
-       
+
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -289,7 +289,7 @@ body {
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">        
+      <div class="modal-body">
       <form action="{{ route('addServiceYearAndSpecialization') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="row">
