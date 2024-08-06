@@ -7,7 +7,10 @@ use App\Http\Requests\Announcement\Announcement2;
 use App\Http\Requests\Service\Service4;
 use App\Models\Announcement;
 use App\Models\Service;
+use App\Models\User;
+use App\Notifications\AnnouncementNotification;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Notification;
 
 class AnnouncementController extends Controller
 {
@@ -50,14 +53,20 @@ class AnnouncementController extends Controller
 
         $announcement = Announcement::create($data);
 
-        if($request['file'])
+        if($request['file']) {
             $announcement['fileStored'] = $this->addFileInAnnouncement($request,  $announcement);
-            return redirect()->back();
+        }
+
+        //////////////////// Send notification to all users except the one with id=1
+
+        $users = User::where('id', '!=', 1)->get();
+
+        Notification::send($users, new AnnouncementNotification($announcement));
 
         if (request()->is('api/*')) {
             return response()->json($announcement, Response::HTTP_OK);
         }
-        return view('');
+        return redirect()->back();
     }
 
     public function addFromService(Announcement2 $request, Service $service)
@@ -70,13 +79,20 @@ class AnnouncementController extends Controller
 
         $announcement = Announcement::create($data);
 
-        if($request['file'])
+        if($request['file']) {
             $announcement['fileStored'] = $this->addFileFromServiceInAnnouncement($request,  $announcement);
+        }
+
+        //////////////////// Send notification to all users except the one with id=1
+
+        $users = User::where('id', '!=', 1)->get();
+
+        Notification::send($users, new AnnouncementNotification($announcement));
 
         if (request()->is('api/*')) {
             return response()->json($announcement, Response::HTTP_OK);
         }
-        return view('');
+        return redirect()->back();
     }
 
     public function update(Announcement1 $request, Announcement $announcement)
