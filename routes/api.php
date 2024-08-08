@@ -99,10 +99,6 @@ Route::middleware(['auth:api', 'check.role:advancedUser||normalUser'])->group(fu
 
 });
 
-Route::get('/test-online', function(){
-    dd('i am online');
-});
-
 
 /////////////////////////////////////////////////// Route In Web /////////////////////////////////////////////////
 //

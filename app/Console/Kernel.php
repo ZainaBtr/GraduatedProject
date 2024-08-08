@@ -12,7 +12,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('check:reservation-delays')->everyFiveMinutes();
+        $schedule->command('notify:upcoming-reservations')->everyMinute();
     }
 
     /**
