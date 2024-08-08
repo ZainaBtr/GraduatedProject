@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\StatisticController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceManagerController;
 use App\Http\Controllers\AdvancedUserController;
@@ -79,6 +80,10 @@ Route::get('/nx', function () {
 });
 
 Route::view('/t', "page.ServiceManagersTablePageForSystemManager");
+
+
+///////////////////////////////////// System Manager Methods ///////////////////////////////////
+
 
 Route::middleware(['auth', 'check.role:1'])->group(function() {
 
@@ -182,4 +187,19 @@ Route::middleware(['auth', 'check.role:serviceManager'])->group(function() {
 
     Route::get('/file/download/{file}', [FileController::class, 'download'])->name('downloadFile');
 
+    Route::prefix("statistic")->group(function () {
+        Route::get('/advancedUsersCount', [StatisticController::class, 'advancedUsersCount'])->name('advancedUsersCount');
+        Route::get('/normalUsersCount', [StatisticController::class, 'normalUsersCount'])->name('normalUsersCount');
+        Route::get('/serviceManagersCount', [StatisticController::class, 'serviceManagersCount'])->name('serviceManagersCount');
+        Route::get('/totalUsersCount', [StatisticController::class, 'totalUsersCount'])->name('totalUsersCount');
+        Route::get('/announcementsCount', [StatisticController::class, 'announcementsCount'])->name('announcementsCount');
+        Route::get('/openServicesCount', [StatisticController::class, 'openServicesCount'])->name('openServicesCount');
+        Route::get('/closeServicesCount', [StatisticController::class, 'closeServicesCount'])->name('closeServicesCount');
+        Route::get('/totalServicesCount', [StatisticController::class, 'totalServicesCount'])->name('totalServicesCount');
+        Route::get('/openSessionsCount', [StatisticController::class, 'openSessionsCount'])->name('openSessionsCount');
+        Route::get('/openPrivateSessionsCount', [StatisticController::class, 'openPrivateSessionsCount'])->name('openPrivateSessionsCount');
+        Route::get('/openPublicSessionsCount', [StatisticController::class, 'openPublicSessionsCount'])->name('openPublicSessionsCount');
+        Route::get('/totalSessionsCount', [StatisticController::class, 'totalSessionsCount'])->name('totalSessionsCount');
+        Route::get('/groupsCount', [StatisticController::class, 'groupsCount'])->name('groupsCount');
+    });
 });
