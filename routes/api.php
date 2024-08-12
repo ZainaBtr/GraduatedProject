@@ -102,6 +102,7 @@ Route::middleware(['auth:api', 'check.role:advancedUser||normalUser'])->group(fu
     Route::prefix("notification")->group(function () {
         Route::get('/getAllNotificationsForUser', [NotificationController::class, 'getAllNotificationsForUser'])->name('getAllNotificationsForUser');
         Route::post('/markAsRead/{id}', [NotificationController::class, 'markAsRead'])->name('markAsRead');
+        Route::get('/goToAnnouncementFromNotification/{id}', [NotificationController::class, 'goToAnnouncementFromNotification'])->name('goToAnnouncementFromNotification');
     });
 
 });
@@ -273,6 +274,7 @@ Route::middleware(['auth:api', 'check.role:serviceManager'])->group(function() {
     Route::prefix("notification")->group(function () {
         Route::get('/getAllNotificationsForUser', [NotificationController::class, 'getAllNotificationsForUser'])->name('getAllNotificationsForUser');
         Route::post('/markAsRead/{id}', [NotificationController::class, 'markAsRead'])->name('markAsRead');
+        Route::get('/goToAnnouncementFromNotification/{id}', [NotificationController::class, 'goToAnnouncementFromNotification'])->name('goToAnnouncementFromNotification');
     });
 
 });

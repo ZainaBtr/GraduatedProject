@@ -35,4 +35,15 @@ class NotificationController extends Controller
         }
         return redirect()->back();
     }
+
+    public function goToAnnouncementFromNotification($id)
+    {
+        $announcement = $this->notificationService->goToAnnouncementFromNotification($id);
+
+        if (request()->is('api/*')) {
+
+            return response()->json($announcement, Response::HTTP_OK);
+        }
+        return redirect()->back();
+    }
 }

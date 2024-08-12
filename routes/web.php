@@ -207,6 +207,7 @@ Route::middleware(['auth', 'check.role:serviceManager'])->group(function() {
     Route::prefix("notification")->group(function () {
         Route::get('/getAllNotificationsForUser', [NotificationController::class, 'getAllNotificationsForUser'])->name('getAllNotificationsForUser');
         Route::post('/markAsRead/{id}', [NotificationController::class, 'markAsRead'])->name('markAsRead');
+        Route::get('/goToAnnouncementFromNotification/{id}', [NotificationController::class, 'goToAnnouncementFromNotification'])->name('goToAnnouncementFromNotification');
     });
 
 });
