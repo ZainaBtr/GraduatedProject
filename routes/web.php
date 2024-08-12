@@ -204,9 +204,9 @@ Route::middleware(['auth', 'check.role:serviceManager'])->group(function() {
         Route::get('/groupsCount', [StatisticController::class, 'groupsCount'])->name('groupsCount');
     });
 
-    Route::prefix("statistic")->group(function () {
+    Route::prefix("notification")->group(function () {
         Route::get('/getAllNotificationsForUser', [NotificationController::class, 'getAllNotificationsForUser'])->name('getAllNotificationsForUser');
-        Route::get('/markAsRead/{id}', [NotificationController::class, 'markAsRead'])->name('markAsRead');
+        Route::post('/markAsRead/{id}', [NotificationController::class, 'markAsRead'])->name('markAsRead');
     });
 
 });

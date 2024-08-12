@@ -99,6 +99,11 @@ Route::middleware(['auth:api', 'check.role:advancedUser||normalUser'])->group(fu
 
     Route::get('/showFakeReservations/{privateSession}', [FakeReservationController::class, 'showALl']);
 
+    Route::prefix("notification")->group(function () {
+        Route::get('/getAllNotificationsForUser', [NotificationController::class, 'getAllNotificationsForUser'])->name('getAllNotificationsForUser');
+        Route::post('/markAsRead/{id}', [NotificationController::class, 'markAsRead'])->name('markAsRead');
+    });
+
 });
 
 
