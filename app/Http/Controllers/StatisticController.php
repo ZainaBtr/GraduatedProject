@@ -2,111 +2,106 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Announcement;
-use App\Models\Group;
-use App\Models\PrivateSession;
-use App\Models\PublicSession;
-use App\Models\Service;
-use App\Models\Session;
-use App\Models\User;
+use App\Services\StatisticService;
 use Illuminate\Http\Response;
 
 class StatisticController extends Controller
 {
+    protected $statisticService;
+
+    public function __construct(StatisticService $statisticService)
+    {
+        $this->statisticService = $statisticService;
+    }
 
     public function advancedUsersCount()
     {
-        $data = User::whereHas('advancedUser')->count();
+        $data = $this->statisticService->countAdvancedUsers();
 
         return response()->json($data, Response::HTTP_OK);
     }
 
     public function normalUsersCount()
     {
-        $data = User::whereHas('normalUser')->count();
+        $data = $this->statisticService->countNormalUsers();
 
         return response()->json($data, Response::HTTP_OK);
     }
 
     public function serviceManagersCount()
     {
-        $data = User::whereHas('serviceManager')->count();
+        $data = $this->statisticService->countServiceManagers();
 
         return response()->json($data, Response::HTTP_OK);
     }
 
     public function totalUsersCount()
     {
-        $data = User::all()->count();
+        $data = $this->statisticService->countTotalUsers();
 
         return response()->json($data, Response::HTTP_OK);
     }
 
     public function announcementsCount()
     {
-        $data = Announcement::all()->count();
+        $data = $this->statisticService->countAnnouncements();
 
         return response()->json($data, Response::HTTP_OK);
     }
 
     public function openServicesCount()
     {
-        $data = Service::where('status', 1)->count();
+        $data = $this->statisticService->countOpenServices();
 
         return response()->json($data, Response::HTTP_OK);
     }
 
     public function closeServicesCount()
     {
-        $data = Service::where('status', 0)->count();
+        $data = $this->statisticService->countCloseServices();
 
         return response()->json($data, Response::HTTP_OK);
     }
 
     public function totalServicesCount()
     {
-        $data = Service::all()->count();
+        $data = $this->statisticService->countTotalServices();
 
         return response()->json($data, Response::HTTP_OK);
     }
 
     public function openSessionsCount()
     {
-        $data = Session::WhereDoesntHave('privateSession')->WhereDoesntHave('publicSession')->where('status', 'active')->count();
+        $data = $this->statisticService->countOpenSessions();
 
         return response()->json($data, Response::HTTP_OK);
     }
 
     public function openPrivateSessionsCount()
     {
-        $data = PrivateSession::whereHas('session', function ($query) {
-            $query->where('status', 'active');
-        })->count();
+        $data = $this->statisticService->countOpenPrivateSessions();
 
         return response()->json($data, Response::HTTP_OK);
     }
 
     public function openPublicSessionsCount()
     {
-        $data = PublicSession::whereHas('session', function ($query) {
-            $query->where('status', 'active');
-        })->count();
+        $data = $this->statisticService->countOpenPublicSessions();
 
         return response()->json($data, Response::HTTP_OK);
     }
 
     public function totalSessionsCount()
     {
-        $data = Session::all()->count();
+        $data = $this->statisticService->countTotalSessions();
 
         return response()->json($data, Response::HTTP_OK);
     }
 
     public function groupsCount()
     {
-        $data = Group::all()->count();
+        $data = $this->statisticService->countGroups();
 
         return response()->json($data, Response::HTTP_OK);
     }
-
 }

@@ -2,18 +2,25 @@
 
 namespace App\Http\Controllers;
 use App\Http\Requests\ServiceYearAndSpecialization\ServiceYearAndSpecialization1;
-use App\Models\ServiceManager;
 use App\Models\ServiceYearAndSpecialization;
+use App\Services\ServiceYearAndSpecializationService;
 use Illuminate\Http\Response;
 
 class ServiceYearAndSpecializationController extends Controller
 {
+    protected $serviceYearAndSpecializationService;
+
+    public function __construct(ServiceYearAndSpecializationService $serviceYearAndSpecializationService)
+    {
+        $this->serviceYearAndSpecializationService = $serviceYearAndSpecializationService;
+    }
 
     public function showAll()
     {
-        $allRecords = ServiceYearAndSpecialization::all();
+        $allRecords = $this->serviceYearAndSpecializationService->getAllRecords();
 
         if (request()->is('api/*')) {
+
             return response()->json($allRecords, Response::HTTP_OK);
         }
         return view('pages.YearAndSpecializationPageForServiceManager',compact('allRecords'));
@@ -21,39 +28,34 @@ class ServiceYearAndSpecializationController extends Controller
 
     public function add(ServiceYearAndSpecialization1 $request)
     {
-        $recordStored = ServiceYearAndSpecialization::create($request->validated());
-        return redirect()->back();
+        $recordStored = $this->serviceYearAndSpecializationService->addRecord($request->validated());
+
         if (request()->is('api/*')) {
+
             return response()->json($recordStored, Response::HTTP_OK);
         }
-        return view('');
+        return redirect()->back();
     }
 
     public function delete(ServiceYearAndSpecialization $serviceYearAndSpecialization)
     {
-        $serviceYearAndSpecialization->delete();
+        $response = $this->serviceYearAndSpecializationService->deleteRecord($serviceYearAndSpecialization);
 
         if (request()->is('api/*')) {
-            return response()->json(['message' => 'this record deleted successfully']);
+
+            return response()->json($response);
         }
-        return view('');
+        return redirect()->back();
     }
 
     public function deleteAll()
     {
-        if (ServiceManager::where('userID', auth()->id())->where('position', 'provost')->exists()) {
+        $response = $this->serviceYearAndSpecializationService->deleteAllRecords();
 
-            ServiceYearAndSpecialization::query()->delete();
-
-            if (request()->is('api/*')) {
-                return response()->json(['message' => 'all records deleted successfully']);
-            }
-            return view('');
-        }
         if (request()->is('api/*')) {
-            return response()->json(['message' => 'you dont have the permission to delete all records in this table']);
-        }
-        return view('');
-    }
 
+            return response()->json($response);
+        }
+        return redirect()->back();
+    }
 }
