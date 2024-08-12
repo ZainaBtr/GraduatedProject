@@ -4,27 +4,35 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Role\Role1;
 use App\Models\Role;
-use App\Models\ServiceManager;
+use App\Services\RoleService;
 use Illuminate\Http\Response;
 
 class RoleController extends Controller
 {
+    protected $roleService;
+
+    public function __construct(RoleService $roleService)
+    {
+        $this->roleService = $roleService;
+    }
 
     public function showAll()
     {
-        $allRecords = Role::all();
+        $allRecords = $this->roleService->getAllRoles();
 
         if (request()->is('api/*')) {
+
             return response()->json($allRecords, Response::HTTP_OK);
         }
-        return view('pages.RolePageForServiceManager',compact('allRecords'));
+        return view('pages.RolePageForServiceManager', compact('allRecords'));
     }
 
     public function add(Role1 $request)
     {
-        $recordStored = Role::create($request->validated());
+        $recordStored = $this->roleService->createRole($request->validated());
 
         if (request()->is('api/*')) {
+
             return response()->json($recordStored, Response::HTTP_OK);
         }
         return redirect()->back();
@@ -32,29 +40,23 @@ class RoleController extends Controller
 
     public function delete(Role $role)
     {
-        $role->delete();
+        $response = $this->roleService->deleteRole($role);
 
         if (request()->is('api/*')) {
-            return response()->json(['message' => 'this record deleted successfully']);
+
+            return response()->json($response);
         }
-        return view('');
+        return redirect()->back();
     }
 
     public function deleteAll()
     {
-        if (ServiceManager::where('userID', auth()->id())->where('position', 'provost')->exists()) {
+        $response = $this->roleService->deleteAllRoles();
 
-            Role::query()->delete();
-
-            if (request()->is('api/*')) {
-                return response()->json(['message' => 'all records deleted successfully']);
-            }
-            return view('');
-        }
         if (request()->is('api/*')) {
-            return response()->json(['message' => 'you dont have the permission to delete all records in this table']);
-        }
-        return view('');
-    }
 
+            return response()->json($response);
+        }
+        return redirect()->back();
+    }
 }

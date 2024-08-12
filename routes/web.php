@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\StatisticController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceManagerController;
@@ -202,4 +203,10 @@ Route::middleware(['auth', 'check.role:serviceManager'])->group(function() {
         Route::get('/totalSessionsCount', [StatisticController::class, 'totalSessionsCount'])->name('totalSessionsCount');
         Route::get('/groupsCount', [StatisticController::class, 'groupsCount'])->name('groupsCount');
     });
+
+    Route::prefix("statistic")->group(function () {
+        Route::get('/getAllNotificationsForUser', [NotificationController::class, 'getAllNotificationsForUser'])->name('getAllNotificationsForUser');
+        Route::get('/markAsRead/{id}', [NotificationController::class, 'markAsRead'])->name('markAsRead');
+    });
+
 });

@@ -50,9 +50,9 @@ class AuthController extends Controller
 
         $serviceManager=$user->serviceManager;
 
-//         if (request()->is('api/*')) {
-//             return response()->json($data, Response::HTTP_OK);
-//         }
+         if (request()->is('api/*')) {
+             return response()->json($data, Response::HTTP_OK);
+         }
 
         if($serviceManager){
             return redirect()->action([NormalUserController::class, 'showAll']);

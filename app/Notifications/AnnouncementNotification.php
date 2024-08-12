@@ -38,7 +38,7 @@ class AnnouncementNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'service_name' => $this->announcement->service->serviceName ?? null,
+            'serviceName' => $this->announcement->service->serviceName ?? null,
             'title' => $this->announcement->title,
             'description' => $this->announcement->description,
         ];
