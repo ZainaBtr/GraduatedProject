@@ -139,8 +139,6 @@ Meal
     }
 </style>
 
-
-
 <div class="component-container" id="serviceRecords">
     @foreach($allRecords as $record)
     <div class="component">

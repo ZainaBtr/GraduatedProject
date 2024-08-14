@@ -63,10 +63,14 @@ class AnnouncementController extends Controller
 
         Notification::send($users, new AnnouncementNotification($announcement));
 
+        $latestNotification = auth()->user()->notifications()->latest()->first();
+
         if (request()->is('api/*')) {
-            return response()->json($announcement, Response::HTTP_OK);
+            return response()->json([$announcement, $latestNotification->data], Response::HTTP_OK);
         }
-        return redirect()->back();
+        return redirect()->back()->with([
+            'notificationData' => $latestNotification->data
+        ]);
     }
 
     public function addFromService(Announcement2 $request, Service $service)
@@ -89,20 +93,14 @@ class AnnouncementController extends Controller
 
         Notification::send($users, new AnnouncementNotification($announcement));
 
-        if (request()->is('api/*')) {
-            return response()->json($announcement, Response::HTTP_OK);
-        }
-        return redirect()->back();
-    }
-
-    public function update(Announcement1 $request, Announcement $announcement)
-    {
-        $recordUpdated = $announcement->update($request->validated());
+        $latestNotification = auth()->user()->notifications()->latest()->first();
 
         if (request()->is('api/*')) {
-            return response()->json($recordUpdated, Response::HTTP_OK);
+            return response()->json([$announcement, $latestNotification->data], Response::HTTP_OK);
         }
-        return view('');
+        return redirect()->back()->with([
+            'notificationData' => $latestNotification->data
+        ]);
     }
 
     public function filterByType(Service4 $request)

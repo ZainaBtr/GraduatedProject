@@ -146,6 +146,20 @@
 
                         </ul>
                     </li>
+
+                        <!-- Reports & Statistics-->
+                    <li>
+                        <a href="javascript:void(0);" data-toggle="collapse" data-target="#Statistics">
+                            <div class="pull-left"><i class="ti-bar-chart"></i><span
+                                    class="right-nav-text">Statistics</span></div>
+                            <div class="pull-right"><i class="ti-plus"></i></div>
+                            <div class="clearfix"></div>
+                        </a>
+                        <ul id="Statistics" class="collapse" data-parent="#sidebarnav">
+                            <li><a href="/g">Statistics</a></li>
+
+                        </ul>
+                    </li>
                     
                     
 
