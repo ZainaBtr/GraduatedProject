@@ -9,19 +9,23 @@ Advertisements
 @endsection
 
 @section('content')
+<!-- Toastr CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
 <style>
+    
+    /* تحسين نمط عرض الإعلانات */
     .component-container {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         gap: 20px;
-        max-width: 100%; /* Ensure the container utilizes the full width */
+        max-width: 100%;
     }
 
     .component {
         position: relative;
         width: 300px;
-        height: auto;
         background-color: #ACA6F2;
         border-radius: 10px;
         padding: 20px;
@@ -30,42 +34,29 @@ Advertisements
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-top: 70px;
+        margin-top: 50px;
     }
 
-    .component-title {
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
-
-    .component-item {
-        width: 100%;
-        margin: 5px 0;
-    }
-
-    .styled-button {
+    /* تحسين نمط الأزرار */
+    .styled-button, .styled-account {
         position: absolute;
-        width: 400px;
-        height: 60px;
-        left: 800px;
-        top: 0px;
         font-family: 'Inter';
-        font-style: normal;
         font-weight: 800;
         font-size: 25px;
-        line-height: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         text-align: center;
-        text-transform: uppercase;
         color: #FFFFFF;
-        background-color: #FF7B1C;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
         border-radius: 0px 0px 30px 30px;
         border: none;
         cursor: pointer;
         font-size: large;
+    }
+
+    .styled-button {
+        width: 400px;
+        height: 60px;
+        left: 800px;
+        top: 1px;
+        background-color: #FF7B1C;
     }
 
     .styled-button:hover {
@@ -73,35 +64,15 @@ Advertisements
     }
 
     .styled-account {
-        position: absolute;
         width: 300px;
         height: 60px;
         left: 540px;
-        top: 0px;
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 800;
-        font-size: 25px;
-        line-height: 100px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        text-transform: uppercase;
-        color: #FFFFFF;
         background-color: #292D3D;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-        border-radius: 0px 0px 30px 30px;
-        border: none;
-        cursor: pointer;
-        font-size: large;
     }
 
-    .heart-icon {
-        position: absolute;
-        bottom: 10px;
-        right: 20px;
-        cursor: pointer;
+    #toast-container > div {
+        background-color: #77B8A1; /* لون كحلي */
+        color: white; /* لون النص */
     }
 
     .heart-icon i {
@@ -114,83 +85,10 @@ Advertisements
         color: red;
     }
 
-    .modal-dialog {
-        max-width: 800px;
-    }
-
-    .modal-content {
-        border-radius: 10px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    }
-
-    .modal-header {
-        background-color: #77B8A1;
-        color: white;
-        border-radius: 10px 10px 0 0;
-    }
-
-    .modal-title {
-        font-weight: bold;
-    }
-
-    .modal-body {
-        padding: 20px;
-    }
-
-    .modal-footer {
-        border-top: none;
-    }
-
-    .search-container {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        top: 1%;
-        align-items: center;
-    }
-
-    #search-input {
-        border-radius: 10px;
-        border: 1px solid #ccc;
-        width: 400px;
-        height: 40px;
-    }
-
-    .fa-search {
-        color: black;
-        position: absolute;
-        top: 50%;
-        left: 95%;
-        transform: translate(-50%, -50%);
-        cursor: pointer;
-        font-size: 20px;
-    }
-
-    .delete-container {
-        position: absolute;
-        top: 1%;
-        left: 2%;
-    }
-
-    #delete-all-icon {
-        font-size: 25px;
-        cursor: pointer;
-        color: red;
-        top: 1px;
-        transform: translate(-50%, -50%);
-    }
-
-    #delete-all-icon:hover {
-        color: darkred;
-    }
-
-    .download-icon {
-        font-size: 20px;
-        color: white;
-        cursor: pointer;
-    }
-
     .download-icon i {
+        font-size: 20px;
+        color: white;
+        cursor: pointer;
         transition: color 0.2s;
     }
 
@@ -203,27 +101,28 @@ Advertisements
 
 <div class="component-container" id="serviceRecords">
     @foreach($allRecords as $record)
-    <div class="component">
-        <div class="component-title">Advertisement Details</div>
-        <div class="component-item">Title: {{ $record['title'] }}</div>
-        <div class="component-item">Description: {{ $record['description'] }}</div>
-        <div class="component-item">
-            File:
-            @if($record['file'])
-                @foreach($record['file'] as $file)
-                    <a href="{{ route('downloadFile', $file['id']) }}" class="download-icon">
-                        <i class="fa fa-download"></i>
-                        {{ $file['fileName'] }}
-                    </a><br>
-                @endforeach
-            @else
-                No file
-            @endif
+        <div class="component">
+            <div class="component-title">Advertisement Details</div>
+            <div class="component-item">Title: {{ $record['title'] }}</div>
+            <div class="component-item">Description: {{ $record['description'] }}</div>
+            <div class="component-item">
+                File:
+                @if($record['file'])
+                    @foreach($record['file'] as $file)
+                        <a href="{{ route('downloadFile', $file['id']) }}" class="download-icon">
+                            <i class="fa fa-download"></i>
+                            {{ $file['fileName'] }}
+                        </a><br>
+                    @endforeach
+                @else
+                    No file
+                @endif
+            </div>
         </div>
-    </div>
     @endforeach
 </div>
 
+<!-- Modal لإضافة إعلان -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -248,7 +147,6 @@ Advertisements
                         <label for="file">File:</label>
                         <input id="file" type="file" name="file" accept=".jpg,.jpeg,.bmp,.png,.gif,.doc,.docx,.csv,.rtf,.xlsx,.xls,.txt,.pdf,.zip" class="form-control">
                     </div>
-                    <input type="hidden" name="serviceManagerID">
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-success">Save</button>
@@ -258,9 +156,37 @@ Advertisements
         </div>
     </div>
 </div>
-@endsection
 
+   <!-- تأكد من تحميل jQuery أولاً -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        @if(session('notificationData'))
+            var notificationData = {!! json_encode(session('notificationData')) !!};
+
+            toastr.success(
+                "Title: " + notificationData.title + "<br>Description: " + notificationData.description,
+                "New Announcement",
+                {
+                    closeButton: true,
+                    progressBar: true,
+                    positionClass: "toast-top-right",
+                    timeOut: "10000"
+                }
+            );
+        @endif
+    });
+</script>
+
+
+
+
+@endsection
 @section('js')
-@toastr_js
-@toastr_render
+    @toastr_js
+    @toastr_render
 @endsection

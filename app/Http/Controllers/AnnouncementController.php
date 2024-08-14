@@ -108,9 +108,11 @@ class AnnouncementController extends Controller
         $recordUpdated = $announcement->update($request->validated());
 
         if (request()->is('api/*')) {
-            return response()->json($recordUpdated, Response::HTTP_OK);
+            return response()->json([$announcement, $latestNotification->data], Response::HTTP_OK);
         }
-        return view('');
+        return redirect()->back()->with([
+            'notificationData' => $latestNotification->data
+        ]);
     }
 
     public function filterByType(Service4 $request)

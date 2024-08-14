@@ -3,6 +3,9 @@
 
 <!-- Favicon -->
 <link rel="shortcut icon" href="{{ URL::asset('assets/images/favicon.ico') }}" type="image/x-icon" />
+<!-- Toastr CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
 
 <!-- Font -->
 <link rel="stylesheet"
