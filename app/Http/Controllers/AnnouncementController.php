@@ -103,6 +103,18 @@ class AnnouncementController extends Controller
         ]);
     }
 
+    public function update(Announcement1 $request, Announcement $announcement)
+    {
+        $recordUpdated = $announcement->update($request->validated());
+
+        if (request()->is('api/*')) {
+            return response()->json([$announcement, $latestNotification->data], Response::HTTP_OK);
+        }
+        return redirect()->back()->with([
+            'notificationData' => $latestNotification->data
+        ]);
+    }
+
     public function filterByType(Service4 $request)
     {
         $filterType = $request['filterType'];
