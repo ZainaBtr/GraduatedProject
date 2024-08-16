@@ -28,13 +28,23 @@
                 <li class="nav-item dropdown ">
                     <a class="nav-link top-nav" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
                         aria-expanded="false">
-                      
-                    
                         
                     </a>
                   
                        
                 </li>
+                <li class="nav-item dropdown mr-30">
+    <a class="nav-link nav-pill user-avatar" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+        <i class="fa fa-bell"></i> <!-- Notification bell icon -->
+        <span id="notification-badge" class="badge badge-danger" style="display: none;">0</span> <!-- Notification count badge -->
+    </a>
+    <div class="dropdown-menu dropdown-menu-right">
+        <div id="notification-list" class="dropdown-item">
+            <!-- Notifications will be displayed here -->
+        </div>
+    </div>
+</li>
+
                 <li class="nav-item dropdown mr-30">
                     <a class="nav-link nav-pill user-avatar" data-toggle="dropdown" href="#" role="button"
                         aria-haspopup="true" aria-expanded="false">
@@ -46,5 +56,7 @@
             </ul>
         </nav>
 
+
+      
         <!--=================================
  header End-->

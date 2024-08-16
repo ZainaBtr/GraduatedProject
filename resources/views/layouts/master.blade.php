@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-dFS8b49VF0J5A2sI+0o4+D2wPjVxPY48OpnWZ6Z5/z5JdxHa5DiK5BXf9avd6BhRJe/E6F7JjQ1A0+5C8AfB8Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Toastr CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<link rel="stylesheet" href="/path/to/your/css/style.css">
+
 
     @include('layouts.head')
 </head>
