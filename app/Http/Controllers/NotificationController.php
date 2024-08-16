@@ -16,13 +16,13 @@ class NotificationController extends Controller
 
     public function getAllNotificationsForUser()
     {
-        $notifications = $this->notificationService->getAllNotificationsForUser();
+        $formattedNotifications = $this->notificationService->getAllNotificationsForUser();
 
         if (request()->is('api/*')) {
 
-            return response()->json($notifications, 200);
+            return response()->json($formattedNotifications, 200);
         }
-        return view('', compact('notifications'));
+        return view('', compact('formattedNotifications'));
     }
 
     public function markAsRead($id)

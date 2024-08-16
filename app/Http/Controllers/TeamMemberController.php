@@ -2,42 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\TeamMember\TeamMember1;
-use App\Http\Requests\TeamMember\TeamMember2;
-use App\Http\Requests\TeamMember\TeamMember3;
-use App\Models\Group;
 use App\Models\TeamMember;
-use Illuminate\Http\Request;
+use App\Services\TeamMemberService;
 
 class TeamMemberController extends Controller
 {
+    protected $teamMemberService;
 
-    public function add(TeamMember1 $request, Group $group)
+    public function __construct(TeamMemberService $teamMemberService)
     {
-        //
-    }
-
-    public function search(TeamMember2 $request)
-    {
-        //
-    }
-
-    public function updateSkills(TeamMember3 $request, TeamMember $teamMember)
-    {
-        //
+        $this->teamMemberService = $teamMemberService;
     }
 
     public function delete(TeamMember $teamMember)
     {
-        $teamMember->delete();
-        return response()->json(['message'=>'team member removed successfully'],200);
+        return $this->teamMemberService->delete($teamMember);
     }
-
 }
-
-
-
-
-
-
-
