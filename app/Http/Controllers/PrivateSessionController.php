@@ -7,6 +7,7 @@ use App\Http\Requests\PrivateSession\PrivateSession2;
 use App\Http\Requests\Session\Session1;
 use App\Models\AdvancedUser;
 use App\Models\AssignedService;
+use App\Models\PrivateReservation;
 use App\Models\PrivateSession;
 use App\Models\FakeReservation;
 use App\Models\Service;
@@ -140,6 +141,7 @@ class PrivateSessionController extends Controller
 
             if ($updated && ($request->has('sessionStartTime') || $request->has('sessionEndTime') || $request->has('durationForEachReservation'))) {
                 FakeReservation::where('privateSessionID', $privateSession->id)->delete();
+                PrivateReservation::where('privateSessionID', $privateSession->id)->delete();
                 $this->createFakeReservations($session);
             }
 

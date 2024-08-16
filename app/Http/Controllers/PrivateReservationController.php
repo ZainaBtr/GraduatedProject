@@ -152,44 +152,53 @@ class PrivateReservationController extends Controller
     {
         $user = Auth::user();
 
-        $fakeReservation = FakeReservation::find($id);
-        if (!$fakeReservation) {
-            return response()->json(['message' => 'This time slot is no longer available.'], 404);
+        DB::beginTransaction();
+        try {
+            $fakeReservation = FakeReservation::find($id);
+            if (!$fakeReservation) {
+                return response()->json(['message' => 'This time slot is no longer available.'], 404);
+            }
+
+            $privateSession = $fakeReservation->privateSession;
+            $session = $privateSession->session;
+            $serviceID = $session->serviceID;
+            $reservationDate = $session->sessionDate;
+
+            $teamMember = TeamMember::where('normalUserID', $user->normalUser->id)
+                ->whereHas('group', function ($query) use ($serviceID) {
+                    $query->where('serviceID', $serviceID);
+                })->first();
+
+            if (!$teamMember) {
+                return response()->json(['message' => 'You are not part of any group for this service.'], 403);
+            }
+
+            $groupID = $teamMember->groupID;
+
+            $existingReservation = PrivateReservation::where('privateSessionID', $fakeReservation->privateSessionID)
+                ->where('groupID', $groupID)->first();
+
+            if ($existingReservation) {
+                return response()->json(['message' => 'Your group already has a reservation for this session.'], 403);
+            }
+
+            $privateReservation = PrivateReservation::create([
+                'groupID' => $groupID,
+                'privateSessionID' => $fakeReservation->privateSessionID,
+                'reservationDate' => $reservationDate,
+                'reservationStartTime' => $fakeReservation->reservationStartTime,
+                'reservationEndTime' => $fakeReservation->reservationEndTime,
+            ]);
+
+            $fakeReservation->delete();
+
+            DB::commit();
+
+            return response()->json(['message' => 'Your reservation has been completed successfully', 'reservation' => $privateReservation], 201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'An error occurred while processing your reservation: ' . $e->getMessage()], 500);
         }
-
-        $privateSession = $fakeReservation->privateSession;
-        $session = $privateSession->session;
-        $serviceID = $session->serviceID;
-        $reservationDate = $session->sessionDate;
-
-        $teamMember = TeamMember::where('normalUserID', $user->normalUser->id)
-            ->whereHas('group', function ($query) use ($serviceID) {
-                $query->where('serviceID', $serviceID);})->first();
-
-        if (!$teamMember) {
-            return response()->json(['message' => 'You are not part of any group for this service.'], 403);
-        }
-
-        $groupID = $teamMember->groupID;
-
-        $existingReservation = PrivateReservation::where('privateSessionID', $fakeReservation->privateSessionID)
-            ->where('groupID', $groupID)->first();
-
-        if ($existingReservation) {
-            return response()->json(['message' => 'Your group already has a reservation for this session.'], 403);
-        }
-
-        $privateReservation = PrivateReservation::create([
-            'groupID' => $groupID,
-            'privateSessionID' => $fakeReservation->privateSessionID,
-            'reservationDate' => $reservationDate,
-            'reservationStartTime' => $fakeReservation->reservationStartTime,
-            'reservationEndTime' => $fakeReservation->reservationEndTime,
-        ]);
-
-        $fakeReservation->delete();
-
-        return response()->json(['message' => 'Your reservation has been completed successfully', 'reservation' => $privateReservation], 201);
     }
 
     public function delay(PrivateReservation1 $request, PrivateReservation $privateReservation)
