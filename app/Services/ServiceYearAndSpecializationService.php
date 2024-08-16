@@ -7,24 +7,24 @@ use App\Models\ServiceYearAndSpecialization;
 
 class ServiceYearAndSpecializationService
 {
-    public function getAllRecords()
+    public function showAll()
     {
         return ServiceYearAndSpecialization::all();
     }
 
-    public function addRecord($validatedData)
+    public function add($validatedData)
     {
         return ServiceYearAndSpecialization::create($validatedData);
     }
 
-    public function deleteRecord(ServiceYearAndSpecialization $record)
+    public function delete(ServiceYearAndSpecialization $record)
     {
         $record->delete();
 
         return ['message' => 'This service year and specialization deleted successfully'];
     }
 
-    public function deleteAllRecords()
+    public function deleteAll()
     {
         if (ServiceManager::where('userID', auth()->id())->where('position', 'provost')->exists()) {
 

@@ -7,24 +7,24 @@ use App\Models\ServiceManager;
 
 class RoleService
 {
-    public function getAllRoles()
+    public function showAll()
     {
         return Role::all();
     }
 
-    public function createRole($validatedData)
+    public function add($validatedData)
     {
         return Role::create($validatedData);
     }
 
-    public function deleteRole(Role $role)
+    public function delete(Role $role)
     {
         $role->delete();
 
         return ['message' => 'This record deleted successfully'];
     }
 
-    public function deleteAllRoles()
+    public function deleteAll()
     {
         if (ServiceManager::where('userID', auth()->id())->where('position', 'provost')->exists()) {
 

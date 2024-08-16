@@ -97,6 +97,17 @@ class SessionController extends Controller
         return redirect()->back();
     }
 
+    public function update(Session2 $request, Session $session)
+    {
+        $updatedSession = $this->sessionService->updateSession($request, $session);
+
+        if (request()->is('api/*')) {
+
+            return response()->json($updatedSession, 200);
+        }
+        return redirect()->back();
+    }
+
     public function start(Session $session)
     {
         $session = $this->sessionService->startSession($session);
@@ -126,17 +137,6 @@ class SessionController extends Controller
         if (request()->is('api/*')) {
 
             return response()->json($response, Response::HTTP_OK);
-        }
-        return redirect()->back();
-    }
-
-    public function update(Session2 $request, Session $session)
-    {
-        $updatedSession = $this->sessionService->updateSession($request, $session);
-
-        if (request()->is('api/*')) {
-
-            return response()->json($updatedSession, 200);
         }
         return redirect()->back();
     }

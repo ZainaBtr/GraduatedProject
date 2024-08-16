@@ -27,22 +27,11 @@ class NotificationController extends Controller
 
     public function markAsRead($id)
     {
-        $response = $this->notificationService->markNotificationAsRead($id);
+        $response = $this->notificationService->markAsRead($id);
 
         if (request()->is('api/*')) {
 
             return response()->json($response, Response::HTTP_OK);
-        }
-        return redirect()->back();
-    }
-
-    public function goToAnnouncementFromNotification($id)
-    {
-        $announcement = $this->notificationService->goToAnnouncementFromNotification($id);
-
-        if (request()->is('api/*')) {
-
-            return response()->json($announcement, Response::HTTP_OK);
         }
         return redirect()->back();
     }

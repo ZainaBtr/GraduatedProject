@@ -3,23 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\File;
-use Illuminate\Http\Response;
+use App\Services\FileService;
 
 class FileController extends Controller
 {
+    protected $fileService;
+
+    public function __construct(FileService $fileService)
+    {
+        $this->fileService = $fileService;
+    }
 
     public function download(File $file)
     {
-        $filePath = storage_path('app/public/' . $file['filePath']);
-
-        if (file_exists($filePath)) {
-
-            return response()->download($filePath, $file['fileName']);
-        }
-        if (request()->is('api/*')) {
-            return response()->json('File not found', Response::HTTP_NOT_FOUND);
-        }
-        return view('');
+        return $this->fileService->download($file);
     }
-
 }
