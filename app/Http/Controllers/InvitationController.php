@@ -61,7 +61,7 @@ class InvitationController extends Controller
         }));
     }
 
-    public function sendInvitation(Service $service, NormalUser $normalUser)
+    public function sendInvitation(Service $service, Request $request)
     {
         $user = Auth::user();
         $normalUserID = $user->normalUser->id;
@@ -79,24 +79,38 @@ class InvitationController extends Controller
             return response()->json(['message' => 'Group has reached the maximum number of members'], 400);
         }
 
-        if ($group->teamMembers->contains('normalUserID', $normalUser->id)) {
-            return response()->json(['message' => 'The user is already a member of the group'], 400);
+        $normalUserIDs = $request->input('normalUserIDs');
+
+        $invitations = [];
+        foreach ($normalUserIDs as $normalUserID) {
+            $normalUser = NormalUser::find($normalUserID);
+
+            if ($group->teamMembers->contains('normalUserID', $normalUser->id)) {
+                return response()->json(['message' => "The user {$normalUser->user->fullName} is already a member of the group"], 400);
+            }
+
+            $existingInvitation = Invitation::where('normalUserID', $normalUserID)
+                ->where('groupID', $group->id)
+                ->first();
+
+            if ($existingInvitation) {
+                return response()->json(['message' => "An invitation has already been sent to {$normalUser->user->fullName}"], 400);
+            }
+
+            $invitation = Invitation::create([
+                'groupID' => $group->id,
+                'normalUserID' => $normalUserID,
+                'requestDate' => Carbon::today(),
+                'status' => 'pending',
+            ]);
+
+            $invitations[] = $invitation;
         }
 
-        $existingInvitation = Invitation::where('normalUserID', $normalUser->id)->where('groupID', $group->id)->first();
-
-        if ($existingInvitation) {
-            return response()->json(['message' => 'An invitation has already been sent'], 400);
-        }
-
-        $invitation = Invitation::create([
-            'groupID' => $group->id,
-            'normalUserID' => $normalUser->id,
-            'requestDate'=>Carbon::today(),
-            'status' => 'pending',
-        ]);
-
-        return response()->json(['message' => 'Invitation Sent Successfully', 'invitation' => $invitation], 201);
+        return response()->json([
+            'message' => 'Invitations Sent Successfully',
+            'invitations' => $invitations
+        ], 201);
     }
 
     public function acceptInvitation(Invitation $invitation)
