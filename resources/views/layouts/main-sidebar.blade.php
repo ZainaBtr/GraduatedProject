@@ -128,7 +128,7 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="Savedadvertisements" class="collapse" data-parent="#sidebarnav">
-                            <li><a href="">listSavedAdvertisements</a></li>
+                            <li><a href="{{route('showAllAnnouncements')}}">listSavedAdvertisements</a></li>
 
                         </ul>
                     </li>

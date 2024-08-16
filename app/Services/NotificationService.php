@@ -22,10 +22,5 @@ class NotificationService
         return ['message' => 'Notification marked as read'];
     }
 
-    public function goToAnnouncementFromNotification($id)
-    {
-        $notification = DatabaseNotification::findOrFail($id);
-
-        return Announcement::where('id', $notification->data['announcementID'])->first();;
-    }
+  
 }

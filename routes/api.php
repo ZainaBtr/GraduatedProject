@@ -154,7 +154,7 @@ Route::get('/d', function () {
 //////////////////////////////////// System Manager Methods ////////////////////////////////////
 
 
-Route::middleware(['auth:api', 'check.role:1'])->group(function() {
+Route::middleware(['auth', 'check.role:1'])->group(function() {
 
     Route::prefix ("systemManager")->group( function () {
         Route::get('/showProfile',[ServiceManagerController::class,'showSystemManagerProfile'])->name('showSystemManagerProfile');
@@ -168,7 +168,7 @@ Route::middleware(['auth:api', 'check.role:1'])->group(function() {
 /////////////////////////////////// Services Managers Methods //////////////////////////////////
 
 
-Route::middleware(['auth:api', 'check.role:serviceManager'])->group(function() {
+Route::middleware(['auth', 'check.role:serviceManager'])->group(function() {
 
     Route::prefix("serviceManager")->group(function () {
         Route::get('/showProfile', [ServiceManagerController::class, 'showProfile'])->name('showServiceManagerProfile');
