@@ -64,6 +64,16 @@ class GroupController extends Controller
     {
         $user=Auth::user();
         $normalUser=$user->normalUser;
+
+        $existingGroup = Group::where('serviceID', $service->id)
+            ->whereHas('teamMembers', function ($query) use ($normalUser) {
+                $query->where('normalUserID', $normalUser->id);
+            })->first();
+
+        if ($existingGroup) {
+            return response()->json(['message' => 'you already have a group for this service'], 400);
+        }
+
         DB::beginTransaction();
         try{
             $group= Group::create([

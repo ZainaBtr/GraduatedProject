@@ -54,6 +54,10 @@ Route::get('/m', function () {
 Route::get('/kk', function () {
     return view('Common.EnterInformationPage');
 });
+
+Route::get('/g', function () {
+    return view('pages.statistic');
+});
 Route::get('/dd', function () {
     return view('Common.EnterEmailPage');
 });

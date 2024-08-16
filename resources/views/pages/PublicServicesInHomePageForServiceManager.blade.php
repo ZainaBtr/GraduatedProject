@@ -269,98 +269,98 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
-        $(document).ready(function() {
-            // Load options for the dropdown
-            $.ajax({
-                method: "GET",
-                url: "http://127.0.0.1:8000/service/showServiceYearAndSpecForDynamicDropDown",
-                dataType: "json",
-                success: function(data) {
-                    $.each(data, function(k, v) {
-                        $('#serviceYearAndSpecializationID').append(`<option value="${v.id}">${v.serviceSpecializationName} - ${v.serviceYear}</option>`);
-                    });
-                },
-                error: function(x, y, z) {
-                    console.log(x);
-                    console.log(y);
-                    console.log(z);
-                }
+      $(document).ready(function() {
+    // Load options for the dropdown
+    $.ajax({
+        method: "GET",
+        url: "http://127.0.0.1:8000/service/showServiceYearAndSpecForDynamicDropDown",
+        dataType: "json",
+        success: function(data) {
+            $.each(data, function(k, v) {
+                $('#serviceYearAndSpecializationID').append(`<option value="${v.id}">${v.serviceSpecializationName} - ${v.serviceYear}</option>`);
             });
-
-            // Handle heart icon click
-            $('.heart-icon').click(function() {
-                var interestedServiceId = $(this).data('interested-service-id');
-                var icon = $(this).find('i');
-
-                if (icon.hasClass('red')) {
-                    unInterestInService(interestedServiceId, icon);
-                } else {
-                    var serviceId = $(this).data('service-id');
-                    interestInService(serviceId, icon);
-                }
-            });
-
-            // Handle delete all services click
-            $('#delete-all-icon').click(function() {
-                deleteAllServices();
-            });
-        });
-
-        function interestInService(serviceId, icon) {
-            $.ajax({
-                method: 'POST',
-                url: '/interestedService/interestInService/' + serviceId,
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
-                dataType: 'json',
-                success: function(response) {
-                    console.log('Interest recorded successfully');
-                    icon.addClass('red');
-                    icon.closest('.heart-icon').data('interested-service-id', response.id);
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error recording interest:', error);
-                }
-            });
+        },
+        error: function(x, y, z) {
+            console.log(x);
+            console.log(y);
+            console.log(z);
         }
+    });
 
-        function unInterestInService(interestedServiceId, icon) {
-            $.ajax({
-                method: 'DELETE',
-                url: '/interestedService/unInterestInService/' + interestedServiceId,
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
-                dataType: 'json',
-                success: function(response) {
-                    console.log('Interest removed successfully');
-                    icon.removeClass('red');
-                    icon.closest('.heart-icon').removeData('interested-service-id');
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error removing interest:', error);
-                }
-            });
-        }
+    // Handle heart icon click
+    $('.heart-icon').click(function() {
+        var interestedServiceId = $(this).data('interested-service-id');
+        var icon = $(this).find('i');
 
-        function deleteAllServices() {
-            $.ajax({
-                method: 'DELETE',
-                url: "{{ route('deleteAllServices') }}",
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
-                dataType: 'json',
-                success: function(response) {
-                    console.log(response.message);
-                    location.reload();
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error deleting all services:', error);
-                }
-            });
+        // Check if the service is already marked as interested
+        if (!icon.hasClass('red')) {
+            var serviceId = $(this).data('service-id');
+            interestInService(serviceId, icon);
         }
+    });
+
+    // Handle delete all services click
+    $('#delete-all-icon').click(function() {
+        deleteAllServices();
+    });
+});
+
+function interestInService(serviceId, icon) {
+    $.ajax({
+        method: 'POST',
+        url: '/interestedService/interestInService/' + serviceId,
+        data: {
+            _token: '{{ csrf_token() }}'
+        },
+        dataType: 'json',
+        success: function(response) {
+            console.log('Interest recorded successfully');
+            icon.addClass('red');
+            icon.closest('.heart-icon').data('interested-service-id', response.id);
+        },
+        error: function(xhr, status, error) {
+            console.error('Error recording interest:', error);
+        }
+    });
+}
+
+function unInterestInService(interestedServiceId, icon) {
+    $.ajax({
+        method: 'DELETE',
+        url: '/interestedService/unInterestInService/' + interestedServiceId,
+        data: {
+            _token: '{{ csrf_token() }}'
+        },
+        dataType: 'json',
+        success: function(response) {
+            console.log('Interest removed successfully');
+            icon.removeClass('red');
+            icon.closest('.heart-icon').removeData('interested-service-id');
+        },
+        error: function(xhr, status, error) {
+            console.error('Error removing interest:', error);
+        }
+    });
+}
+
+function deleteAllServices() {
+    $.ajax({
+        method: 'DELETE',
+        url: "{{ route('deleteAllServices') }}",
+        data: {
+            _token: '{{ csrf_token() }}'
+        },
+        dataType: 'json',
+        success: function(response) {
+            console.log(response.message);
+            location.reload();
+        },
+        error: function(xhr, status, error) {
+            console.error('Error deleting all services:', error);
+        }
+    });
+}
+
     </script>
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Group;
+use App\Models\Invitation;
 use App\Models\JoinRequest;
 use App\Models\NormalUser;
 use App\Models\Service;
@@ -109,6 +110,11 @@ class JoinRequestController extends Controller
                 'normalUserID' => $normalUser->id,
                 'groupID' => $joinRequest->groupID,
             ]);
+
+            Invitation::where('normalUserID', $normalUser->id,)
+                ->whereHas('group', function ($query) use ($group) {
+                    $query->where('serviceID', $group->serviceID);
+                })->update(['status' => 'cancelled']);
 
             JoinRequest::where('senderID', $joinRequest->senderID)
                 ->whereHas('group', function ($query) use ($group) {

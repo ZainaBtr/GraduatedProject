@@ -47,7 +47,7 @@ class PrivateReservationController extends Controller
             return $this->privateReservationService->book($id);
         }
         catch (\Exception $e) {
-
+          
             return response()->json(['error' => 'An error occurred while processing your reservation: ' . $e->getMessage()], 500);
         }
     }
