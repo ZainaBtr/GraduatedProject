@@ -5,28 +5,35 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AssignedRole\AssignedRole1;
 use App\Models\AssignedRole;
 use App\Models\AssignedService;
-use App\Models\ServiceManager;
+use App\Services\AssignedRoleService;
 use Illuminate\Http\Response;
-use App\Models\Role;
 
 class AssignedRoleController extends Controller
 {
+    protected $assignedRoleService;
 
-    
+    public function __construct(AssignedRoleService $assignedRoleService)
+    {
+        $this->assignedRoleService = $assignedRoleService;
+    }
+
     public function showRoleForDynamicDropDown()
     {
-        $allRecords = Role::all()
-            ->unique()
-            ->values();
+        $allRecords = $this->assignedRoleService->showRoleForDynamicDropDown();
 
-        return response()->json($allRecords, Response::HTTP_OK);
+        if (request()->is('api/*')) {
+
+            return response()->json($allRecords, Response::HTTP_OK);
+        }
+        return view('',compact('allRecords'));
     }
 
     public function showAll(AssignedService $assignedService)
     {
-        $allRecords = AssignedRole::where('assignedServiceID', $assignedService['id'])->with('role')->get();
+        $allRecords = $this->assignedRoleService->showAll($assignedService);
 
         if (request()->is('api/*')) {
+
             return response()->json($allRecords, Response::HTTP_OK);
         }
         return view('pages.AdvancedUserRolePageForServiceManager', [
@@ -37,47 +44,34 @@ class AssignedRoleController extends Controller
 
     public function assign(AssignedRole1 $request, AssignedService $assignedService)
     {
-        $data = $request->validated();
-
-        $allData['roleID'] = $data['id'];
-
-        $allData['assignedServiceID'] = $assignedService['id'];
-
-        $recordStored = AssignedRole::create($allData);
-        return redirect()->back();
+        $recordStored = $this->assignedRoleService->assign($request, $assignedService);
 
         if (request()->is('api/*')) {
+
             return response()->json($recordStored, Response::HTTP_OK);
         }
-        return view('');
+        return redirect()->back();
     }
 
     public function delete(AssignedRole $assignedRole)
     {
-        $assignedRole->delete();
+        $response = $this->assignedRoleService->delete($assignedRole);
 
         if (request()->is('api/*')) {
-            return response()->json(['message' => 'this record deleted successfully']);
+
+            return response()->json($response, Response::HTTP_OK);
         }
-        return view('');
+        return redirect()->back();
     }
 
     public function deleteAll(AssignedService $assignedService)
     {
-        if (ServiceManager::where('userID', auth()->id())->where('position', 'provost')->exists()) {
+        $response = $this->assignedRoleService->deleteAll($assignedService);
 
-            AssignedRole::where('assignedServiceID', $assignedService['id'])->delete();
-            return redirect()->back();
-
-            if (request()->is('api/*')) {
-                return response()->json(['message' => 'all records deleted successfully']);
-            }
-            return view('');
-        }
         if (request()->is('api/*')) {
-            return response()->json(['message' => 'you dont have the permission to delete all records in this table']);
-        }
-        return view('');
-    }
 
+            return response()->json($response, Response::HTTP_OK);
+        }
+        return redirect()->back();
+    }
 }

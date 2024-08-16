@@ -31,7 +31,7 @@ class PublicSession2 extends FormRequest
             'sessionDate' => ['date', 'nullable'],
             'sessionStartTime' => ['date_format:H:i', 'nullable'],
             'sessionEndTime' => ['date_format:H:i', 'nullable'],
-            'MaximumNumberOfReservations' => ['numeric']
+            'MaximumNumberOfReservations' => ['numeric', 'gt:MaximumNumberOfReservation']
         ];
     }
 

@@ -18,7 +18,7 @@ class RoleController extends Controller
 
     public function showAll()
     {
-        $allRecords = $this->roleService->getAllRoles();
+        $allRecords = $this->roleService->showAll();
 
         if (request()->is('api/*')) {
 
@@ -29,7 +29,7 @@ class RoleController extends Controller
 
     public function add(Role1 $request)
     {
-        $recordStored = $this->roleService->createRole($request->validated());
+        $recordStored = $this->roleService->add($request->validated());
 
         if (request()->is('api/*')) {
 
@@ -40,7 +40,7 @@ class RoleController extends Controller
 
     public function delete(Role $role)
     {
-        $response = $this->roleService->deleteRole($role);
+        $response = $this->roleService->delete($role);
 
         if (request()->is('api/*')) {
 
@@ -51,7 +51,7 @@ class RoleController extends Controller
 
     public function deleteAll()
     {
-        $response = $this->roleService->deleteAllRoles();
+        $response = $this->roleService->deleteAll();
 
         if (request()->is('api/*')) {
 

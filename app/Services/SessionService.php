@@ -18,7 +18,7 @@ class SessionService
 
     public function __construct(ControllerService $controllerService)
     {
-        $this->$controllerService = $controllerService;
+        $this->controllerService = $controllerService;
     }
 
     public function getActiveTheoreticalSessions()
@@ -88,6 +88,25 @@ class SessionService
         return Session::create($session);
     }
 
+    public function updateSession(Session2 $request, Session $session)
+    {
+        $updatedSession = $session->update($request->validated());
+
+        $privateSession = $session->privateSession;
+
+        if ($privateSession) {
+            if ($request->has('sessionStartTime') || $request->has('sessionEndTime')) {
+
+                FakeReservation::where('privateSessionID', $privateSession->id)->delete();
+
+                PrivateReservation::where('privateSessionID', $privateSession->id)->delete();
+
+                $this->controllerService->createFakeReservations($updatedSession);
+            }
+        }
+        return $updatedSession;
+    }
+
     public function startSession(Session $session)
     {
         $session->update(['status' => 'active']);
@@ -107,25 +126,6 @@ class SessionService
         $session->delete();
 
         return ['message' => 'session canceled successfully'];
-    }
-
-    public function updateSession(Session2 $request, Session $session)
-    {
-        $updatedSession = $session->update($request->validated());
-
-        $privateSession = $session->privateSession;
-
-        if ($privateSession) {
-            if ($request->has('sessionStartTime') || $request->has('sessionEndTime')) {
-
-                FakeReservation::where('privateSessionID', $privateSession->id)->delete();
-
-                PrivateReservation::where('privateSessionID', $privateSession->id)->delete();
-
-                $this->controllerService->createFakeReservations($updatedSession);
-            }
-        }
-        return $updatedSession;
     }
 
     public function searchSessions(Session3 $request)

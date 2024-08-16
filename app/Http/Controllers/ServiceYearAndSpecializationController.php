@@ -17,7 +17,7 @@ class ServiceYearAndSpecializationController extends Controller
 
     public function showAll()
     {
-        $allRecords = $this->serviceYearAndSpecializationService->getAllRecords();
+        $allRecords = $this->serviceYearAndSpecializationService->showAll();
 
         if (request()->is('api/*')) {
 
@@ -28,7 +28,7 @@ class ServiceYearAndSpecializationController extends Controller
 
     public function add(ServiceYearAndSpecialization1 $request)
     {
-        $recordStored = $this->serviceYearAndSpecializationService->addRecord($request->validated());
+        $recordStored = $this->serviceYearAndSpecializationService->add($request->validated());
 
         if (request()->is('api/*')) {
 
@@ -39,7 +39,7 @@ class ServiceYearAndSpecializationController extends Controller
 
     public function delete(ServiceYearAndSpecialization $serviceYearAndSpecialization)
     {
-        $response = $this->serviceYearAndSpecializationService->deleteRecord($serviceYearAndSpecialization);
+        $response = $this->serviceYearAndSpecializationService->delete($serviceYearAndSpecialization);
 
         if (request()->is('api/*')) {
 
@@ -50,7 +50,7 @@ class ServiceYearAndSpecializationController extends Controller
 
     public function deleteAll()
     {
-        $response = $this->serviceYearAndSpecializationService->deleteAllRecords();
+        $response = $this->serviceYearAndSpecializationService->deleteAll();
 
         if (request()->is('api/*')) {
 

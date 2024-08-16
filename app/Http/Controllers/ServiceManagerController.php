@@ -1,25 +1,26 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Controllers\Controller;
+
 use App\Http\Requests\File\File1;
 use App\Http\Requests\ServiceManager\ServiceManager1;
-use App\Imports\AdvancedUserDataImport;
-use App\Imports\NormalUserDataImport;
-use App\Models\ServiceManager;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
+use App\Services\ServiceManagerService;
 
 class ServiceManagerController extends Controller
 {
+    protected $serviceManagerService;
+
+    public function __construct(ServiceManagerService $serviceManagerService)
+    {
+        $this->serviceManagerService = $serviceManagerService;
+    }
 
     public function showSystemManagerProfile()
     {
-        $user = Auth::user();
+        $user = $this->serviceManagerService->showSystemManagerProfile();
 
         if(request()->is('api/*')){
+
             return response()->json($user,200);
         }
         return view('page.MyAccountPageForSystemManager',compact('user'));
@@ -27,17 +28,10 @@ class ServiceManagerController extends Controller
 
     public function createAccount(ServiceManager1 $request)
     {
-         $user =User::query()->create([
-             'fullName'=>$request['fullName'],
-             'password'=>Str::random(12)
-         ]);
-
-         ServiceManager::query()->create([
-             'userID'=>$user['id'],
-             'position'=>$request['position']
-         ]);
+        $user = $this->serviceManagerService->createAccount($request);
 
         if(request()->is('api/*')){
+
             return response()->json($user,200);
         }
         return redirect()->back();
@@ -45,70 +39,36 @@ class ServiceManagerController extends Controller
 
     public function showProfile()
     {
-        $user = Auth::user();
-
-        $userData = [
-            'fullName' => $user->fullName,
-            'email' => $user->email,
-        ];
-        $position = $user->serviceManager->position;
-
-        $responseData = array_merge($userData, ['position' => $position]);
+        $response = $this->serviceManagerService->showProfile();
 
         if(request()->is('api/*')){
-            return response()->json($responseData);
+
+            return response()->json($response['responseData']);
         }
-        return view('pages.MyAccountPageForServiceManager',compact('user','position'));
+        return view('pages.MyAccountPageForServiceManager',compact($response['user'],$response['position']));
     }
 
     public function showAll()
     {
-        $serviceManagers = ServiceManager::with('user')->get();
+        $response = $this->serviceManagerService->showAll();
 
-        $usersData = [];
-
-        foreach ($serviceManagers as $serviceManager) {
-
-            $info = Hash::info($serviceManager->user->password);
-
-            if ($info['algoName'] == 'unknown')
-            {
-                $usersData[] = [
-                    'id' => $serviceManager->user->id,
-                    'fullName' => $serviceManager->user->fullName,
-                    'email' => $serviceManager->user->email,
-                    'password' => $serviceManager->user->password,
-                    'position' => $serviceManager->position
-                ];
-            }
-            else {
-                $usersData[] = [
-                    'id' => $serviceManager->user->id,
-                    'fullName' => $serviceManager->user->fullName,
-                    'email' => $serviceManager->user->email,
-                    'position' => $serviceManager->position
-                ];
-            }
-        }
         if(request()->is('api/*')) {
-            return response()->json($usersData);
+
+            return response()->json($response['$usersData']);
         }
         return view('page.ServiceManagersTablePageForSystemManager', [
-            'usersData' => $usersData,
-            'serviceManagers' => $serviceManagers,
+            'usersData' => $response['usersData'],
+            'serviceManagers' => $response['serviceManagers'],
         ]);
     }
 
     public function addAdvancedUsersFile(File1 $request)
     {
-        return $this->importUsersFile($request, AdvancedUserDataImport::class);
-        return redirect()->back();
+        return $this->serviceManagerService->addAdvancedUsersFile($request);
     }
 
     public function addNormalUsersFile(File1 $request)
     {
-        return $this->importUsersFile($request, NormalUserDataImport::class);
-        return redirect()->back();
+        return $this->serviceManagerService->addNormalUsersFile($request);
     }
-
 }
