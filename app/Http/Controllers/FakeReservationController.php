@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FakeReservation;
 use App\Models\PrivateSession;
-use Illuminate\Http\Request;
+use App\Services\FakeReservationService;
 
 class FakeReservationController extends Controller
 {
+    protected $fakeReservationService;
+
+    public function __construct(FakeReservationService $fakeReservationService)
+    {
+        $this->fakeReservationService = $fakeReservationService;
+    }
 
     public function showALl(PrivateSession $privateSession)
     {
-        $fakeReservations = $privateSession->fakeReservation;
-        return response()->json($fakeReservations, 200);
+        return $this->fakeReservationService->showALl($privateSession);
     }
-
 }

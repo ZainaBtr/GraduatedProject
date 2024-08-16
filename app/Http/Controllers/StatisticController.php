@@ -16,91 +16,91 @@ class StatisticController extends Controller
 
     public function advancedUsersCount()
     {
-        $data = $this->statisticService->countAdvancedUsers();
+        $data = $this->statisticService->advancedUsersCount();
 
         return response()->json($data, Response::HTTP_OK);
     }
 
     public function normalUsersCount()
     {
-        $data = $this->statisticService->countNormalUsers();
+        $data = $this->statisticService->normalUsersCount();
 
         return response()->json($data, Response::HTTP_OK);
     }
 
     public function serviceManagersCount()
     {
-        $data = $this->statisticService->countServiceManagers();
+        $data = $this->statisticService->serviceManagersCount();
 
         return response()->json($data, Response::HTTP_OK);
     }
 
     public function totalUsersCount()
     {
-        $data = $this->statisticService->countTotalUsers();
+        $data = $this->statisticService->totalUsersCount();
 
         return response()->json($data, Response::HTTP_OK);
     }
 
     public function announcementsCount()
     {
-        $data = $this->statisticService->countAnnouncements();
+        $data = $this->statisticService->announcementsCount();
 
         return response()->json($data, Response::HTTP_OK);
     }
 
     public function openServicesCount()
     {
-        $data = $this->statisticService->countOpenServices();
+        $data = $this->statisticService->openServicesCount();
 
         return response()->json($data, Response::HTTP_OK);
     }
 
     public function closeServicesCount()
     {
-        $data = $this->statisticService->countCloseServices();
+        $data = $this->statisticService->closeServicesCount();
 
         return response()->json($data, Response::HTTP_OK);
     }
 
     public function totalServicesCount()
     {
-        $data = $this->statisticService->countTotalServices();
+        $data = $this->statisticService->totalServicesCount();
 
         return response()->json($data, Response::HTTP_OK);
     }
 
     public function openSessionsCount()
     {
-        $data = $this->statisticService->countOpenSessions();
+        $data = $this->statisticService->openSessionsCount();
 
         return response()->json($data, Response::HTTP_OK);
     }
 
     public function openPrivateSessionsCount()
     {
-        $data = $this->statisticService->countOpenPrivateSessions();
+        $data = $this->statisticService->openPrivateSessionsCount();
 
         return response()->json($data, Response::HTTP_OK);
     }
 
     public function openPublicSessionsCount()
     {
-        $data = $this->statisticService->countOpenPublicSessions();
+        $data = $this->statisticService->openPublicSessionsCount();
 
         return response()->json($data, Response::HTTP_OK);
     }
 
     public function totalSessionsCount()
     {
-        $data = $this->statisticService->countTotalSessions();
+        $data = $this->statisticService->totalSessionsCount();
 
         return response()->json($data, Response::HTTP_OK);
     }
 
     public function groupsCount()
     {
-        $data = $this->statisticService->countGroups();
+        $data = $this->statisticService->groupsCount();
 
         return response()->json($data, Response::HTTP_OK);
     }

@@ -12,47 +12,47 @@ use App\Models\User;
 
 class StatisticService
 {
-    public function countAdvancedUsers()
+    public function advancedUsersCount()
     {
         return User::whereHas('advancedUser')->count();
     }
 
-    public function countNormalUsers()
+    public function normalUsersCount()
     {
         return User::whereHas('normalUser')->count();
     }
 
-    public function countServiceManagers()
+    public function serviceManagersCount()
     {
         return User::whereHas('serviceManager')->count();
     }
 
-    public function countTotalUsers()
+    public function totalUsersCount()
     {
         return User::all()->count();
     }
 
-    public function countAnnouncements()
+    public function announcementsCount()
     {
         return Announcement::all()->count();
     }
 
-    public function countOpenServices()
+    public function openServicesCount()
     {
         return Service::where('status', 1)->count();
     }
 
-    public function countCloseServices()
+    public function closeServicesCount()
     {
         return Service::where('status', 0)->count();
     }
 
-    public function countTotalServices()
+    public function totalServicesCount()
     {
         return Service::all()->count();
     }
 
-    public function countOpenSessions()
+    public function openSessionsCount()
     {
         return Session::WhereDoesntHave('privateSession')
             ->WhereDoesntHave('publicSession')
@@ -60,26 +60,26 @@ class StatisticService
             ->count();
     }
 
-    public function countOpenPrivateSessions()
+    public function openPrivateSessionsCount()
     {
         return PrivateSession::whereHas('session', function ($query) {
             $query->where('status', 'active');
         })->count();
     }
 
-    public function countOpenPublicSessions()
+    public function openPublicSessionsCount()
     {
         return PublicSession::whereHas('session', function ($query) {
             $query->where('status', 'active');
         })->count();
     }
 
-    public function countTotalSessions()
+    public function totalSessionsCount()
     {
         return Session::all()->count();
     }
 
-    public function countGroups()
+    public function groupsCount()
     {
         return Group::all()->count();
     }

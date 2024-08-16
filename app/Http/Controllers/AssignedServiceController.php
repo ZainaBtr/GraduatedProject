@@ -5,17 +5,24 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AssignedService\AssignedService1;
 use App\Models\User;
 use App\Models\AssignedService;
-use App\Models\ServiceManager;
+use App\Services\AssignedServiceService;
 use Illuminate\Http\Response;
 
 class AssignedServiceController extends Controller
 {
+    protected $assignedServiceService;
+
+    public function __construct(AssignedServiceService $assignedServiceService)
+    {
+        $this->assignedServiceService = $assignedServiceService;
+    }
 
     public function showAll(User $user)
     {
-        $allRecords = AssignedService::where('userID', $user['id'])->with('service')->get();
+        $allRecords = $this->assignedServiceService->showAll($user);
 
         if (request()->is('api/*')) {
+
             return response()->json($allRecords, Response::HTTP_OK);
         }
         return view('pages.AdvancedUserServicePageForServiceManager', [
@@ -26,46 +33,34 @@ class AssignedServiceController extends Controller
 
     public function assign(AssignedService1 $request, User $user)
     {
-        $data = $request->validated();
-
-        $allData['serviceID'] = $data['id'];
-
-        $allData['userID'] = $user['id'];
-
-        $recordStored = AssignedService::create($allData);
-        return redirect()->back();
+        $recordStored = $this->assignedServiceService->assign($request, $user);
 
         if (request()->is('api/*')) {
+
             return response()->json($recordStored, Response::HTTP_OK);
         }
-        return view('');
+        return redirect()->back();
     }
+
     public function delete(AssignedService $assignedService)
     {
-        $assignedService->delete();
+        $response = $this->assignedServiceService->delete($assignedService);
 
         if (request()->is('api/*')) {
-            return response()->json(['message' => 'this record deleted successfully']);
+
+            return response()->json($response, Response::HTTP_OK);
         }
-        return view('');
+        return redirect()->back();
     }
 
     public function deleteAll(User $user)
     {
-        if (ServiceManager::where('userID', auth()->id())->where('position', 'provost')->exists()) {
+        $response = $this->assignedServiceService->deleteAll($user);
 
-            AssignedService::where('userID', $user['id'])->delete();
-            return redirect()->back();
-
-            if (request()->is('api/*')) {
-                return response()->json(['message' => 'all records deleted successfully']);
-            }
-            return view('');
-        }
         if (request()->is('api/*')) {
-            return response()->json(['message' => 'you dont have the permission to delete all records in this table']);
-        }
-        return view('');
-    }
 
+            return response()->json($response, Response::HTTP_OK);
+        }
+        return redirect()->back();
+    }
 }

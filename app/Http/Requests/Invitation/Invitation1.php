@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Requests\PublicSession;
+namespace App\Http\Requests\Invitation;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 
-class PublicSession2 extends FormRequest
+class Invitation1 extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,12 +24,7 @@ class PublicSession2 extends FormRequest
     public function rules(): array
     {
         return [
-            'sessionName' => ['string', 'nullable'],
-            'sessionDescription' => ['string', 'nullable'],
-            'sessionDate' => ['date', 'nullable'],
-            'sessionStartTime' => ['date_format:H:i', 'nullable'],
-            'sessionEndTime' => ['date_format:H:i', 'nullable'],
-            'MaximumNumberOfReservations' => ['numeric', 'gt:MaximumNumberOfReservation']
+            'normalUserIDs' => []
         ];
     }
 

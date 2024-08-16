@@ -2,18 +2,23 @@
 
 namespace App\Services;
 
-use App\Models\Announcement;
 use Illuminate\Notifications\DatabaseNotification;
-use Illuminate\Support\Facades\Auth;
 
 class NotificationService
 {
     public function getAllNotificationsForUser()
     {
-        return Auth::user()->notifications;
+        $notifications = auth()->user()->notifications;
+
+        return $notifications->map(function($notification) {
+            return [
+                'id' => $notification->id,
+                'title' => $notification->data['title'] ?? 'No Title',
+            ];
+        });
     }
 
-    public function markNotificationAsRead($id)
+    public function markAsRead($id)
     {
         $notification = DatabaseNotification::findOrFail($id);
 
@@ -21,6 +26,4 @@ class NotificationService
 
         return ['message' => 'Notification marked as read'];
     }
-
-  
 }
