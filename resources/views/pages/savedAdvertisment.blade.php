@@ -101,31 +101,6 @@ Advertisements
     .save-icon i.saved {
         color: black;
     }
-    
-    /* تعديل الأيقونة والإشعارات */
-   /* تعديل حجم الدائرة الحمراء وتصغير الرقم */
-#notification-badge {
-    position: absolute;
-    top: -1px; /* تعديل موقع العدد للأسفل */
-    right: -2px; /* تعديل موقع العدد لليسار */
-    background-color: red;
-    color: white;
-    border-radius: 50%;
-    padding: 5px 6px; /* تقليل حجم الحواف */
-    font-size: 12px; /* تصغير حجم النص */
-    z-index: 10;
-}
-
-
-    .fa-bell{
-        font-size: 900px; /* تكبير الأيقونة */
-        position: absolute;
-        top: 13px; /* تحريك الأيقونة للأسفل */
-        left:10px; /* تحريك الأيقونة لليسار */
-    }
-
-    .
-
 </style>
 
 <button class="styled-button" data-toggle="modal" data-target="#exampleModal">Add Advertisement</button>
@@ -195,13 +170,9 @@ Advertisements
 
 <!-- تأكد من تحميل jQuery أولاً -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <!-- Toastr JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-
 
 <script>
     $(document).ready(function() {
@@ -270,37 +241,10 @@ Advertisements
             }
         });
     }
-   
-    document.addEventListener('DOMContentLoaded', function () {
-    function fetchNotifications() {
-        fetch('/notification/getAllNotificationsForUser')
-            .then(response => response.json())
-            .then(data => {
-                const notificationBadge = document.getElementById('notification-badge');
-                const notificationList = document.getElementById('notification-list');
-
-                if (data.length > 0) {
-                    notificationBadge.textContent = data.length;
-                    notificationBadge.style.display = 'inline';
-                } else {
-                    notificationBadge.style.display = 'none';
-                }
-
-                // تحديث قائمة الإشعارات مع إضافة سطر بين العناوين
-                notificationList.innerHTML = data.map(notification =>
-                    `<div class="notification-item" style="margin-bottom: 15px;">
-                        <strong>${notification.title}</strong>
-                    </div><hr>` // إضافة سطر أفقي بين العناوين
-                ).join('');
-            })
-            .catch(error => console.error('Error fetching notifications:', error));
-    }
-
-    fetchNotifications();
-
-    setInterval(fetchNotifications, 60000); // تحديث الإشعارات كل دقيقة
-});
-
-
 </script>
+
+@endsection
+@section('js')
+    @toastr_js
+    @toastr_render
 @endsection
