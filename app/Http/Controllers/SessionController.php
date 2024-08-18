@@ -22,7 +22,7 @@ class SessionController extends Controller
 
     public function showActiveTheoretical()
     {
-        $modifiedSessions = $this->sessionService->getActiveTheoreticalSessions();
+        $modifiedSessions = $this->sessionService->showActiveTheoretical();
 
         if (request()->is('api/*')) {
 
@@ -33,7 +33,7 @@ class SessionController extends Controller
 
     public function showActivePractical()
     {
-        $modifiedSessions = $this->sessionService->getActivePracticalSessions();
+        $modifiedSessions = $this->sessionService->showActivePractical();
 
         if (request()->is('api/*')) {
 
@@ -55,7 +55,7 @@ class SessionController extends Controller
 
     public function showAll(Service $service)
     {
-        $sessions = $this->sessionService->getAllSessions($service);
+        $sessions = $this->sessionService->showAll($service);
 
         if(request()->is('api/*')) {
 
@@ -66,7 +66,7 @@ class SessionController extends Controller
 
     public function showAllRelatedToAdvancedUser(User $user)
     {
-        $sessions = $this->sessionService->getSessionsRelatedToAdvancedUser($user);
+        $sessions = $this->sessionService->showAllRelatedToAdvancedUser($user);
 
         if (request()->is('api/*')) {
 
@@ -77,7 +77,7 @@ class SessionController extends Controller
 
     public function showMy(Service $service)
     {
-        $sessions = $this->sessionService->getMySessions($service);
+        $sessions = $this->sessionService->showMy($service);
 
         if (request()->is('api/*')) {
 
@@ -88,7 +88,7 @@ class SessionController extends Controller
 
     public function create(Session1 $request, Service $service)
     {
-        $session = $this->sessionService->createSession($request, $service);
+        $session = $this->sessionService->create($request, $service);
 
         if (request()->is('api/*')) {
 
@@ -99,7 +99,7 @@ class SessionController extends Controller
 
     public function update(Session2 $request, Session $session)
     {
-        $updatedSession = $this->sessionService->updateSession($request, $session);
+        $updatedSession = $this->sessionService->update($request, $session);
 
         if (request()->is('api/*')) {
 
@@ -110,7 +110,7 @@ class SessionController extends Controller
 
     public function start(Session $session)
     {
-        $session = $this->sessionService->startSession($session);
+        $session = $this->sessionService->start($session);
 
         if(request()->is('api/*')) {
 
@@ -121,7 +121,7 @@ class SessionController extends Controller
 
     public function close(Session $session)
     {
-        $session = $this->sessionService->closeSession($session);
+        $session = $this->sessionService->close($session);
 
         if(request()->is('api/*')) {
 
@@ -132,7 +132,7 @@ class SessionController extends Controller
 
     public function cancel(Session $session)
     {
-        $response = $this->sessionService->cancelSession($session);
+        $response = $this->sessionService->cancel($session);
 
         if (request()->is('api/*')) {
 
@@ -143,7 +143,7 @@ class SessionController extends Controller
 
     public function search(Session3 $request)
     {
-        $searchResults = $this->sessionService->searchSessions($request);
+        $searchResults = $this->sessionService->search($request);
 
         if ($request->is('api/*')) {
 

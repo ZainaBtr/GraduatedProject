@@ -21,7 +21,7 @@ class SessionService
         $this->controllerService = $controllerService;
     }
 
-    public function getActiveTheoreticalSessions()
+    public function showActiveTheoretical()
     {
         $activeSessions = Session::whereHas('service', function ($query) {
             $query->where('serviceName', 'theoretical');
@@ -38,7 +38,7 @@ class SessionService
         });
     }
 
-    public function getActivePracticalSessions()
+    public function showActivePractical()
     {
         $activeSessions = Session::whereHas('service', function ($query) {
             $query->where('serviceName', 'practical');
@@ -60,24 +60,24 @@ class SessionService
         return Session::where('id', $sessionID)->first();
     }
 
-    public function getAllSessions(Service $service)
+    public function showAll(Service $service)
     {
         return Session::query()->where('serviceID', $service['id'])->get()->all();
     }
 
-    public function getSessionsRelatedToAdvancedUser(User $user)
+    public function showAllRelatedToAdvancedUser(User $user)
     {
         return Session::where('userID', $user->id)->get()->all();
     }
 
-    public function getMySessions(Service $service)
+    public function showMy(Service $service)
     {
         $user = Auth::user();
 
         return Session::where('userID', $user['id'])->where('serviceID', $service['id'])->get();
     }
 
-    public function createSession(Session1 $request, Service $service)
+    public function create(Session1 $request, Service $service)
     {
         $userID = Auth::id();
 
@@ -88,7 +88,7 @@ class SessionService
         return Session::create($session);
     }
 
-    public function updateSession(Session2 $request, Session $session)
+    public function update(Session2 $request, Session $session)
     {
         $updatedSession = $session->update($request->validated());
 
@@ -107,28 +107,28 @@ class SessionService
         return $updatedSession;
     }
 
-    public function startSession(Session $session)
+    public function start(Session $session)
     {
         $session->update(['status' => 'active']);
 
         return $session;
     }
 
-    public function closeSession(Session $session)
+    public function close(Session $session)
     {
         $session->update(['status' => 'closed']);
 
         return $session;
     }
 
-    public function cancelSession(Session $session)
+    public function cancel(Session $session)
     {
         $session->delete();
 
         return ['message' => 'session canceled successfully'];
     }
 
-    public function searchSessions(Session3 $request)
+    public function search(Session3 $request)
     {
         $searchedServices = Service::where('serviceName', 'like', '%' . $request['serviceName'] . '%')->get();
 
