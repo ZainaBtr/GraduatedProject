@@ -45,7 +45,10 @@ class ServiceManagerController extends Controller
 
             return response()->json($response['responseData']);
         }
-        return view('pages.MyAccountPageForServiceManager',compact($response['user'],$response['position']));
+        return view('pages.MyAccountPageForServiceManager', [
+            'user' => $response['user'],
+            'position' => $response['position']
+        ]);
     }
 
     public function showAll()
@@ -54,7 +57,7 @@ class ServiceManagerController extends Controller
 
         if(request()->is('api/*')) {
 
-            return response()->json($response['$usersData']);
+            return response()->json($response['usersData']);
         }
         return view('page.ServiceManagersTablePageForSystemManager', [
             'usersData' => $response['usersData'],

@@ -14,7 +14,7 @@ use App\Http\Controllers\JoinRequestController;
 
 Route::post('normalUser/completeAccount1',[NormalUserController::class,'completeAccount1']);
 
-Route::middleware(['auth:api', 'check.role:normalUser||advancedUser'])->group(function() {
+Route::middleware(['auth:api', 'check.role:normalUser'])->group(function() {
 
     Route::prefix("normalUser")->group( function () {
         Route::get('/showProfile', [NormalUserController::class, 'showProfile']);
@@ -26,6 +26,7 @@ Route::middleware(['auth:api', 'check.role:normalUser||advancedUser'])->group(fu
         Route::get('/showActiveTheoretical',[SessionController::class,'showActiveTheoretical']);
         Route::get('/showActivePractical',[SessionController::class,'showActivePractical']);
         Route::get('/getSessionDetails/{sessionID}',[SessionController::class,'getSessionDetails']);
+        Route::get('/search', [SessionController::class, 'search']);
     });
 
     Route::prefix("publicReservation")->group( function () {

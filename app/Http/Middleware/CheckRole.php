@@ -16,26 +16,31 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, $role): Response
     {
-        $rolesArray = explode('||', $role);
+        if (strpos($role, '||') !== false) {
+
+            $rolesArray = explode('||', $role);
+        }
+        else {
+            $rolesArray = [$role];
+        }
 
         $user = User::where('id', auth()->id())->first();
 
         foreach ($rolesArray as $roles) {
+
             if ($user->id == $roles) {
+
                 return $next($request);
             }
         }
         foreach ($rolesArray as $roles) {
+
             if ($roles != 1) {
-                $user = User::where('id', auth()->id())
-                    ->where(function ($query) use ($rolesArray) {
-                        foreach ($rolesArray as $role) {
-                            $query->orWhereHas($role);
-                        }
-                    })
-                    ->first();
+
+                $user = User::where('id', auth()->id())->WhereHas($roles)->first();
 
                 if($user) {
+
                     return $next($request);
                 }
             }

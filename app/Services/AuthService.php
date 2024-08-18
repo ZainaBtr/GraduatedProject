@@ -6,6 +6,7 @@ use App\Http\Requests\User\User1;
 use App\Http\Requests\User\User2;
 use App\Http\Requests\User\User3;
 use App\Http\Requests\User\User4;
+use App\Http\Requests\User\User5;
 use App\Http\Requests\User\User6;
 use App\Http\Requests\User\User7;
 use App\Models\AdvancedUser;
@@ -49,9 +50,9 @@ class AuthService
 
         $data = $this->controllerService->createToken($request->user());
 
-        $serviceManager=$user->serviceManager;
+        $serviceManager = $user->serviceManager;
 
-        return [$data,$serviceManager];
+        return compact('data','serviceManager');
     }
 
     public function changePassword(User2 $request)
@@ -98,7 +99,7 @@ class AuthService
         return [$data,200,['success' => true, 'message' => 'your Email Is Verified']];
     }
 
-    public function setNewPassword(Request $request)
+    public function setNewPassword(User5 $request)
     {
         if ($request->is('api/*')) {
 
@@ -159,16 +160,13 @@ class AuthService
 
         if (!Hash::check($request['password'], $user->password)) {
 
-            if (!Hash::check($request['password'], $user->password)) {
-
-                return ['message' => 'Wrong password'];
-            }
-            $user->update(['email' => $request['email']]);
-
-            $this->controllerService->sendEmail($request['email']);
-
-            return ['message' => 'We Sent 6 Digits Code To Your Email'];
+            return ['message' => 'Wrong password'];
         }
+        $user->update(['email' => $request['email']]);
+
+        $this->controllerService->sendEmail($request['email']);
+
+        return ['message' => 'We Sent 6 Digits Code To Your Email'];
     }
 
     public function deleteAccount(User $user)

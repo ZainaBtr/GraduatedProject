@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\User\User4;
+use App\Http\Requests\User\User5;
 use App\Http\Requests\User\User6;
 use App\Http\Requests\User\User7;
 use App\Mail\myEmail;
@@ -71,7 +72,7 @@ class AuthController extends Controller
         return redirect()->action([NormalUserController::class, 'showAll']);
     }
 
-    public function setNewPassword(Request $request)
+    public function setNewPassword(User5 $request)
     {
         $response = $this->authService->setNewPassword($request);
 

@@ -53,7 +53,13 @@ class ServiceManagerService
 
         $responseData = array_merge($userData, ['position' => $position]);
 
-        return [$responseData,$user,$position];
+        return compact('responseData','user', 'position');
+
+//        return [
+//            'responseData' => $responseData,
+//            'user' => $user,
+//            'position' => $position,
+//        ];
     }
 
     public function showAll()
@@ -85,7 +91,7 @@ class ServiceManagerService
                 ];
             }
         }
-        return [$usersData,$serviceManagers];
+        return compact('usersData','serviceManagers');
     }
 
     public function addAdvancedUsersFile(File1 $request)

@@ -35,8 +35,6 @@ Route::middleware(['auth', 'check.role:1||serviceManager'])->group(function() {
 
     Route::post('/updateEmail',[AuthController::class,'updateEmail'])->name('updateEmail');
 
-    Route::delete('/deleteAccount/{user}',[AuthController::class,'deleteAccount'])->name('deleteAccount');
-
 });
 
 
@@ -97,6 +95,8 @@ Route::middleware(['auth', 'check.role:1'])->group(function() {
         Route::post('/createServiceManagerAccount',[ServiceManagerController::class,'createAccount'])->name('createServiceManagerAccount');
         Route::get('/showAll',[ServiceManagerController::class,'showAll'])->name('showAllServicesManagers');
     });
+
+    Route::delete('/deleteAccount/{user}',[AuthController::class,'deleteAccount'])->name('deleteAccount');
 
 });
 
