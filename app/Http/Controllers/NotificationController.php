@@ -18,11 +18,7 @@ class NotificationController extends Controller
     {
         $formattedNotifications = $this->notificationService->getAllNotificationsForUser();
 
-        if (request()->is('api/*')) {
-
-            return response()->json($formattedNotifications, 200);
-        }
-        return view('', compact('formattedNotifications'));
+        return response()->json($formattedNotifications, 200);
     }
 
     public function markAsRead($id)

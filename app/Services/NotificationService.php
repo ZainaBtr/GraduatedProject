@@ -13,7 +13,8 @@ class NotificationService
         return $notifications->map(function($notification) {
             return [
                 'id' => $notification->id,
-                'title' => $notification->data['title'] ?? 'No Title',
+                'New announcement' => $notification->data['New announcement'] ?? 'No Title',
+                'service name' =>$notification->data['service name'] ?? 'No Service Related',
             ];
         });
     }

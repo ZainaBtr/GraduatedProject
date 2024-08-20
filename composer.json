@@ -9,6 +9,7 @@
         "endroid/qr-code": "^5.0",
         "guzzlehttp/guzzle": "^7.8",
         "kreait/firebase-php": "^7.13",
+        "kreait/laravel-firebase": "^5.9",
         "kriswallsmith/buzz": "^0.15.0",
         "laravel/framework": "^10.0",
         "laravel/passport": "^12.2",
