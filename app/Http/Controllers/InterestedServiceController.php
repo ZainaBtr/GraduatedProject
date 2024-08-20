@@ -54,21 +54,13 @@ class InterestedServiceController extends Controller
     {
         $recordStored = $this->interestedServiceService->interestIn($service);
 
-        if (request()->is('api/*')) {
-
-            return response()->json($recordStored, Response::HTTP_OK);
-        }
-        return redirect()->back();
+        return response()->json($recordStored, Response::HTTP_OK);
     }
 
     public function unInterestIn(InterestedService $interestedService)
     {
         $response = $this->interestedServiceService->unInterestIn($interestedService);
 
-        if (request()->is('api/*')) {
-
-            return response()->json($response);
-        }
-        return redirect()->back();
+        return response()->json($response);
     }
 }

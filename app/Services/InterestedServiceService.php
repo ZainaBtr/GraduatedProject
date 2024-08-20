@@ -66,8 +66,6 @@ class InterestedServiceService
 
     public function unInterestIn(InterestedService $interestedService)
     {
-        $interestedService->delete();
-
-        return ['message' => 'this service uninterested successfully'];
+        return $interestedService->delete();
     }
 }

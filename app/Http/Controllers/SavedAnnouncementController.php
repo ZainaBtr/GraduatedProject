@@ -31,21 +31,13 @@ class SavedAnnouncementController extends Controller
     {
         $recordStored = $this->savedAnnouncementService->save($announcement);
 
-        if (request()->is('api/*')) {
-
-            return response()->json($recordStored, Response::HTTP_OK);
-        }
-        return Redirect()->back();
+        return response()->json($recordStored, Response::HTTP_OK);
     }
 
     public function unSave(SavedAnnouncement $savedAnnouncement)
     {
         $response = $this->savedAnnouncementService->unSave($savedAnnouncement);
 
-        if (request()->is('api/*')) {
-
-            return response()->json($response);
-        }
-        return Redirect()->back();
+        return response()->json($response);
     }
 }

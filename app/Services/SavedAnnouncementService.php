@@ -35,8 +35,6 @@ class SavedAnnouncementService
 
     public function unSave(SavedAnnouncement $savedAnnouncement)
     {
-        $savedAnnouncement->delete();
-
-        return ['message' => 'this announcement unsaved successfully'];
+        return $savedAnnouncement->delete();
     }
 }

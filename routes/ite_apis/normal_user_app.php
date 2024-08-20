@@ -79,6 +79,7 @@ Route::middleware(['auth:api', 'check.role:normalUser'])->group(function() {
         Route::put('/declineJoinRequest/{joinRequest}',[JoinRequestController::class,'declineJoinRequest']);
         Route::delete('/cancelJoinRequest/{joinRequest}',[JoinRequestController::class,'cancelJoinRequest']);
     });
+
      Route::prefix("invitation")->group( function () {
         Route::get('/showSentInvitations',[InvitationController::class,'showSentInvitations']);
         Route::get('/showReceivedInvitations',[InvitationController::class,'showReceivedInvitations']);
@@ -86,5 +87,5 @@ Route::middleware(['auth:api', 'check.role:normalUser'])->group(function() {
         Route::put('/acceptInvitation/{invitation}',[InvitationController::class,'acceptInvitation']);
         Route::put('/declineInvitation/{invitation}',[InvitationController::class,'declineInvitation']);
         Route::delete('/cancelInvitation/{invitation}',[InvitationController::class,'cancelInvitation']);
-        });
+     });
 });
