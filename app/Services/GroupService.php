@@ -26,6 +26,7 @@ class GroupService
                 'members' => $group->teamMembers->map(function($member) {
 
                     return [
+                        'teamMemberID'=>$member->id,
                         'normalUserID'=>$member->normalUser->id,
                         'memberName'=>$member->normalUser->user->fullName
                     ];
