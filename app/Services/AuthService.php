@@ -52,8 +52,10 @@ class AuthService
 
         $serviceManager = $user->serviceManager;
 
-        $user->update(['deviceToken' => $request['deviceToken']]);
+        if ($request['deviceToken']) {
 
+            $user->update(['deviceToken' => $request['deviceToken']]);
+        }
         return compact('data','serviceManager');
     }
 
