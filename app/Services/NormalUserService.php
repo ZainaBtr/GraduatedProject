@@ -112,6 +112,8 @@ class NormalUserService
     {
         $user = Auth::user();
 
+        $user->update(['deviceToken' => $request['deviceToken']]);
+
         return $user->normalUser()->update(['skills'=> $request['skills']]);
     }
 
