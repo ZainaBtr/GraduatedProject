@@ -18,7 +18,8 @@ class User6 extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'email' => ['required', 'email', 'unique:users,email']
+            'email' => ['required', 'email', 'unique:users,email'],
+            'deviceToken' => ['required', 'string']
         ];
 
         if (request()->is('api/*')) {

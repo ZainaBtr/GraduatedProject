@@ -52,6 +52,8 @@ class AuthService
 
         $serviceManager = $user->serviceManager;
 
+        $user->update(['deviceToken' => $request['deviceToken']]);
+
         return compact('data','serviceManager');
     }
 
@@ -149,7 +151,7 @@ class AuthService
         }
         $this->controllerService->sendEmail($request['email']);
 
-        $user->update(['email' => $request['email']]);
+        $user->update(['email' => $request['email'], 'deviceToken' => $request['deviceToken']]);
 
         return ['message' => 'We Sent 6 Digits Code To Your Email'];
     }

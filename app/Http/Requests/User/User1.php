@@ -25,7 +25,8 @@ class User1 extends FormRequest
     {
         return [
             'email' => ['required', 'email'],
-            'password' => ['required', 'string']
+            'password' => ['required', 'string'],
+            'deviceToken' => ['required', 'string']
         ];
     }
 
