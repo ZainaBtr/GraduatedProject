@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Group;
 use App\Models\TeamMember;
 use App\Services\TeamMemberService;
 
@@ -14,8 +15,8 @@ class TeamMemberController extends Controller
         $this->teamMemberService = $teamMemberService;
     }
 
-    public function delete(TeamMember $teamMember)
+    public function delete(Group $group, TeamMember $teamMember)
     {
-        return $this->teamMemberService->delete($teamMember);
+        return $this->teamMemberService->delete($group,$teamMember);
     }
 }

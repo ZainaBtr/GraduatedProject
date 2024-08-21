@@ -12,6 +12,7 @@ use App\Models\TeamMember;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Request;
 
 class InvitationService
 {
@@ -42,9 +43,7 @@ class InvitationService
     public function showReceivedInvitations()
     {
         $user = Auth::user();
-
         $normalUserID=$user->normalUser->id;
-
         $invitations = Invitation::where('normalUserID', $normalUserID)
             ->with(['group.teamMembers.normalUser.user', 'group.service'])
             ->get();
@@ -63,10 +62,9 @@ class InvitationService
         }));
     }
 
-    public function sendInvitation(Service $service, Invitation1 $request)
+    public function sendInvitation(Service $service, Request $request)
     {
         $user = Auth::user();
-
         $normalUserID = $user->normalUser->id;
 
         $group = Group::where('serviceID', $service->id)
@@ -75,32 +73,29 @@ class InvitationService
             })->first();
 
         if (!$group) {
-
-            return ['message' => 'Group not found or you are not a member of the group'];
+            return response()->json(['message' => 'Group not found or you are not a member of the group'], 404);
         }
+
         if ($group->teamMembers()->count() >= $service->maximumNumberOfGroupMembers) {
-
-            return ['message' => 'Group has reached the maximum number of members'];
+            return response()->json(['message' => 'Group has reached the maximum number of members'], 400);
         }
+
         $normalUserIDs = $request->input('normalUserIDs');
 
         $invitations = [];
-
         foreach ($normalUserIDs as $normalUserID) {
-
             $normalUser = NormalUser::find($normalUserID);
 
-            if ($group->teamMembers->contains('normalUserID', $normalUser->id)) {
-
-                return ['message' => "The user {$normalUser->user->fullName} is already a member of the group"];
+            if ($group->teamMembers->contains('normalUserID', $normalUserID)) {
+                return response()->json(['message' => "The user {$normalUser->user->fullName} is already a member of the group"], 400);
             }
+
             $existingInvitation = Invitation::where('normalUserID', $normalUserID)
                 ->where('groupID', $group->id)
                 ->first();
 
             if ($existingInvitation) {
-
-                return ['message' => "An invitation has already been sent to {$normalUser->user->fullName}"];
+                return response()->json(['message' => "An invitation has already been sent to {$normalUser->user->fullName}"], 400);
             }
             $invitation = Invitation::create([
                 'groupID' => $group->id,
@@ -108,31 +103,30 @@ class InvitationService
                 'requestDate' => Carbon::today(),
                 'status' => 'pending',
             ]);
+
             $invitations[] = $invitation;
         }
-        return [
+
+        return response()->json([
             'message' => 'Invitations Sent Successfully',
             'invitations' => $invitations
-        ];
+        ], 201);
     }
 
     public function acceptInvitation(Invitation $invitation)
     {
         DB::beginTransaction();
-
         try {
             if ($invitation->status !== 'pending') {
-
-                return ['message' => 'This invitation cannot be updated'];
+                return response()->json(['message' => 'This invitation cannot be updated'], 400);
             }
             $group = Group::findOrFail($invitation->groupID);
-
             $service = $group->service;
 
             if ($group->teamMembers()->count() >= $service->maximumNumberOfGroupMembers) {
-
-                return ['message' => 'Group has reached the maximum number of members'];
+                return response()->json(['message' => 'Group has reached the maximum number of members'], 400);
             }
+
             TeamMember::create([
                 'normalUserID' => $invitation->normalUserID,
                 'groupID' => $invitation->groupID,
@@ -143,40 +137,33 @@ class InvitationService
                     $query->where('serviceID', $group->serviceID);
                 })->update(['status' => 'cancelled']);
 
-            $invitation->update(['status' => 'accepted']);
-
             JoinRequest::where('senderID', $invitation->normalUserID)
                 ->whereHas('group', function ($query) use ($group) {
                     $query->where('serviceID', $group->serviceID);
                 })->update(['joiningRequestStatus' => 'cancelled']);
+            $invitation->update(['status' => 'accepted']);
 
             DB::commit();
 
-            return ['message' => 'Invitation accepted successfully'];
-        }
-        catch (\Exception $e) {
-
+            return response()->json(['message' => 'Invitation accepted successfully'], 200);
+        } catch (\Exception $e) {
             DB::rollBack();
-
-            throw $e;
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
     public function declineInvitation(Invitation $invitation)
     {
         if ($invitation->status !== 'pending') {
-
-            return ['message' => 'This invitation cannot be updated'];
+            return response()->json(['message' => 'This invitation cannot be updated'], 400);
         }
         $invitation->update(['status' => 'declined']);
-
-        return ['message' => 'Invitation declined successfully'];
+        return response()->json(['message' => 'Invitation declined successfully'], 200);
     }
 
     public function cancelInvitation(Invitation $invitation)
     {
         $invitation->delete();
-
-        return ['message' => 'Invitation canceled successfully'];
+        return response()->json(['message' => 'Invitation canceled successfully'], 200);
     }
 }

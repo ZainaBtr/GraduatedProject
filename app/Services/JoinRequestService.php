@@ -88,24 +88,19 @@ class JoinRequestService
     public function acceptJoinRequest(JoinRequest $joinRequest)
     {
         DB::beginTransaction();
-
         try {
             if ($joinRequest->joiningRequestStatus !== 'pending') {
-
-                return ['message' => 'This join request cannot be updated'];
+                return response()->json(['message' => 'This join request cannot be updated'], 400);
             }
             $group = Group::findOrFail($joinRequest->groupID);
-
             $service = $group->service;
 
             if ($group->teamMembers()->count() >= $service->maximumNumberOfGroupMembers) {
-
-                return ['message' => 'Group has reached the maximum number of members'];
+                return response()->json(['message' => 'Group has reached the maximum number of members'], 400);
             }
-            $joinRequest->update(['joiningRequestStatus' => 'accepted']);
+
 
             $user = User::findOrFail($joinRequest->senderID);
-
             $normalUser = $user->normalUser;
 
             TeamMember::create([
@@ -113,28 +108,21 @@ class JoinRequestService
                 'groupID' => $joinRequest->groupID,
             ]);
 
-            Invitation::where('normalUserID', $normalUser->id,)
-                ->whereHas('group', function ($query) use ($group) {
-                    $query->where('serviceID', $group->serviceID);
-                })->update(['status' => 'cancelled']);
-
             JoinRequest::where('senderID', $joinRequest->senderID)
                 ->whereHas('group', function ($query) use ($group) {
                     $query->where('serviceID', $group->serviceID);
                 })->update(['joiningRequestStatus' => 'cancelled']);
+            $joinRequest->update(['joiningRequestStatus' => 'accepted']);
+
 
             DB::commit();
 
-            return ['message' => 'Joining request accepted successfully'];
-        }
-        catch (\Exception $e) {
-
+            return response()->json(['message' => 'Joining request accepted successfully'], 200);
+        } catch (\Exception $e) {
             DB::rollBack();
-
-            throw $e;
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-
     public function declineJoinRequest(JoinRequest $joinRequest)
     {
         if ($joinRequest->joiningRequestStatus !== 'pending') {

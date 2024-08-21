@@ -6,6 +6,7 @@ use App\Http\Requests\Invitation\Invitation1;
 use App\Models\Service;
 use App\Services\InvitationService;
 use App\Models\Invitation;
+use Illuminate\Support\Facades\Request;
 
 class InvitationController extends Controller
 {
@@ -25,7 +26,7 @@ class InvitationController extends Controller
         return $this->invitationService->showReceivedInvitations();
     }
 
-    public function sendInvitation(Service $service, Invitation1 $request)
+    public function sendInvitation(Service $service, Request $request)
     {
         return $this->invitationService->sendInvitation($service, $request);
     }
