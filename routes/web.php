@@ -164,7 +164,7 @@ Route::middleware(['auth', 'check.role:serviceManager'])->group(function() {
         Route::delete('/delete/{service}', [ServiceController::class, 'delete'])->name('deleteService');
         Route::delete('/deleteAll', [ServiceController::class, 'deleteAll'])->name('deleteAllServices');
         Route::get('/searchForServiceManager', [ServiceController::class, 'searchForServiceManager'])->name('searchForServiceByServiceName');
-        Route::get('/filterByType', [ServiceController::class, 'filterByType'])->name('filterServicesByType');
+        Route::get('/filterServicesByType', [ServiceController::class, 'filterByType'])->name('filterServicesByType');
     });
 
     Route::prefix("interestedService")->group(function () {
@@ -181,7 +181,7 @@ Route::middleware(['auth', 'check.role:serviceManager'])->group(function() {
         Route::post('/add', [AnnouncementController::class, 'add'])->name('addAnnouncement');
         Route::post('/addFromService/{service}', [AnnouncementController::class, 'addFromService'])->name('addAnnouncementFromService');
         Route::put('/update/{announcement}', [AnnouncementController::class, 'update'])->name('updateAnnouncement');
-        Route::get('/filterByType', [AnnouncementController::class, 'filterByType'])->name('filterServicesByType');
+        Route::get('/filterAnnouncementsByType', [AnnouncementController::class, 'filterByType'])->name('filterAnnouncementsByType');
     });
 
     Route::prefix("savedAnnouncement")->group(function () {
