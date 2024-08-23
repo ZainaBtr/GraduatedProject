@@ -79,7 +79,7 @@ class AnnouncementController extends Controller
         $recordUpdated = $this->announcementService->update($request, $announcement);
 
         if (request()->is('api/*')) {
-          
+
             return response()->json($recordUpdated, Response::HTTP_OK);
         }
         return redirect()->back();
