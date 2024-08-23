@@ -29,7 +29,7 @@ class AnnouncementNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['database' , 'firebase'];
+        return ['database'];
     }
 
     public function toDatabase($notifiable)

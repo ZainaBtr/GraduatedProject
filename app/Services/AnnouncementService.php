@@ -58,8 +58,14 @@ class AnnouncementService
 
         $users = User::where('id', '!=', 1)->get();
 
-        Notification::send($users, new AnnouncementNotification($announcement));
+        $notification = new AnnouncementNotification($announcement);
 
+        Notification::send($users, $notification);
+
+        foreach ($users as $user) {
+
+            $notification->toFirebase($user);
+        }
         return auth()->user()->notifications()->latest()->first();
     }
 
@@ -82,8 +88,14 @@ class AnnouncementService
 
         $users = User::where('id', '!=', 1)->get();
 
-        Notification::send($users, new AnnouncementNotification($announcement));
+        $notification = new AnnouncementNotification($announcement);
 
+        Notification::send($users, $notification);
+
+        foreach ($users as $user) {
+
+            $notification->toFirebase($user);
+        }
         return auth()->user()->notifications()->latest()->first();
     }
 
