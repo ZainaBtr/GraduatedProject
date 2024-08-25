@@ -23,8 +23,8 @@ Route::middleware(['auth:api', 'check.role:advancedUser'])->group(function() {
     });
 
     Route::prefix("announcement")->group(function () {
-        Route::get('/showMy', [AnnouncementController::class, 'showMy'])->name('showMyAnnouncements');
-        Route::post('/add', [AnnouncementController::class, 'add'])->name('addAnnouncement');
+        Route::get('/showMy', [AnnouncementController::class, 'showMy']);
+        Route::post('/add', [AnnouncementController::class, 'add']);
         Route::post('/addFromService/{service}', [AnnouncementController::class, 'addFromService']);
         Route::put('/update/{announcement}', [AnnouncementController::class, 'update']);
     });

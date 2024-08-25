@@ -38,8 +38,6 @@ class CheckReservationDelays extends Command
     {
         $now = Carbon::now();
 
-        // Check for reservations where the date is today and the end time is more than 30 minutes ago and the status is still false
-
         $delayedReservations = PrivateReservation::whereDate('reservationDate', $now->toDateString())
             ->where('reservationEndTime', '<', $now->subMinutes(30)->toTimeString())
             ->where('privateReservationStatus', false)
@@ -51,7 +49,14 @@ class CheckReservationDelays extends Command
 
                 $user = User::where('id', $reservation->privateSession->session->userID)->first();
 
-                Notification::send($user, new ReservationDelay30mNotification($reservation));
+                if ($user) {
+
+                    $notification = new ReservationDelay30mNotification($reservation);
+
+                    Notification::send($user, $notification);
+
+                    $notification->toFirebase($user);
+                }
             }
         }
         $this->info('Checked reservation delays and sent notifications if needed.');

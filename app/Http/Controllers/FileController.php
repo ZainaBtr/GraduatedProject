@@ -18,4 +18,14 @@ class FileController extends Controller
     {
         return $this->fileService->download($file);
     }
+
+    public function downloadInApp(File $file)
+    {
+        return $this->fileService->downloadInApp($file);
+    }
+
+    public function show($fileName)
+    {
+        return $this->fileService->show($fileName);
+    }
 }

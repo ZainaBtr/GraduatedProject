@@ -49,7 +49,7 @@ Route::middleware(['auth:api', 'check.role:advancedUser||normalUser'])->group(fu
 
     Route::put('/updateEmail',[AuthController::class,'updateEmail']);
 
-    Route::post('/setNewPassword',[AuthController::class,'setNewPassword'])->name('setNewPassword');;
+    Route::post('/setNewPassword',[AuthController::class,'setNewPassword']);
 
     Route::get('/serviceYearAndSpecialization/showAll', [ServiceYearAndSpecializationController::class, 'showAll']);
 
@@ -78,7 +78,10 @@ Route::middleware(['auth:api', 'check.role:advancedUser||normalUser'])->group(fu
         Route::delete('/unSave/{savedAnnouncement}', [SavedAnnouncementController::class, 'unSave']);
     });
 
-    Route::get('/file/download/{file}', [FileController::class, 'download'])->name('downloadFile');
+    Route::prefix("file")->group(function () {
+        Route::get('/downloadInApp/{file}', [FileController::class, 'downloadInApp']);
+        Route::get('/show/{fileName}', [FileController::class, 'show']);
+    });
 
     Route::prefix("session")->group(function () {
         Route::get('/showAll/{service}', [SessionController::class, 'showAll']);
@@ -99,9 +102,9 @@ Route::middleware(['auth:api', 'check.role:advancedUser||normalUser'])->group(fu
     Route::get('/showFakeReservations/{privateSession}', [FakeReservationController::class, 'showALl']);
 
     Route::prefix("notification")->group(function () {
-        Route::get('/getAllNotificationsForUser', [NotificationController::class, 'getAllNotificationsForUser'])->name('getAllNotificationsForUser');
-        Route::post('/markAsRead/{id}', [NotificationController::class, 'markAsRead'])->name('markAsRead');
-        Route::get('/goToAnnouncementFromNotification/{id}', [NotificationController::class, 'goToAnnouncementFromNotification'])->name('goToAnnouncementFromNotification');
+        Route::get('/getAllNotificationsForUser', [NotificationController::class, 'getAllNotificationsForUser']);
+        Route::post('/markAsRead/{id}', [NotificationController::class, 'markAsRead']);
+        Route::get('/goToAnnouncementFromNotification/{id}', [NotificationController::class, 'goToAnnouncementFromNotification']);
     });
 
 });
