@@ -14,7 +14,7 @@ use App\Http\Controllers\JoinRequestController;
 
 Route::post('normalUser/completeAccount1',[NormalUserController::class,'completeAccount1']);
 
-Route::middleware(['auth:api', 'check.role:normalUser'])->group(function() {
+Route::middleware(['auth:api', 'check.role:normalUser||advancedUser'])->group(function() {
 
     Route::prefix("normalUser")->group( function () {
         Route::get('/showProfile', [NormalUserController::class, 'showProfile']);
@@ -26,7 +26,6 @@ Route::middleware(['auth:api', 'check.role:normalUser'])->group(function() {
         Route::get('/showActiveTheoretical',[SessionController::class,'showActiveTheoretical']);
         Route::get('/showActivePractical',[SessionController::class,'showActivePractical']);
         Route::get('/getSessionDetails/{sessionID}',[SessionController::class,'getSessionDetails']);
-        Route::get('/search', [SessionController::class, 'search']);
     });
 
     Route::prefix("publicReservation")->group( function () {
@@ -62,13 +61,13 @@ Route::middleware(['auth:api', 'check.role:normalUser'])->group(function() {
         Route::get('/showMy',[GroupController::class,'showMy']);
         Route::get('/searchNormalUser',[GroupController::class,'searchNormalUser']);
         Route::get('/getNormalUserDetails/{normalUser}',[GroupController::class,'getNormalUserDetails']);
+        Route::get('/showAllStudent', [NormalUserController::class, 'showAll']);
     });
-
     Route::prefix("teamMember")->group( function () {
         Route::post('/add',[TeamMemberController::class,'add']);
         Route::get('/search',[TeamMemberController::class,'search']);
         Route::put('/updateSkills/{teamMember}',[TeamMemberController::class,'updateSkills']);
-        Route::delete('/delete/{teamMember}',[TeamMemberController::class,'delete']);
+        Route::delete('/delete/{group}/{teamMember}',[TeamMemberController::class,'delete']);
     });
 
     Route::prefix("joinRequest")->group( function () {

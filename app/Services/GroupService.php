@@ -49,11 +49,13 @@ class GroupService
         return response()->json($groups->map(function ($group) {
             return [
                 'group_id' => $group->id,
+                'service_id' => $group->service->id,
                 'service_name' => $group->service->serviceName,
                 'parent_service_name' => $group->service->parentService ? $group->service->parentService->serviceName : null,
                 'members' => $group->teamMembers->map(function ($member) {
                     return [
                         'normalUserID'=>$member->normalUser->id,
+                        'teamMemberID'=>$member->id,
                         'memberName'=>$member->normalUser->user->fullName
                     ];
                 }),
