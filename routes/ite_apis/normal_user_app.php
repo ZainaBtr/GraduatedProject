@@ -54,6 +54,8 @@ Route::middleware(['auth:api', 'check.role:normalUser'])->group(function() {
     Route::prefix("attendance")->group( function () {
         Route::post('/scanQr',[AttendanceController::class,'scanQr']);
         Route::get('/showMyAttendanceOfOneService/{service}',[AttendanceController::class,'showMyAttendanceOfOneService']);
+        Route::get('/showRandomQuestion',[AttendanceController::class,'showRandomQuestion']);
+        Route::post('/checkAnswer',[AttendanceController::class,'checkAnswer']);
     });
 
     Route::prefix("group")->group( function () {

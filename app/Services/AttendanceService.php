@@ -13,6 +13,7 @@ use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Auth;
 
 class AttendanceService
 {
@@ -191,5 +192,64 @@ class AttendanceService
     public function showAttendanceOfOneServiceInExcel(Service $service)
     {
         return Excel::download(new ShowAttendanceOfOneServiceExport($service), 'attendance.xlsx');
+    }
+
+    public function showRandomQuestion()
+    {
+        $questions = [
+            'birthDate' => 'What is your birth date?',
+            'motherBirthDate' => 'What is your mother\'s birth date?',
+            'fatherBirthDate' => 'What is your father\'s birth date?',
+            'numberOfSisters' => 'How many sisters do you have?',
+            'numberOfBrothers' => 'How many brothers do you have?',
+            'numberOfMothersSister' => 'How many of your mother\'s sisters do you have?',
+            'numberOfFathersSister' => 'How many of your father\'s sisters do you have?',
+            'numberOfMothersBrother' => 'How many of your mother\'s brothers do you have?',
+            'numberOfFathersBrother' => 'How many of your father\'s brothers do you have?',
+            'favoriteColor' => 'What is your favorite color?',
+            'favoriteHobby' => 'What is your favorite hobby?',
+            'favoriteSport' => 'What is your favorite sport?',
+            'favoriteSeason' => 'What is your favorite season?',
+            'favoriteBookType' => 'What is your favorite type of book?',
+            'favoriteTravelCountry' => 'What is your favorite country to travel to?',
+            'favoriteFood' => 'What is your favorite food?',
+            'favoriteDessert' => 'What is your favorite dessert?',
+            'favoriteDrink' => 'What is your favorite drink?',
+            'baccalaureateMark' => 'What was your baccalaureate mark?',
+            'ninthGradeMark' => 'What was your ninth-grade mark?',
+        ];
+
+        $randomKey = array_rand($questions);
+
+        return [
+            'key' => $randomKey,
+            'question' => $questions[$randomKey],
+        ];
+    }
+
+    public function checkAnswer(Request $request)
+    {
+        $questionKey = $request->input('key');
+        $userAnswer = $request->input('answer');
+
+        $user = Auth::user();
+        $storedAnswer = $user->{$questionKey};
+
+        if (is_numeric($storedAnswer)) {
+
+            $isCorrect = (float)$storedAnswer === (float)$userAnswer;
+        }
+        else {
+
+            $isCorrect = strtolower(trim($storedAnswer)) === strtolower(trim($userAnswer));
+        }
+        if ($isCorrect) {
+
+            return response()->json(['message' => 'Correct answer!']);
+        }
+        else {
+
+            return response()->json(['message' => 'Incorrect answer.']);
+        }
     }
 }
