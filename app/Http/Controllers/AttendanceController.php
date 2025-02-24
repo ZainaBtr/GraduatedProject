@@ -45,4 +45,14 @@ class AttendanceController extends Controller
     {
         return $this->announcementService->showAttendanceOfOneServiceInExcel($service);
     }
+
+    public function showRandomQuestion()
+    {
+        return $this->announcementService->showRandomQuestion();
+    }
+
+    public function checkAnswer(Request $request)
+    {
+        return $this->announcementService->checkAnswer($request);
+    }
 }
